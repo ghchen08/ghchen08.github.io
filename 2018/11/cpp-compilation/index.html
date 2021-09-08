@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="source from https://github.com/green7ea/cpp-compilation, many thanks! The C++ Build Process Explained  The last good thing written in C was Franz Schubert’s Symphony Number 9. – Erwin Dieterich">
+<meta name="keywords" content="cpp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The C++ compilation">
+<meta property="og:url" content="http://cdnlp.top/2018/11/cpp-compilation/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="source from https://github.com/green7ea/cpp-compilation, many thanks! The C++ Build Process Explained  The last good thing written in C was Franz Schubert’s Symphony Number 9. – Erwin Dieterich">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdnlp.top/images/cpp/pdp7.jpg">
+<meta property="og:image" content="http://cdnlp.top/images/cpp/tree.svg">
+<meta property="og:updated_time" content="2018-11-17T01:13:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The C++ compilation">
+<meta name="twitter:description" content="source from https://github.com/green7ea/cpp-compilation, many thanks! The C++ Build Process Explained  The last good thing written in C was Franz Schubert’s Symphony Number 9. – Erwin Dieterich">
+<meta name="twitter:image" content="http://cdnlp.top/images/cpp/pdp7.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/11/cpp-compilation/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>The C++ compilation | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/11/cpp-compilation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">The C++ compilation</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-17T09:01:03+08:00">2018-11-17</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>source from <a href="https://github.com/green7ea/cpp-compilation" class="uri" target="_blank" rel="noopener">https://github.com/green7ea/cpp-compilation</a>, many thanks!</p>
+<h1 id="the-c-build-process-explained">The C++ Build Process Explained</h1>
+<blockquote>
+<p>The last good thing written in C was Franz Schubert’s Symphony Number 9.</p>
+<p>– Erwin Dieterich</p>
+</blockquote>
+<blockquote>
+<p>Fifty years of programming language research, and we end up with C++?</p>
+<p>– Richard A. O’Keefe</p>
+</blockquote>
+<blockquote>
+<p>There are only two kinds of programming languages: those people always bitch about and those nobody uses.</p>
+<p>– Bjarne Stroustrup</p>
+</blockquote>
+<p>The C++ build process is built on top of the C build process which was hacked together in 1972 on a PDP-7 with at most 144 KB of RAM. Honestly, I’m surprised it aged so well.</p>
+<p><img src="/images/cpp/pdp7.jpg"></p>
+<p>The exact linking process in C and C++ isn’t standard, it’s up to each compiler to make things work. Most compilers behave in the same way with small differences but we’ll be focusing on the GNU tools to keep things simple.</p>
+<h2 id="an-overview">An Overview</h2>
+<p>Computers in 1972 weren’t very powerful and so the process had to be broken down into smaller steps. This also allows you to rebuild only the parts that change.</p>
+<ul>
+<li>we have many C/C++ source files,</li>
+<li>for each source file, we run an independent compiler,
+<ul>
+<li>we run the pre-processor over the current file,</li>
+<li>this pulls in every header and its parents into the file,</li>
+<li>the file gets compiled and transformed into an object,</li>
+</ul></li>
+<li>we group every object we generated into an executable or library.</li>
+</ul>
+<p><img src="/images/cpp/tree.svg"></p>
+<p>Entering a command to compile every source file separately is annoying and so we have a build tool that knows how to compile each of our source files. Not only that but it can also regenerate the objects for the source files that have changed saving us a lot of time when recompiling with minor changes.</p>
+<h2 id="trivial-c-program">Trivial C Program</h2>
+<p>Let’s use a trivial C program to illustrate the build process. We can build it with the following commands:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cc -Wall -O0 -std=c99 -g -c -o add.o add.c</span><br><span class="line">cc -Wall -O0 -std=c99 -g -c -o simple.o simple.c</span><br></pre></td></tr></table></figure>
+<h3 id="add.h">add.h</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ADD_H_INCLUDED</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADD_H_INCLUDED</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// ADD_H_INCLUDED</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="add.c">add.c</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"add.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="simple.c">simple.c</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"add.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argv, <span class="keyword">char</span> **argc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%i\n"</span>, sub(add(<span class="number">5</span>, <span class="number">6</span>), <span class="number">6</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="why-headers">Why Headers?</h2>
+<blockquote>
+<p>TLDR we need to know the size of structures and function arguments</p>
+</blockquote>
+<p>When our main function wants to call the <code>add</code> function, it needs to know what it returns and what it takes in as an argument before it can call the function. A typical call to <code>add</code> from our main would look like:</p>
+<ul>
+<li>our <code>main</code> function,
+<ul>
+<li>push space for the return value onto a stack (an int),</li>
+<li>push the parameters onto the stack (<code>a</code> and <code>b</code>),</li>
+<li>push the return address (the next part of our main function),</li>
+<li>jump to the add function,</li>
+</ul></li>
+<li>our <code>add</code> function
+<ul>
+<li>store the execution state,</li>
+<li>add <code>a</code> and <code>b</code> placing the result in the return value space,</li>
+<li>restore the execution state,</li>
+<li>jump to the return address,</li>
+</ul></li>
+<li>back in our <code>main</code> function,
+<ul>
+<li>pop the parameters (<code>a</code> and <code>b</code>),</li>
+<li>use the return value that is now on the stack.</li>
+</ul></li>
+</ul>
+<p>The way to call a function and the method for building the stack make up most of an ABI (Application Binary Interface) definition. Every compiler is free to have its own ABI. The same compiler usually has a different ABI for the different processors it supports. This makes things complex but efficient.</p>
+<p>Since we are making space on the stack for our return value and parameters, we have to know their size. If any of those are a structure, we have to know what it’s made of so that we can know its size. We let the compiler know all this with function declarations and structure definitions.</p>
+<p>You could put a function’s declaration in every source file that needs it but that’s a terrible idea since the declaration has to be the same everywhere if you want anything to work. Instead of having the same declaration everywhere, we put the declaration in a common file and include it where it is necessary. This common file is what we know as a header.</p>
+<blockquote>
+<p>Sometimes, we only use a structure through pointers or references which means we don’t really have to know that structure’s exact size. This leads to a clever trick known as pointer implementation (PIMPL) which is really useful for speeding up compilation and hiding implementation details. For <a href="https://marcmutz.wordpress.com/translated-articles/pimp-my-pimpl/" target="_blank" rel="noopener">more information</a> on PIMPL.</p>
+</blockquote>
+<h2 id="pre-processor">Pre-processor</h2>
+<p>In those header files and source files, you’ve hopefully noticed lines that start with <code>#</code>. Whenever you see a directive that starts with <code>#</code>, we are dealing with the C pre-processor. The pre-processor does the following:</p>
+<ul>
+<li>include files (<code>#include</code>),</li>
+<li>macro expansions (<code>#define RADTODEG(x) ((x) * 57.29578)</code>),</li>
+<li>conditional compilation (<code>#if</code>, <code>#ifdef</code>, etc.),</li>
+<li>line control (<code>__FILE__</code>, <code>__LINE__</code>).</li>
+</ul>
+<p>Basically, the compiler has a state which can be modified by these directives. Since every <code>*.c</code> file is treated independently, every <code>*.c</code> file that is being compiled has its own state. The headers that are included modify that file’s state. The pre-processor works at a string level and replaces the tags in the source file by the result of basic functions based on the state of the compiler.</p>
+<p>The <code>#include</code> pre-processor is probably the most important. Luckily, it is really simple: it finds the file and replaces the <code>#include</code> line with the contents of that file.</p>
+<p>Where does it find the files?</p>
+<ul>
+<li><code>#include &lt;sum.h&gt;</code> looks for <code>sum.h</code> in a list of include directories,</li>
+<li><code>#include "sum.h"</code> does the same but looks in the current folder first.</li>
+</ul>
+<p>C and C++ don’t actually define a mechanism for providing the list of include directories, that is up to the compiler. This causes many problems with cross platform development which some build tools can solve.</p>
+<h2 id="include-guards">Include Guards</h2>
+<p>When you include a header, there is usually a <code>#ifndef</code> and <code>#define</code> statement at the top of the file and a corresponding <code>#endif</code> at the bottom. We call this an include guard. It is responsible for setting a variable the first time it is run so that including the same file a second time doesn’t redefine things that already exist and cause the compiler to panic.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#ifndef FILENAME_INCLUDED</span><br><span class="line">#define FILENAME_INCLUDED</span><br><span class="line"></span><br><span class="line">// code</span><br><span class="line"></span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>This is a very useful trick but it’s also one of the more fundamental problems of C:</p>
+<ul>
+<li>you include a file a first time,</li>
+<li>it modifies the compiler state,</li>
+<li>you include the same file a second time,</li>
+<li>based on the compiler state, it pretends to be empty.</li>
+</ul>
+<p>That is completely crazy - the file you include can change based on the state of the compiler. Not only that but the included files themselves can modify the state of the compiler (windows.h is infamous for doing this).</p>
+<p>Because of this, compiling becomes slow and complex. Suppose that we want to compile two files which both include <code>&lt;string.h&gt;</code> and that <code>&lt;string.h&gt;</code> itself includes about 50 other files. We are not able to cache <code>&lt;string.h&gt;</code> without proving that the compiler state is the same when we include it!</p>
+<p>So what started out as a simple, easy to implement solution turns out to scale really poorly. This wasn’t an issue in 1972 when the computers limited the complexity but almost 50 years later, it’s a big problem. The C++ standards committee has been trying to introduce a module system to fix this but it’s a difficult task to change such a fundamental system in an established language.</p>
+<h2 id="header-trees">Header Trees</h2>
+<p>When you include a header, this header can include others and it can quickly get messy. If we compile a file with the <code>-H</code> flag, we can visualize the various header graphs:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -H -O0 -std=c99 -g -c -o simple.o simple.c</span><br></pre></td></tr></table></figure>
+<ul>
+<li>/usr/include/stdio.h
+<ul>
+<li>/usr/include/bits/libc-header-start.h
+<ul>
+<li>/usr/include/features.h
+<ul>
+<li>/usr/include/sys/cdefs.h
+<ul>
+<li>/usr/include/bits/wordsize.h</li>
+<li>/usr/include/bits/long-double.h</li>
+</ul></li>
+<li>/usr/include/gnu/stubs.h
+<ul>
+<li>/usr/include/gnu/stubs-64.h</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>/usr/lib/gcc/x86_64-pc-linux-gnu/8 2 1/include/stddef.h</li>
+<li>/usr/lib/gcc/x86_64-pc-linux-gnu/8 2 1/include/stdarg.h</li>
+<li>/usr/include/bits/types.h
+<ul>
+<li>/usr/include/bits/wordsize.h</li>
+<li>/usr/include/bits/typesizes.h</li>
+</ul></li>
+<li>/usr/include/bits/types/__fpos_t.h
+<ul>
+<li>/usr/include/bits/types/__mbstate_t.h</li>
+</ul></li>
+<li>/usr/include/bits/types/__fpos64_t.h</li>
+<li>/usr/include/bits/types/__FILE.h</li>
+<li>/usr/include/bits/types/FILE.h</li>
+<li>/usr/include/bits/types/struct_FILE.h</li>
+<li>/usr/include/bits/stdio_lim.h</li>
+<li>/usr/include/bits/sys_errlist.h</li>
+</ul></li>
+<li>add.h</li>
+</ul>
+<p>We can see that we go from 2 includes to 22. This can quickly get out of hand for big projects.</p>
+<p>The difficulty is that sometimes, you are including many headers indirectly through another header. For example, if you include <code>ros.h</code>, it includes <code>boost</code> which quickly balloons the number of headers to parse. It can quickly get out of hand and to compile a single source file, you sometimes have to visit over 2000 header files. This makes compilation excruciatingly slow and this is where the <a href="https://en.cppreference.com/w/cpp/language/pimpl" target="_blank" rel="noopener"><code>PIMPL</code></a> idiom can really help.</p>
+<h2 id="an-object-file">An Object File</h2>
+<p>After all this work, the compiler can do the actual compiling of our source file with all the headers pasted into it. Once the compilation is finished, we have an object file.</p>
+<p>An object file is an organized way to store assembly functions that aren’t yet linked together. We can examine the object file we generate with the <code>simple.c</code> source file with the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objdump -dr simple.o</span><br></pre></td></tr></table></figure>
+<h3 id="simple.o">simple.o</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">simple.o:     file format elf64-x86-64</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disassembly of section .text:</span><br><span class="line"></span><br><span class="line">0000000000000000 &lt;main&gt;:</span><br><span class="line">   0:   55                      push   %rbp</span><br><span class="line">   1:   48 89 e5                mov    %rsp,%rbp</span><br><span class="line">   4:   48 83 ec 10             sub    $0x10,%rsp</span><br><span class="line">   8:   89 7d fc                mov    %edi,-0x4(%rbp)</span><br><span class="line">   b:   48 89 75 f0             mov    %rsi,-0x10(%rbp)</span><br><span class="line">   f:   be 06 00 00 00          mov    $0x6,%esi</span><br><span class="line">  14:   bf 05 00 00 00          mov    $0x5,%edi</span><br><span class="line">  19:   e8 00 00 00 00          callq  1e &lt;main+0x1e&gt;</span><br><span class="line">            1a: R_X86_64_PLT32  add-0x4</span><br><span class="line">  1e:   be 06 00 00 00          mov    $0x6,%esi</span><br><span class="line">  23:   89 c7                   mov    %eax,%edi</span><br><span class="line">  25:   e8 00 00 00 00          callq  2a &lt;main+0x2a&gt;</span><br><span class="line">            26: R_X86_64_PLT32  sub-0x4</span><br><span class="line">  2a:   89 c6                   mov    %eax,%esi</span><br><span class="line">  2c:   48 8d 3d 00 00 00 00    lea    0x0(%rip),%rdi        # 33 &lt;main+0x33&gt;</span><br><span class="line">            2f: R_X86_64_PC32   .rodata-0x4</span><br><span class="line">  33:   b8 00 00 00 00          mov    $0x0,%eax</span><br><span class="line">  38:   e8 00 00 00 00          callq  3d &lt;main+0x3d&gt;</span><br><span class="line">            39: R_X86_64_PLT32  printf-0x4</span><br><span class="line">  3d:   b8 00 00 00 00          mov    $0x0,%eax</span><br><span class="line">  42:   c9                      leaveq</span><br><span class="line">  43:   c3                      retq</span><br></pre></td></tr></table></figure>
+<p>This is what the most complex file in our tiny example looks like. The important thing to notice is that the assembly code is grouped into the <code>&lt;main&gt;</code> function and that there are calls to functions that don’t yet exist like the call to <code>sub</code> copied below:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">25: e8 00 00 00 00          callq  2a &lt;main+0x2a&gt;</span><br><span class="line">            26: R_X86_64_PLT32  sub-0x4</span><br></pre></td></tr></table></figure>
+<h2 id="symbol-tables">Symbol Tables</h2>
+<p>At the top of an object file there is a list of all the functions that are defined in that object and all the functions that are used but not defined. This is known as a symbol table.</p>
+<p>To get our symbol tables, we use the following commands:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nm add.o &gt; add.sym</span><br><span class="line">nm simple.o &gt; simple.sym</span><br></pre></td></tr></table></figure>
+<h3 id="add.o">add.o</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Position</th>
+<th>Type</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Text</td>
+<td>add</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>Text</td>
+<td>sub</td>
+</tr>
+</tbody>
+</table>
+<h3 id="simple.o-1">simple.o</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Position</th>
+<th>Type</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>Undefined</td>
+<td>add</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Undefined</td>
+<td><em>GLOBAL_OFFSET_TABLE</em></td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>Text</td>
+<td>main</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Undefined</td>
+<td>printf</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Undefined</td>
+<td>sub</td>
+</tr>
+</tbody>
+</table>
+<h2 id="a-linkers-job">A Linker’s Job</h2>
+<p>To get an executable, we put many object files together and link the undefined function calls to their implementations found in other object files. There are two ways to do this:</p>
+<ol type="1">
+<li>Linking the functions directly together by jumping directly to the function.</li>
+<li>Having a table that contains our functions and look up where to jump before jumping to the desired function.</li>
+</ol>
+<p>The first option describes static linking. This is more efficient, less flexible and rarely used.</p>
+<p>The second option describes dynamic linking. It is a little bit slower but much more flexible and is the standard way to ship a library.</p>
+<h2 id="differences-in-c">Differences in C++</h2>
+<p>So far, we’ve been talking about C but luckily, C++ was designed to be compatible with the C build process. In fact, the first C++ compiler was known as “C with Classes” and it was a pre-compiler that transformed a C++ into C.</p>
+<p>Modern C++, introduces two big differences:</p>
+<ul>
+<li>templates,</li>
+<li>mangling.</li>
+</ul>
+<p>Templates are complicated enough to have their own tutorial but mangling is pretty simple and more important. The following source file gives us an idea of mangling:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">int</span> <span class="title">add_c</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> *a, <span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> *a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">add</span><span class="params">(<span class="keyword">float</span> a, <span class="keyword">float</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> manu</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a + b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If we look at it with <code>nm</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nm mangling.o</span><br><span class="line">c++filt _Z3addff</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr class="header">
+<th>Position</th>
+<th>Type</th>
+<th>Name</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Text</td>
+<td>add_c</td>
+<td>int add_c(int, int)</td>
+</tr>
+<tr class="even">
+<td>44</td>
+<td>Text</td>
+<td>_Z3addff</td>
+<td>float add(float, float)</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td>Text</td>
+<td>_Z3addii</td>
+<td>int add(int, int)</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td>Text</td>
+<td>_Z3addPKiRS_</td>
+<td>int add(const int *, const int &amp;)</td>
+</tr>
+<tr class="odd">
+<td>5e</td>
+<td>Text</td>
+<td>_ZN4manu3addEii</td>
+<td>int manu::add(int, int)</td>
+</tr>
+</tbody>
+</table>
+<p>Basically, in C, functions are simply identified by their names. This prevents us from having namespaces and having a function with the same name but different arguments. C++ gets around this by using mangling. <code>extern "C"</code> turns off mangling so that C++ can be compatible with C.</p>
+<p>Unfortunately, many compilers do mangling differently and so are incompatible. Luckily, most compilers have recently standardized on the Itanium C++ ABI that you see above.</p>
+<ul>
+<li>start with <code>_Z</code> since underscore capital letter is reserved in C,</li>
+<li>an <code>N</code> after the <code>Z</code> indicates nested names,</li>
+<li>put numbers that indicate the length of the next argument,</li>
+<li>this gives us a list of strings,</li>
+<li>the last string is the function, class or struct name,</li>
+<li>the previous ones are the namespaces or outer classes,</li>
+<li>if our names were nested, we insert an <code>E</code>,</li>
+<li>we indicated the type and modifiers of our arguments.</li>
+</ul>
+<p><a href="https://github.com/gchatelet/gcc_cpp_mangling_documentation" target="_blank" rel="noopener">mangling details</a></p>
+<blockquote>
+<p>Even with mangling, we don’t have enough size information for function calls to forgo headers. We are missing the size of the return value and the size of structures.</p>
+</blockquote>
+<h2 id="a-basis-for-objects">A Basis for Objects</h2>
+<p>To build an object system, we need static dispatch (when two functions have the same name, calling the one with matching arguments). This is crucial so that we can differentiate between <code>a.method</code> and <code>b.method</code>. If we didn’t have mangling, we couldn’t use the same method name in two different classes.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Num</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a + b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">const</span> Num *self, <span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">char</span> **)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Num a;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> res1 = a.add(<span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> res2 = add(&amp;a, <span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res1 + res2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr class="header">
+<th>Position</th>
+<th>Type</th>
+<th>Name</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>18</td>
+<td>Text</td>
+<td>main</td>
+<td>main</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>Text</td>
+<td>_Z3addPK3Numii</td>
+<td>add(const Num *, int, int)</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>Weak</td>
+<td>_ZN3Num3addEii</td>
+<td>Num::add(int, int)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="putting-things-together-with-build-systems">Putting Things Together with Build Systems</h2>
+<p>We don’t want to remember and execute the build commands by hand (at least I don’t). That’s why we have build tools:</p>
+<ul>
+<li>Make,</li>
+<li>meson,</li>
+<li>Autotools,</li>
+<li>bazel,</li>
+<li>CMake,</li>
+<li>VisualStudio,</li>
+<li>bash scripts,</li>
+<li>etc.</li>
+</ul>
+<p>A build tool usually:</p>
+<ul>
+<li>has a list of source files,</li>
+<li>knows how to build each source file,</li>
+<li>keeps a dependency graph to rebuild only files that change,</li>
+<li>keeps a list of directories containing header files,</li>
+<li>keeps a list of external libraries to link to (static/dynamic),</li>
+<li>manages compiler flags (optimization level, warning level),</li>
+<li>knows which files to link into executables and libraries.</li>
+</ul>
+<p>Some build tools offer additional features:</p>
+<ul>
+<li>program installation,</li>
+<li>cross platform support,</li>
+<li>cross compilation,</li>
+<li>dependency installation.</li>
+</ul>
+<p>Ideally, at the end of all this, we can quickly and easily generate bug free programs.</p>
+<p>We’ve been trying to generate bug free programs since at least 1972, have come close a few times but have never truly managed. Thankfully, most of the time, the compiler, linker and build system aren’t to blame.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cpp/" rel="tag"># cpp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/beam-search-algorithm/" rel="next" title="Learn about beam search algorithm">
+                <i class="fa fa-chevron-left"></i> Learn about beam search algorithm
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/mathbooks/" rel="prev" title="Recommend some math books for machine learning">
+                Recommend some math books for machine learning <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#the-c-build-process-explained"><span class="nav-number">1.</span> <span class="nav-text">The C++ Build Process Explained</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#an-overview"><span class="nav-number">1.1.</span> <span class="nav-text">An Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trivial-c-program"><span class="nav-number">1.2.</span> <span class="nav-text">Trivial C Program</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#add.h"><span class="nav-number">1.2.1.</span> <span class="nav-text">add.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#add.c"><span class="nav-number">1.2.2.</span> <span class="nav-text">add.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#simple.c"><span class="nav-number">1.2.3.</span> <span class="nav-text">simple.c</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#why-headers"><span class="nav-number">1.3.</span> <span class="nav-text">Why Headers?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pre-processor"><span class="nav-number">1.4.</span> <span class="nav-text">Pre-processor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#include-guards"><span class="nav-number">1.5.</span> <span class="nav-text">Include Guards</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#header-trees"><span class="nav-number">1.6.</span> <span class="nav-text">Header Trees</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#an-object-file"><span class="nav-number">1.7.</span> <span class="nav-text">An Object File</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#simple.o"><span class="nav-number">1.7.1.</span> <span class="nav-text">simple.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#symbol-tables"><span class="nav-number">1.8.</span> <span class="nav-text">Symbol Tables</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#add.o"><span class="nav-number">1.8.1.</span> <span class="nav-text">add.o</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#simple.o-1"><span class="nav-number">1.8.2.</span> <span class="nav-text">simple.o</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-linkers-job"><span class="nav-number">1.9.</span> <span class="nav-text">A Linker’s Job</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#differences-in-c"><span class="nav-number">1.10.</span> <span class="nav-text">Differences in C++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-basis-for-objects"><span class="nav-number">1.11.</span> <span class="nav-text">A Basis for Objects</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#putting-things-together-with-build-systems"><span class="nav-number">1.12.</span> <span class="nav-text">Putting Things Together with Build Systems</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

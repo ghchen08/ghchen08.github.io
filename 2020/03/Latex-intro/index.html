@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文主要摘抄关于latex写计算机领域会议论文的笔记。参考资料： https://www.latexstudio.net/hulatex/index.htm 等。 文章框架方面  所有的论述都用现在时时态，不管是你自己的或者是别人的，包括related work。 对于所有的表格或者图片，在正文中需要有地方引用或者呼应。 要仔细考虑Figure1， 用来可视化，模型介绍，或者总结文章的贡">
+<meta name="keywords" content="latex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Latex论文写作">
+<meta property="og:url" content="http://cdnlp.top/2020/03/Latex-intro/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="本文主要摘抄关于latex写计算机领域会议论文的笔记。参考资料： https://www.latexstudio.net/hulatex/index.htm 等。 文章框架方面  所有的论述都用现在时时态，不管是你自己的或者是别人的，包括related work。 对于所有的表格或者图片，在正文中需要有地方引用或者呼应。 要仔细考虑Figure1， 用来可视化，模型介绍，或者总结文章的贡">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-29T03:43:31.664Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Latex论文写作">
+<meta name="twitter:description" content="本文主要摘抄关于latex写计算机领域会议论文的笔记。参考资料： https://www.latexstudio.net/hulatex/index.htm 等。 文章框架方面  所有的论述都用现在时时态，不管是你自己的或者是别人的，包括related work。 对于所有的表格或者图片，在正文中需要有地方引用或者呼应。 要仔细考虑Figure1， 用来可视化，模型介绍，或者总结文章的贡">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2020/03/Latex-intro/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Latex论文写作 | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/03/Latex-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Latex论文写作</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-21T18:27:18+08:00">2020-03-21</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要摘抄关于latex写计算机领域会议论文的笔记。参考资料： <a href="https://www.latexstudio.net/hulatex/index.htm" class="uri" target="_blank" rel="noopener">https://www.latexstudio.net/hulatex/index.htm</a> 等。</p>
+<h2 id="文章框架方面">文章框架方面</h2>
+<ul>
+<li>所有的论述都用现在时时态，不管是你自己的或者是别人的，包括related work。</li>
+<li>对于所有的表格或者图片，在正文中需要有地方引用或者呼应。</li>
+<li>要仔细考虑Figure1， 用来可视化，模型介绍，或者总结文章的贡献。一般是放在第一页或者第二页，即使到第三页或者以后才会用到，还是要放到第二页。</li>
+<li>不要简单只用method/approach/algorithm作为标题，要用具体的名字，比如completion as optimization，</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">% put two figures on a same graph.</span><br><span class="line">\begin&#123;figure&#125;[t]</span><br><span class="line">    % Maximum length</span><br><span class="line">    \includegraphics[width=0.3\linewidth]&#123;A.png&#125; \hfill</span><br><span class="line">    \includegraphics[width=0.3\linewidth]&#123;A.png&#125;</span><br><span class="line">    % Equal length</span><br><span class="line">    \hspace*&#123;\fill&#125; </span><br><span class="line">    \includegraphics[width=0.3\linewidth]&#123;B.png&#125; \hfill         </span><br><span class="line">    \includegraphics[width=0.3\linewidth]&#123;B.png&#125; </span><br><span class="line">    \hspace*&#123;\fill&#125;</span><br><span class="line">    % Fixed length</span><br><span class="line">    \centering</span><br><span class="line">    \includegraphics[width=0.3\linewidth]&#123;C.png&#125; \hspace&#123;1em&#125; \includegraphics[width=0.3\linewidth]&#123;C.png&#125; \end&#123;figure&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="latex技巧">latex技巧</h2>
+<ul>
+<li>准备一个macro.tex，然后在论文的最开始写include macros,用来定义常用的命令，或者是eos等符号。定义mathbb，mathbf，Todo的符号。</li>
+<li>用图片来解释算法的含义，模型的组成。</li>
+<li>用python画图的曲线图，转成pdf的分辨率至少应为400dpi。</li>
+<li>每一个图片的注解应该是self-contained，也就是说的足够仔细，同时对关键词和重点应该用粗体。对于sub-caption,应该直接把每个图片的注解放到图片里面。</li>
+<li><a href="https://users.umiacs.umd.edu/~jbg/static/style.html" target="_blank" rel="noopener">Latex style参考教程</a></li>
+</ul>
+<h2 id="排版方面">排版方面</h2>
+<ul>
+<li>所有括号前面要加一个空格</li>
+<li>在Bib文件里面，要把需要大写的字母用花括号包起来。比如：Deep {Dirichlet} allocation, or Deep {LSTM}s, 不然bib会自动把所有的字母都小写。</li>
+<li>所有的表格都应采用三线表，不用竖线，表格的所有数字是右对齐。</li>
+<li>对于公式中用到的表示要一致，不同的方法表示 标量，矢量和矩阵。</li>
+<li>脚注不要加在数字上。一定是放在句号或者逗号的后面。</li>
+<li>标准的引号方法，`‘, ``’’，使用oxford的逗号方式。</li>
+<li>如果在一句话的冒号后面开始一个新的句子，句子是完整的，那么这个句子的首字母应该大写。</li>
+<li>对于常用方法的名字，首字母不要大写。比如：support vector machines, logistic regression, long short-term memory networks, recurrent neural networks.</li>
+<li>对于
+开始的标题，标题的每一个单词首字母应该大写，in Title Case，标题后面不应该有任何标点。</li>
+<li>用词：the start of the art, state-of-the-art performance用作形容词。BiLSTM, MNLI/MultiNLI,不能说Multi-NLI</li>
+<li>减小页面占用的方法，减少caption旁边的空白，或者压缩标题处的空白。不建议用vspace压缩，不能用小字体，不要减少行间距。注意，EMNLP不允许用vspace调整。</li>
+<li>用来分别图片的名字和正文之间的距离。</li>
+<li>表格应该先写注解
+, ，再开始表格的正文。</li>
+<li>表格中最好的结果要用颜色或者符号来标注。</li>
+<li>对于特别大的表格，需要压缩：\resizebox{}{!}{\begin{tabular}</li>
+<li>对于文中所有的公式，都要加上序号，方便reviewer引用。每一个公式后面要加上句号。</li>
+<li>对于单横线有三种，- 表示 non-negligible，–是en-dash，表示页码或者关系，如mass–energy equivalence， pages 17–30，第三种是—表示em-dash，表示句子的中断或者转折关系，如A flock of sparrows—some of them juveniles—flew overhead.</li>
+<li>概率或者集合的公式中，用 “” 而不是 “|” 表示竖线。</li>
+</ul>
+<h2 id="不同的数学字体格式">不同的数学字体格式</h2>
+<ul>
+<li>mathbb：blackboard bold，黑板粗体的空心字，如<span class="math inline">\(\mathbb{R}\)</span></li>
+<li>mathcal：calligraphy，美术字, 如<span class="math inline">\(\mathcal{L}\)</span></li>
+<li>mathrm：math roman, 正体字，直体字符，如<span class="math inline">\(\mathrm{\alpha}, \mathrm{b}\)</span></li>
+<li>mathbf：math boldface, 如<span class="math inline">\(\mathbf{\alpha}, \mathbf{b}\)</span></li>
+<li>mathscr, 花体2，更夸张一些，usepackage mathrsfs(只包括大写字母)，如<span class="math inline">\(\mathscr{D}\)</span>，和mathcal的<a href="https://tex.stackexchange.com/questions/120065/xetex-what-happened-to-mathcal-and-mathscr" target="_blank" rel="noopener">区别</a></li>
+<li>, 可以用来加粗数学字符，如<span class="math inline">\(\bm{\alpha}, \bm{b}\)</span></li>
+<li>其他参考：<a href="https://www.latexstudio.net/hulatex/package/maths.htm" class="uri" target="_blank" rel="noopener">https://www.latexstudio.net/hulatex/package/maths.htm</a></li>
+</ul>
+<h2 id="不同的文本格式">不同的文本格式</h2>
+<ul>
+<li>textbf，黑体字</li>
+<li>textit，斜体字</li>
+<li>texttt，Typewriter，打印机字体，等宽字体</li>
+<li>textrm，Serif (Roman)，直体的罗马字符</li>
+<li>ltexts，Sans-Serif字体，</li>
+<li>textproc，用于算法的名字，package是algpseudocode</li>
+</ul>
+<blockquote>
+<p>注： Serif(有衬线体)的意思是，在字的笔划开始及结束的地方有额外的装饰，而且笔划的粗细会因直横的不同而有不同。相反的，Sans Serif(无衬线体)则没有这些额外的装饰，笔划粗细大致差不多。我们平时所用的Georgia、Times New Roman等就属于Serif字体，而Arial、Tahoma、Verdana等则属于Sans Serif字体。对中文而言，同样存在这两大种类，很明显，宋体、细明体(繁体中常用)等就属于Serif，而黑体、幼圆等则属于Sans Serif。更多介绍见<a href="https://kb.cnblogs.com/page/192018/" class="uri" target="_blank" rel="noopener">https://kb.cnblogs.com/page/192018/</a></p>
+</blockquote>
+<hr>
+<h2 id="变量的标注格式">变量的标注格式</h2>
+<ul>
+<li>a 标量a</li>
+<li> 矢量</li>
+<li> 矩阵</li>
+<li> 张量tensor</li>
+<li> 随机标量</li>
+<li> 随机矢量</li>
+<li> 随机矩阵</li>
+<li>a_i 矢量<span class="math inline">\(\bm{a}\)</span>的第i个元素</li>
+<li>a_{-i} 矢量<span class="math inline">\(\bm{a}\)</span>的除了第i个元素以外的其他所有元素</li>
+<li>A_{i,j} 矩阵的第i,j个元素，</li>
+<li> 矩阵的第i行，</li>
+<li> 矩阵的第j列，</li>
+<li>(x;,) 正态分布</li>
+<li>参考资料：<a href="https://www.deeplearningbook.org/contents/notation.html" class="uri" target="_blank" rel="noopener">https://www.deeplearningbook.org/contents/notation.html</a></li>
+</ul>
+<h1 id="如何准备camera-ready的论文">如何准备camera-ready的论文</h1>
+<p>Source from: <a href="https://twitter.com/tallinzen/status/1254059314307895298" target="_blank" rel="noopener">Here</a></p>
+<ul>
+<li>Add your co-authors to the GitHub repo</li>
+<li>Check if anything in your bibliography has been officially published since you started working on the paper, and edit the bibtex entry accordingly.</li>
+<li>Force-capitalize relevant acronyms in your bibtex (e.g. {LSTM} instead of LSTM)</li>
+<li>Acknowledge your funding (and don’t forget this counts towards the page limit)</li>
+<li>Make sure the repo has a permissive license (e.g. MIT) so industry researchers can use it</li>
+<li>Share the Overleaf with your co-authors (if you have been using link sharing) so they can add errata in the future</li>
+<li>Clean up LaTeX before uploading to arXiv (e.g. delete commented out invectives about Reviewer 2)</li>
+<li>Once published on arXiv, share the article password with your co-authors so they can “claim ownership”</li>
+<li>Consider storing large files in a permanent repository (e.g. Zenodo) rather than in a potentially ephemeral Amazon S3 bucket</li>
+<li>booktabs is the only way to make a table</li>
+<li>Table~, not “Table ” or “table ”</li>
+<li>s/It is interesting to note that//g, s/state-of-the-art//g,</li>
+<li>Proofread the the paper one last time</li>
+</ul>
+<blockquote>
+<p>Note 1:</p>
+</blockquote>
+<p>BibTeX (in many bibliography styles, including ACL’s) lowercases the titles of conference papers, and needs to be told which letters not to lowercase. So if your title has letters that should always be capitals, please protect them with curly braces, like this: {E}nglish, {C}homsky, {IBM}, {CFG}s, {HMM}s. Please also protect the first letter after a sentence-final punctuation mark. For example: Can {LSTM} {L}earn to {C}apture {A}greement? {T}he {C}ase of {B}asque Named {E}ntity {E}xtraction from {N}oisy {I}nput: {S}peech and {OCR}. These curly braces will not appear in the online conference program or proceedings. They will only appear in the BibTeX file that others will use to cite your paper.</p>
+<blockquote>
+<p>Note 2:</p>
+</blockquote>
+<p>Embedding Fonts. You can check your final PDF with the command pdffonts mypaper.pdf and confirm that all the fonts say “yes” under “emb”. START will not let you upload your final PDF otherwise. If you are including graphics with the PDF extension, these files must also have embedded fonts. If your paper uses Asian fonts, they must be embedded in the PDF file so that they can be displayed by non-Asian versions of the PDF reader (Asian versions ship with a larger set of default fonts.)</p>
+<blockquote>
+<p>More reference:</p>
+</blockquote>
+<ul>
+<li><a href="https://acl2020.org/blog/accessibility-for-camera-ready/" target="_blank" rel="noopener">ACL instruction</a></li>
+<li><a href="http://users.umiacs.umd.edu/~jbg/static/style.html" target="_blank" rel="noopener">Latex style</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/latex/" rel="tag"># latex</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/Vim-config/" rel="next" title="Vim配置参考">
+                <i class="fa fa-chevron-left"></i> Vim配置参考
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/optim/" rel="prev" title="zz-机器学习优化算法综述及最新进展">
+                zz-机器学习优化算法综述及最新进展 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文章框架方面"><span class="nav-number">1.</span> <span class="nav-text">文章框架方面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#latex技巧"><span class="nav-number">2.</span> <span class="nav-text">latex技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排版方面"><span class="nav-number">3.</span> <span class="nav-text">排版方面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同的数学字体格式"><span class="nav-number">4.</span> <span class="nav-text">不同的数学字体格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同的文本格式"><span class="nav-number">5.</span> <span class="nav-text">不同的文本格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量的标注格式"><span class="nav-number">6.</span> <span class="nav-text">变量的标注格式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何准备camera-ready的论文"><span class="nav-number"></span> <span class="nav-text">如何准备camera-ready的论文</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="转载自 updated overview of recent gradient descent algorithms, 作者: John Chen  In this blog post, we will cover some of the recent advances in optimization for gradient descent algorithms. There are v">
+<meta name="keywords" content="theory">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zz-机器学习优化算法综述及最新进展">
+<meta property="og:url" content="http://cdnlp.top/2020/03/optim/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="转载自 updated overview of recent gradient descent algorithms, 作者: John Chen  In this blog post, we will cover some of the recent advances in optimization for gradient descent algorithms. There are v">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdnlp.top/images/optim/AdamResNetVGGTable.png">
+<meta property="og:image" content="http://cdnlp.top/images/optim/AdamWideResNetCapsTable.png">
+<meta property="og:image" content="http://cdnlp.top/images/optim/AdamLSTMVAETable.png">
+<meta property="og:image" content="http://cdnlp.top/images/optim/AdamPlot.png">
+<meta property="og:image" content="http://cdnlp.top/images/optim/SGDMResNetTable.png">
+<meta property="og:image" content="http://cdnlp.top/images/optim/SGDMVGGWideResNetTable.png">
+<meta property="og:image" content="http://cdnlp.top/images/optim/SGDMLSTMVAETable.png">
+<meta property="og:image" content="http://cdnlp.top/images/optim/SGDMPlot.png">
+<meta property="og:updated_time" content="2020-03-27T14:30:38.863Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zz-机器学习优化算法综述及最新进展">
+<meta name="twitter:description" content="转载自 updated overview of recent gradient descent algorithms, 作者: John Chen  In this blog post, we will cover some of the recent advances in optimization for gradient descent algorithms. There are v">
+<meta name="twitter:image" content="http://cdnlp.top/images/optim/AdamResNetVGGTable.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2020/03/optim/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>zz-机器学习优化算法综述及最新进展 | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/03/optim/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">zz-机器学习优化算法综述及最新进展</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-27T21:21:43+08:00">2020-03-27</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>转载自 <a href="https://johnchenresearch.github.io/demon/%3E" target="_blank" rel="noopener">updated overview of recent gradient descent algorithms</a>, 作者: John Chen</p>
+</blockquote>
+<p>In this blog post, we will cover some of the recent advances in optimization for gradient descent algorithms. There are various sources online that compare the most famous approaches, such as the blogpost by <a href="https://ruder.io/optimizing-gradient-descent/index.html" target="_blank" rel="noopener"><em>Sebastian Ruder</em></a>; this blogpost complements these exisiting overviews with more recent approaches, as well as extensive experiments.</p>
+<p>Gradient descent algorithms are the optimizers of choice for training deep neural networks, and generally change the weights of a neural network by following the direction of the negative gradient of some loss function with respect to the weight. We are going to start off with the classic, and most popular, gradient descent algorithms, and move on towards more recent, and less known, algorithms. While the classic, age-old gradient descent algorithms remain the most popular, there are empirical and theoretical reasons to consider these newer alternatives.</p>
+<p>For the rest of this blog, we will let <span class="math inline">\(\theta_{t}\)</span> be the weights of the neural network at time step <span class="math inline">\(t\)</span>. <span class="math inline">\(g_t\)</span> is the (usually, stochastic) gradient, which is the derivative of some loss <span class="math inline">\(\mathcal{L}(\theta_t)\)</span> with respect to <span class="math inline">\(\theta_{t}\)</span>. The general idea of gradient descent is to minimize the loss <span class="math inline">\(\mathcal{L}(\theta_t)\)</span> by walking in the direction of <span class="math inline">\(-g_t\)</span>.</p>
+<p>For the most recent algorithms, jump to QHAdam.</p>
+<h2 id="vanilla-gradient-descent">Vanilla Gradient Descent</h2>
+<p>The story for modern day deep learning optimizers started with vanilla gradient descent. Vanilla gradient descent follows the below iteration with some learning rate parameter <span class="math inline">\(\eta\)</span>:</p>
+<p><span class="math display">\[\theta_{t+1} = \theta_t - \eta \cdot g_t, \; \forall t,\]</span></p>
+<p>where the loss is the mean loss, calculated with some number of samples, drawn randomly from the entire training dataset. For <em>Batch Gradient Descent</em> (or simply Gradient Descent), the entire training dataset is used on each iteration to calculate the loss. For <em>Stochastic Gradient Descent (SGD)</em>, one sample is drawn per iteration. In practice, generally a mini-batch is used, and common mini-batch sizes range from 64 to 2048. A mini-batch can significantly reduce the variance of the gradient without the large computation cost of using the entire dataset; the mini-batch gradient descent is so common that it is usually referred to as SGD. From now on, you can assume mini-batches are used for the computation of <span class="math inline">\(g_t\)</span>.</p>
+<h2 id="momentum">Momentum</h2>
+<p>Consider two cases, a) the local loss landscape is a smooth hill and b) the local loss landscape is a steep ravine. In the first case, the gradient descent algorithm may take a long time to reach the bottom of the hill, even though it is clearly traveling in the same direction. In the second case, the gradient descent algorithm may bounce back and forth between the walls of the steep ravine without reaching the bottom fast, and it would be great if the back and forth gradients could be averaged to reduce the variance.</p>
+<p>These are the two common explanations for the need for a gradient accumulation or averaging mechanism, which leads us to <em>momentum</em>. Momentum is an exponential moving average of past gradients parameterized by <span class="math inline">\(\beta\)</span> (commonly equal to 0.9), and is given by the below algorithm:</p>
+<p><span class="math display">\[\theta_{t+1} = \theta_t + \eta v_{t}, \quad v_{t} = \beta v_{t-1} - g_t.\]</span></p>
+<p>This remains one of the two most popular optimizers for training deep neural networks<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, and there is a long list of state-of-the-art results achieved using the momentum optimizer.</p>
+<p>(There are various “vanilla” momentum implementations, that are seemingly different. However, most of them perform similarly, at the level of having small differences in the final solution. See also the blogpost by <a href="https://jlmelville.github.io/mize/nesterov.html" target="_blank" rel="noopener"><em>James Melville</em></a>).</p>
+<h2 id="adagrad">AdaGrad</h2>
+<p>AdaGrad (Adaptive Gradient) <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> is inspired by the intuition that weights, which are infrequently updated, should be updated with a larger learning rate than weights which are frequently updated. Basically, if a weight rarely gets a large gradient, it should make the most of it when it does receive a large gradient. This is realized by keeping a running additive sum of squared gradients per weight and dividing the learning rate by this running sum. Beginning with AdaGrad <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, the SGD recursion, per coordinate <span class="math inline">\(i\)</span> of <span class="math inline">\(\theta\)</span>, becomes:</p>
+<p><span class="math display">\[
+\theta_{t+1, i} = \theta_{t, i} - {\tfrac{\eta}{\sqrt{G_{t, ii} + \varepsilon}}} \cdot g_{t, i}, \quad \forall t, 
+\]</span></p>
+<p>where <span class="math inline">\(G_t \in \mathbb{R}^{p \times p}\)</span> is usually a diagonal preconditioning matrix as a summation of squares of past gradients, and <span class="math inline">\(\varepsilon &gt; 0\)</span> a small constant. Note the square root used on <span class="math inline">\(G_t\)</span> - other powers between 0 and 1 can be used effectively too, but the square root is a good starting point.</p>
+<p>This generally has two other implications: a) Less sensitive to hyperparameters than the momentum optimizer (some models can cost $100,000 to train once!), and b) this approximates the diagonal Hessian and is an approximation of a second order method using only first order information. These learning rate adaptive algorithms can be understood as utilizing current and past gradient information to design preconditioning matrices that better approximate the local curvature of the loss function.</p>
+<h2 id="rmsprop">RMSprop</h2>
+<p>However, the accumulation of squared gradients in AdaGrad can only increase, and this means if the optimizer is run for a sufficiently long time, in practice the subsequent updates are too small. RMSprop (Root Mean Squared Backpropagation) <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> substitutes the ever accumulating matrix <span class="math inline">\(G_t\)</span> with a running average of squared gradients computed per iteration with discount factor <span class="math inline">\(\beta_2\)</span> as:</p>
+<p><span class="math display">\[
+\mathcal{E}^{g \circ g}_{t+1} = \beta_2 \cdot \mathcal{E}^{g \circ g}_t + (1 - \beta_2) \cdot (g_t \circ g_t),
+\]</span></p>
+<p>where <span class="math inline">\(\beta_2\)</span> was first proposed as 0.9 and a good default learning rate is 0.001. Here, <span class="math inline">\(\circ\)</span> denotes the per-coordinate multiplication. Then, RMSprop updates as:</p>
+<p><span class="math display">\[
+\theta_{t+1, i} = \theta_{t, i} - \tfrac{\eta}{\sqrt{\mathcal{E}^{g \circ g}_{t+1, i} + \varepsilon}} \cdot g_{t, i}, \quad \forall t. 
+\]</span></p>
+<h2 id="adam">Adam</h2>
+<p>What if we add momentum to RMSprop? We arrive at Adam (Adaptive Momentum) <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. In addition to RMSprop, Adam keeps an exponentially decaying average of past gradients with discount factor <span class="math inline">\(\beta_1\)</span>: <span class="math inline">\(\mathcal{E}^{g}_{t+1} = \beta_1 \cdot \mathcal{E}^{g}_t + (1-\beta_1) \cdot g_t\)</span>, leading to the recursion:</p>
+<p><span class="math display">\[
+\theta_{t+1, i} = \theta_{t, i} - \tfrac{\eta}{\sqrt{\mathcal{E}^{g \circ g}_{t+1, i} + \varepsilon}} \cdot {\mathcal{E}^g_{t+1, i}}, \quad \forall t, 
+\]</span></p>
+<p>where usually <span class="math inline">\(\beta_1 = 0.9\)</span> and <span class="math inline">\(\beta_2 = 0.999\)</span>, and a suggested learning rate 0.001. Observe that Adam is equivalent to RMSprop when <span class="math inline">\(\beta_1 = 0\)</span>. We mention again to note the square root for <span class="math inline">\(\mathcal{E}^{g \circ g}_{t+1, i}\)</span>, and that other powers between 0 and 1 have been used effectively (there is such an algorithm called Padam <a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>). Adam was first published in 2014, and remains the most popular adaptive learning rate algorithm till today. There have been, however, more effective adaptive algorithms since then, but adoption by the machine learning community has been slow.</p>
+<h2 id="amsgrad">AMSGrad</h2>
+<p>The motivation for AMSGrad <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> lay in the observation that Adam does not converge for a simple optimization problem. The authors resolve this issue with a technical detail in the proof of Adam related to the exponential moving average <span class="math inline">\(\mathcal{E}^{g \circ g}_{t}\)</span>. Instead of an exponential moving average, AMSGrad keeps a running maximum of <span class="math inline">\(\mathcal{E}^{g \circ g}\)</span>.</p>
+<p>The AMSGrad algorithm is parameterized by learning rate <span class="math inline">\(\eta &gt; 0\)</span>, discount factors <span class="math inline">\(\beta_1 &lt; 1\)</span> and <span class="math inline">\(\beta_2 &lt; 1\)</span>, a small constant <span class="math inline">\(\epsilon\)</span>, and uses the update rule:</p>
+<p><span class="math display">\[
+    \hat{\mathcal{E}}^{g \circ g}_{t+1, i} = max(\hat{\mathcal{E}}^{g \circ g}_{t, i},\mathcal{E}^{g \circ g}_{t, i} ), \\
+    \theta_{t+1, i} = \theta_{t, i} - \tfrac{\eta}{\sqrt{\hat{\mathcal{E}}^{g \circ g}_{t+1, i} + \varepsilon}} \cdot {\mathcal{E}^g_{t+1, i}}, \quad \forall t,
+\]</span></p>
+<p>where <span class="math inline">\(\mathcal{E}^{g}_{t+1}\)</span> and <span class="math inline">\(\mathcal{E}^{g \circ g}_{t+1}\)</span> are defined identically to Adam. However, it is generally accepted that AMSGrad does not perform better than Adam in practice. Bonus: No one really knows what AMSGrad stands for.</p>
+<h2 id="adamw">AdamW</h2>
+<p>Weight decay is a technique in training neural networks which tries to keep the value of weights small. The intuition is large weights tend to overfit, and there needs to be a good reason for a weight to be large. This is usually implemented by adding a term to the loss function which is a function of the value of the weights, and this way a large weight will increase the total loss significantly. The most popular form of weight decay is L2 regularization, which penalizes the squared value of weights and is convenient for dealing with both positive and negative weights simultaneously and for differentiability. AdamW <a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> modifies the typical implementation of weight decay regularization in Adam, by decoupling the weight decay from the gradient update. In particular, L2 regularization in Adam is usually implemented with the below modification where <span class="math inline">\(w_t\)</span> is the rate of the weight decay at time t:</p>
+<p><span class="math display">\[
+    g_t = \nabla f(\theta_t) + w_t \theta_t ,
+\]</span></p>
+<p>while AdamW, instead, adjusts the weight decay term to appear in the gradient update:</p>
+<p><span class="math display">\[
+    \theta_{t+1, i} = \theta_{t, i} - \eta \Big( \tfrac{1}{\sqrt{\hat{\mathcal{E}}^{g \circ g}_{t+1, i} + \varepsilon}} \cdot {\mathcal{E}^g_{t+1, i}} + w_{t, i} \theta_{t, i} \Big), \quad \forall t.    
+\]</span></p>
+<p>This turns out to make a difference in practice and has been adopted in parts of the machine learning community. You’d be surprised how some small details can make a noticeable difference in performance!</p>
+<h2 id="qhadam">QHAdam</h2>
+<p>QHAdam (Quasi-Hyperbolic Adam) <a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> is an adaptive learning rate extension of QHM (Quasi-Hyperbolic Momentum), introduced further below, to replace both momentum estimators in Adam with quasi-hyperbolic terms. Namely, QHAdam decouples the momentum term from the current gradient when updating the weights, and decouples the mean squared gradients term from the current squared gradient when updating the weights. In other words, it is a weighted average of the momentum and plain SGD, weighting the current gradient with an immediate discount factor <span class="math inline">\(\nu_1\)</span>, divided by a weighted average of the mean squared gradients and the current squared gradient, weighting the current squared gradient with an immediate discount factor <span class="math inline">\(\nu_2\)</span>. This quasi-hyperbolic formulation is capable of recovering Adam and NAdam <a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>, amongst others. Note that <span class="math inline">\(\mathcal{E}^{g}_{t+1}\)</span> and <span class="math inline">\(\mathcal{E}^{g \circ g}_{t+1}\)</span> below are defined identically to Adam. If that was confusing, take a look at the QHAdam algorithm below with the update rule:</p>
+<p><span class="math display">\[
+    \theta_{t+1, i} = \theta_{t, i} - \eta \Bigg[ \frac{(1 - \nu_1) \cdot g_t + \nu_1 \cdot \hat{\mathcal{E}}^{g}_{t+1}}{\sqrt{(1 - \nu_2) g_t^2 + \nu_2 \cdot \hat{\mathcal{E}}^{g \circ g}_{t+1}} + \epsilon} \Bigg], \quad \forall t,
+\]</span></p>
+<p>The hyperparameter choices for QHAdam are situational, and it is recommended <span class="math inline">\(\nu_2 = 1\)</span> and setting <span class="math inline">\(\beta_2\)</span> as in Adam are good starting points.</p>
+<h2 id="yellowfin">YellowFin</h2>
+<p>YellowFin <a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> is a learning rate and momentum tuner motivated by robustness properties and analysis of quadratic objectives. For quadratic objectives, the optimizer tunes both the learning rate and the momentum to keep the hyperparameters within a region in which the convergence rate is a constant rate equal to the root momentum. This notion is extended empirically to non-convex objectives. On every iteration, YellowFin optimizes the hyperparameters to minimize a local quadratic optimization. For interested readers, we defer the many details to the <a href="https://arxiv.org/pdf/1706.03471.pdf" target="_blank" rel="noopener"><em>paper</em></a>. We note here that YellowFin with <em>no</em> tuning can be competitive with Adam and the momentum optimizer.</p>
+<h2 id="aggmo">AggMo</h2>
+<p>Choosing the momentum parameter can be hard. The common choices of 0, 0.9, or 0.99 as the momentum parameter <span class="math inline">\(\beta\)</span> can yield dramatically different performance and it is very difficult to predict the performance beforehand. If <span class="math inline">\(\beta\)</span> is chosen too large for the task at hand, it can produce oscillating behavior and slow down convergence. On the other hand, if <span class="math inline">\(\beta\)</span> is chosen too small for the task at hand, it can significantly increase training time and reduce performance. AggMo (Aggregated Momentum) <a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> is an adaptive momentum algorithm and resolves this issue by taking a linear combination of multiple momentum buffers. It maintains <span class="math inline">\(K\)</span> momentum buffers, each with a different discount factor, and averages them for the update. For the <span class="math inline">\(K\)</span> momentum buffers, there are discount factors <span class="math inline">\(\beta \in \mathbb{R}^K\)</span>, and the overall update rule is:</p>
+<p><span class="math display">\[
+    ({\mathcal{E}^{g}_{t+1}})^{(i)} = \beta^{(i)} \cdot ({\mathcal{E}^{g}_t})^{(i)} + g_t , \quad \forall i \in [1, K],
+\]</span></p>
+<p><span class="math display">\[
+    \theta_{t+1, i} = \theta_{t, i} - \eta \Bigg[ \frac{1}{K} \cdot \sum_{i=1}^{K}{(\mathcal{E}^{g}_{t+1})^{(i)}} \Bigg], \quad \forall t.    
+\]</span></p>
+<p>There is good empirical evidence that this reduces oscillations while maintaining acceleration on toy examples.</p>
+<h2 id="qhm">QHM</h2>
+<p>QHM (Quasi-Hyperbolic Momentum) <a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> is another adaptive momentum algorithm which decouples the momentum term from the current gradient when updating the weights. In other words, it is a weighted average of the momentum and plain SGD, weighting the current gradient with an immediate discount factor <span class="math inline">\(\nu\)</span>. Note that this formulation is capable of recovering Nesterov Momentum <a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>, Synthesized Nesterov Variants <a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>, accSGD <a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> and others. The QHM algorithm uses the update rule:</p>
+<p><span class="math display">\[
+    \mathcal{E}^{g}_{t+1} = \beta \cdot {\mathcal{E}^{g}_t} + (1 - \beta) \cdot g_t,
+\]</span></p>
+<p><span class="math display">\[
+    \theta_{t+1, i} = \theta_{t, i} - \eta \Big[ (1 - \nu) \cdot g_t + \nu \cdot \mathcal{E}^{g}_{t+1} \Big], \quad \forall t. 
+\]</span></p>
+<p>The authors recommend <span class="math inline">\(\nu = 0.7\)</span> and <span class="math inline">\(\beta=0.999\)</span> as a good starting point.</p>
+<h2 id="demon">Demon</h2>
+<p>Demon (Decaying Momentum) <a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> is a decaying momentum rule which is inspired by linear learning rate decay models which reduce the impact of a gradient to current and future updates. By decaying the momentum parameter, the total contribution of a gradient to all future updates is decayed. A particular gradient term <span class="math inline">\(g_{t}\)</span> contributes a total of <span class="math inline">\(\eta \sum_{i} \beta^{i}\)</span> of its ‘’energy’’ to all future gradient updates, and this results in the geometric sum, <span class="math inline">\(\sum_{i = 1}^{\infty} \beta^{i} = \beta \sum_{i = 0}^{\infty} \beta^{i} = \beta/(1 - \beta)\)</span>. Decaying this sum results in the Demon algorithm. Let <span class="math inline">\(\beta_{\text{init}}\)</span> be the initial <span class="math inline">\(\beta\)</span>; then at current step <span class="math inline">\(t\)</span> with total <span class="math inline">\(T\)</span> steps, the decay routine is given by solving the below for <span class="math inline">\(\beta_t\)</span>:</p>
+<p><span class="math display">\[
+    {\beta_t}/(1 - \beta_t) = (1 - {t}/{T}) \beta_{\text{init}}/(1 - \beta_{\text{init}}).
+\]</span></p>
+<p>Above, the fraction <span class="math inline">\((1 - t/T)\)</span> refers to the proportion of iterations remaining. Note that Demon typically requires no hyperparameter tuning as it is usually decayed to 0 or a small negative value at time <span class="math inline">\(T\)</span>. Improved performance is observed by delaying the decaying. Demon can be applied to any gradient descent algorithm with a momentum parameter.</p>
+<h2 id="experimental-setup">Experimental setup</h2>
+<p>We evaluated Adam, AMSGrad, AdamW, QHAdam, YellowFin, Demon Adam, Momentum (or referred to as SGD with Momentum (SGDM)), Aggmo QHM, and Demon SGDM, on six test problems. These include a variety of architectures - Residual CNNs, Non Residual CNNS, RNNs, generative models, and Capsule Networks - and datasets - CIFAR10, CIFAR100, STL10, PTB, MNIST, FMNIST. We generally perform a grid search over the learning rate and momentum. For the non-learning rate adaptive algorithms SGDM, Aggmo, and QHM, we decay the learning rate by 0.1 at 50% and 75% of the total epochs, following the standard in the literature.</p>
+<p>We describe the six test problems in this blog.</p>
+<ul>
+<li><strong>CIFAR10 - ResNet18</strong> CIFAR10 contains 60,000 32x32x3 images with a 50,000 training set, 10,000 test set split. There are 10 classes. ResNet18 <a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> is an 18 layers deep CNN with skip connections for image classification. Trained with a batch size of 128.</li>
+<li><strong>CIFAR100 - VGG16</strong> CIFAR100 is a fine-grained version of CIFAR-10 and contains 60,000 32x32x3 images with a 50,000 training set, 10,000 test set split. There are 100 classes. VGG16 <a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> is a 16 layers deep CNN with extensive use of 3x3 convolutional filters. Trained with a batch size of 128</li>
+<li><strong>STL10 - Wide ResNet 16-8</strong> STL10 contains 1300 96x96x3 images with a 500 training set, 800 test set split. There are 10 classes. Wide ResNet 16-8 <a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a> is a 16 layers deep ResNet which is 8 times wider. Trained with a batch size of 64.</li>
+<li><strong>FMNIST - CAPS</strong> MNIST contains 60,000 32x32x1 grayscale images with a 50,000 training set, 10,000 test set split. There are 10 classes of 10 clothing items. Capsule Networks <a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a> represent Neural Networks as a set of capsules, where each capsule encodes a specific entity or meaning. The activations of capsules depend on comparing incoming pose predictions, as opposed to standard neural networks. The Capsule Network uses 3 iterations in the routing algorithm. Trained with a batch size of 128.</li>
+<li><strong>PTB - LSTM</strong> PTB is an English text corpus containing 929,000 training words, 73,000 validation words, and 82,000 test words. There are 10,000 words in the vocabulary. The model is stacked LSTMs <a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a> with 2 layers, 650 units per layer, and dropout of 0.5. Trained with a batch size of 20.</li>
+<li><strong>MNIST - VAE</strong> MNIST contains 60,000 32x32x1 grayscale images with a 50,000 training set, 10,000 test set split. There are 10 classes of 10 digits. VAE <a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a> with three dense encoding layers and three dense decoding layers with a latent space of size 2. Trained with a batch size of 100.</li>
+</ul>
+<h2 id="results">Results</h2>
+<p>For clarity, the algorithms are separated into adaptive learning rate (Adam, AMSGrad, AdamW, QHAdam, Demon Adam) and non-adaptive learning rate (SGDM, AggMo, QHM, Demon SGDM). We run a variety of epochs to demonstrate the performance of optimizers under different runtimes.</p>
+<h3 id="adaptive-learning-rate-algorithms">Adaptive learning rate algorithms</h3>
+<p>We first consider the <strong>CIFAR10 - ResNet18</strong> and <strong>CIFAR100 - VGG16</strong> settings below. Although Adam is the most popular adaptive learning rate algorithm, it is clear in these two classic image classification settings Adam does not perform the best. Holistically, Adam is a relatively middling algorithm, although this is a remarkable observation in itself since it has been 6 years (!) since its inception. YellowFin’s performance was not substantially improved through hyperparameter tuning, and it is remarkably competitive with the other state-of-the-art algorithms. Demon Adam is clearly the best performing algorithm and is the only algorithm to achieve state-of-the-art performance compared to momentum methods on these two settings.</p>
+<p><img src="/images/optim/AdamResNetVGGTable.png" alt="" title="" width="680" height="150"></p>
+<p>Next, we present the <strong>STL10 - Wide ResNet 16-8</strong> and <strong>FMNIST - CAPS</strong> settings below. AdamW performs particularly strong in the Wide ResNet setting, with almost a 1.5% generalization error gap with the other algorithms. In the same setting, YellowFin actually outperforms Adam, although it does not perform as well on the Capsule Networks. We once again see Demon Adam as the best performing algorithm, and the only algorithm which is competitive with state-of-the-art results.</p>
+<p><img src="/images/optim/AdamWideResNetCapsTable.png" alt="" title="" width="510" height="150"></p>
+<p>We move on to language models and generative models with <strong>PTB - LSTM</strong> and <strong>MNIST - VAE</strong>. The LSTM results are not particularly interesting - none of the algorithms come close to being competitive with the momentum optimizers. For <strong>MNIST - VAE</strong>, due to the vanilla VAE used here without weight decay, AdamW is unsuitable for comparison. Here, we see the lead for Demon Adam shrink for larger epochs. YellowFin fails to find a good result.</p>
+<p><img src="/images/optim/AdamLSTMVAETable.png" alt="" title="" width="560" height="150"></p>
+<p>We plot the results below. In general, Demon Adam outperforms the other algorithms and continues to learn after they have plateaued. Notice also the overall improved performance of AdamW over Adam.</p>
+<p><img src="/images/optim/AdamPlot.png" alt="" title="" width="710" height="320"></p>
+<h3 id="non-adaptive-learning-rate-algorithms">Non-adaptive learning rate algorithms</h3>
+<p>We first present results on <strong>CIFAR10 - ResNet18</strong>. Note that we apply learning rate decay by 0.1 to SGDM, AggMo and QHM at 50% and 75% of the total epochs. For a small number of epochs, Demon SGDM is a strong performer, notably without the need to tune learning rate decay. However, for any reasonable number of epochs all the algorithms essentially equalize. In other words, SGDM holds its own here.</p>
+<p><img src="/images/optim/SGDMResNetTable.png" alt="" title="" width="450" height="110"></p>
+<p>Moving on to <strong>CIFAR100 - VGG16</strong> and <strong>STL10 - Wide ResNet</strong>, this is where Demon SGDM really shines. Demon SGDM produces state-of-the-art performance for VGG16, and is almost 1% better for Wide ResNet. At the same time, it is worth noting the strong performance of SGDM relative to AggMo and QHM. Not so bad for an age-old algorithm!</p>
+<p><img src="/images/optim/SGDMVGGWideResNetTable.png" alt="" title="" width="710" height="150"></p>
+<p>Turning to <strong>PTB - LSTM</strong>, SGDM, or Demon SGDM, is again the optimizer of choice. However, the language modeling task deserves some more investigation as there more modern models out there. In terms of learning rate decay, this is also trickier as the model can overfit if trained for too long. For <strong>MNIST - VAE</strong>, Demon SGDM performs well, and AggMo achieves the best generalization loss here for large number of epochs by 1%.</p>
+<p><img src="/images/optim/SGDMLSTMVAETable.png" alt="" title="" width="650" height="150"></p>
+<p>Results are plotted below. In the grand scheme of things, learning rate decay seems to equalize many of the algorithms. SGDM remains a very, if not the most, effective algorithm. Demon SGDM with decay delayed till 75% of epochs performs well too, and appears to be an alternative to, and in many cases better than, learning rate decay.</p>
+<p><img src="/images/optim/SGDMPlot.png" alt="" title="" width="710" height="340"></p>
+<h2 id="what-to-use">What to use?</h2>
+<p>If you have no budget for hyperparameter tuning at all, then YellowFin is a good choice due to its decent empirical performance where it self-tunes both the learning rate and the momentum parameters.</p>
+<p>With some budget for hyperparameter tuning, you can consider the adaptive learning rate algorithms, namely the more recent AdamW or QHAdam, in addition to Demon which appears to give a substantial boost too.</p>
+<p>Lastly, if getting the best performance is your utmost concern, SGDM is probably still the algorithm of choice, perhaps with Demon. It may also be worth giving QHM or AggMo a shot.</p>
+<p>Of course, these recommendations are domain specific - there are some domains where adaptive learning rate algorithms outperform standard momentum algorithms.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We hope this blog has been helpful in shedding light on the recent optimization algorithms for training deep neural networks. We apologize if we missed any algorithms - there are a lot of choices out there! Let us know what we missed and what works for you!</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1" role="doc-endnote"><p>Goodfellow, I., Bengio, Y., Courville, A., and Bengio, Y. Deep learning, volume 1. MIT Press, 2016.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>Duchi, J., Hazan, E., and Singer, Y. Adaptive subgradient methods for online learning and stochastic optimization. Journal of Machine Learning Research, 12(Jul):2121– 2159, 2011.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Duchi, J., Hazan, E., and Singer, Y. Adaptive subgradient methods for online learning and stochastic optimization. Journal of Machine Learning Research, 12(Jul):2121– 2159, 2011.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Hinton, G., Srivastava, N., and Swersky, K. Neural networks for machine learning lecture 6a overview of minibatch gradient descent. Cited on, 14:8, 2012.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Kingma, D. P. and Ba, J. Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980, 2014.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>Chen, J. Chen and Gu, Q. Closing the generalization gap of adaptive gradient methods in training deep neural networks. arXiv preprint arXiv:1806.06763, 2018.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>Reddi, S. J., Kale, S., and Kumar, S. On the convergence of Adam and beyond. arXiv preprint arXiv:1904.09237, 2018.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>Loshchilov, I. and Hutter, F. Fixing weight decay regularization in adam. arXiv preprint arXiv:1711.05101, 2017.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>Ma, J. and Yarats, D. Quasi-hyperbolic momentum and Adam for deep learning. arXiv preprint arXiv:1810.06801, 2018.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>Dozat, T. Incorporating nesterov momentum into adam. ICLR Workshop, (1):20132016, 2016.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>Zhang, J. and Mitliagkas, I. Yellowfin and the art of momentum tuning. arXiv preprint arXiv:1706.03471, 2017.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>Lucas, J., Sun, S., Zemel, R., and Grosse, R. Aggregated momentum: Stability through passive damping. arXiv preprint arXiv:1804.00325, 2018.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13" role="doc-endnote"><p>Ma, J. and Yarats, D. Quasi-hyperbolic momentum and Adam for deep learning. arXiv preprint arXiv:1810.06801, 2018.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14" role="doc-endnote"><p>Nesterov, Y. A method for solving the convex programming problem with convergence rate of (1/k2). Soviet Mathematics Doklady, 27(2):372–376, 1983<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15" role="doc-endnote"><p>Lessard, L., Recht, B., and Packard, A. Analysis and design of optimization algorithms via integral quadratic constraints. SIAM Journal on Optimization, 26(1):57–95, 2016.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16" role="doc-endnote"><p>Jain, P., Kakade, S. M., Kidambi, R., Netrapalli, P., and Sidford, A. Accelerating stochastic gradient descent for least squares regression. arXiv preprint arXiv:1704.08227, 2017.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17" role="doc-endnote"><p>Chen, J., Kyrillidis, A. Decaying Momentum Helps Neural Network Training. arXiv preprint arXiv:1910.04952, 2019.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18" role="doc-endnote"><p>He, K., Zhang, X., Ren, S., and Sun, J. Deep residual learning for image recognition. In Proceedings of the IEEE conference on computer vision and pattern recognition, pp. 770–778, 2016<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19" role="doc-endnote"><p>Simonyan, K. and Zisserman, A. Very deep convolutional networks for large-scale image recognition. arXiv preprint arXiv:1409.1556, 2014.<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20" role="doc-endnote"><p>Zagoruyko, S. and Komodakis, N. Wide residual networks. arXiv preprint arXiv:1605.07146, 2016.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21" role="doc-endnote"><p>Sabour, S., Fross, N., and Hinton, G. Dynamic routing between capsules. In Advances in neural information processing systems, 2017.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22" role="doc-endnote"><p>Hochreiter, S. and Schmidhuber, J. Long short-term memory. Neural computation, 9(8):1735–1780, 1997.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23" role="doc-endnote"><p>Kingma, D. P. and Welling, M. Auto-encoding variational bayes. arXiv preprint arXiv:1312.6114, 2015.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/theory/" rel="tag"># theory</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/Latex-intro/" rel="next" title="Latex论文写作">
+                <i class="fa fa-chevron-left"></i> Latex论文写作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/NLP-idea/" rel="prev" title="微软亚研院周明-NLP的研究方向及展望">
+                微软亚研院周明-NLP的研究方向及展望 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#vanilla-gradient-descent"><span class="nav-number">1.</span> <span class="nav-text">Vanilla Gradient Descent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#momentum"><span class="nav-number">2.</span> <span class="nav-text">Momentum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adagrad"><span class="nav-number">3.</span> <span class="nav-text">AdaGrad</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rmsprop"><span class="nav-number">4.</span> <span class="nav-text">RMSprop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adam"><span class="nav-number">5.</span> <span class="nav-text">Adam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#amsgrad"><span class="nav-number">6.</span> <span class="nav-text">AMSGrad</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adamw"><span class="nav-number">7.</span> <span class="nav-text">AdamW</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#qhadam"><span class="nav-number">8.</span> <span class="nav-text">QHAdam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yellowfin"><span class="nav-number">9.</span> <span class="nav-text">YellowFin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aggmo"><span class="nav-number">10.</span> <span class="nav-text">AggMo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#qhm"><span class="nav-number">11.</span> <span class="nav-text">QHM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#demon"><span class="nav-number">12.</span> <span class="nav-text">Demon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#experimental-setup"><span class="nav-number">13.</span> <span class="nav-text">Experimental setup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#results"><span class="nav-number">14.</span> <span class="nav-text">Results</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#adaptive-learning-rate-algorithms"><span class="nav-number">14.1.</span> <span class="nav-text">Adaptive learning rate algorithms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#non-adaptive-learning-rate-algorithms"><span class="nav-number">14.2.</span> <span class="nav-text">Non-adaptive learning rate algorithms</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#what-to-use"><span class="nav-number">15.</span> <span class="nav-text">What to use?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-number">16.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

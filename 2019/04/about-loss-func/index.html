@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="source from christopher5106 blog  In machine learning many different losses exist. A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective fun">
+<meta name="keywords" content="theory">
+<meta property="og:type" content="article">
+<meta property="og:title" content="About loss functions, regularization and joint losses">
+<meta property="og:url" content="http://cdnlp.top/2019/04/about-loss-func/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="source from christopher5106 blog  In machine learning many different losses exist. A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective fun">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-07T07:36:51.242Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="About loss functions, regularization and joint losses">
+<meta name="twitter:description" content="source from christopher5106 blog  In machine learning many different losses exist. A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective fun">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2019/04/about-loss-func/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>About loss functions, regularization and joint losses | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2019/04/about-loss-func/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">About loss functions, regularization and joint losses</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-06T15:00:51+08:00">2019-04-06</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>source from <a href="http://christopher5106.github.io/deep/learning/2016/09/16/about-loss-functions-multinomial-logistic-logarithm-cross-entropy-square-errors-euclidian-absolute-frobenius-hinge.html" target="_blank" rel="noopener">christopher5106 blog</a></p>
+</blockquote>
+<p>In machine learning many different losses exist.</p>
+<p>A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the <strong>objective function</strong> to optimize. For an introduction to machine learning and loss functions, you might read <a href="//christopher5106.github.io/deep/learning/2018/10/20/course-zero-deep-learning.html">Course 0: deep learning!</a> first.</p>
+<p>Here we’ll list more losses for the different cases. Knowing each of them will help the datascientists choose the right one for his problem.</p>
+<h1 id="the-likelihood-and-the-log-loss">The likelihood and the log loss</h1>
+<p>Classifying means assigning a label to an observation :</p>
+<p><span class="math display">\[ x \rightarrow y \]</span></p>
+<p>Such a function is named a <strong>classifier</strong>. To create such classifier, we usually create models with parameters to define :</p>
+<p><span class="math display">\[ f_w : x \rightarrow y \]</span></p>
+<p>The process of defining the optimal parameters w given past observations X and their known labels Y is named <strong>training</strong>. The objective of the training is obviously to maximise the <strong>likelihood</strong></p>
+<p><span class="math display">\[ \text{likelihood}( w ) = P_w( y | x ) \]</span></p>
+<p>Since the logarithm is monotonous, it is equivalent to <strong>minimize the negative log-likelihood</strong> :</p>
+<p><span class="math display">\[ \mathscr{L}( w ) = - \ln P_w( y | x ) \]</span></p>
+<p>The reason for taking the negative of the logarithm of the likelihood are</p>
+<ul>
+<li><p>it is more convenient to work with the log, because the log-likelihood of statistically independant observation will simply be the sum of the log-likelihood of each observation.</p></li>
+<li><p>we usually prefer to write the <strong>objective function</strong> as a <strong>cost function</strong> to minimize.</p></li>
+</ul>
+<h1 id="binomial-probabilities---log-loss-logistic-loss-cross-entropy-loss">Binomial probabilities - log loss / logistic loss / cross-entropy loss</h1>
+<p>Binomial means 2 classes, which are usually 0 or 1.</p>
+<p>Each class has a probability $ p $ and $ 1 - p $ (sums to 1).</p>
+<p>When using a network, we try to get 0 and 1 as values, that’s why we add a <strong>sigmoid function or logistic function</strong> that saturates as a last layer :</p>
+<p><span class="math display">\[ f:  x \rightarrow \frac{1}{ 1 + e^{-x}} \]</span></p>
+<p>Then, once the estimated probability to get 1 is $  $ (sometimes written $ ŷ $ also), then it is easy to see that the negative log likelihood can be written</p>
+<p><span class="math display">\[ \mathscr{L} = - y \log \hat{p}  - (1 - y) \log ( 1 - \hat{p} ) \]</span></p>
+<p>which is also the <strong>cross-entropy</strong></p>
+<p><span class="math display">\[ \text{crossentropy} (p , q ) = E_p [ -\log q ] = - \sum_x p(x ) \log q(x) = - \frac{1}{N} \sum_{n=1}^N \log q(x_n) \]</span></p>
+<p>In information theory, if you try to identify all classes with a code of a length depending of his probability, that is <span class="math display">\[ - \log q \]</span>, where q is your estimated probability, then the expected length in reality (p being the real probability) is given by the cross-entropy.</p>
+<p>Note that in natural language processing, we may also speek of <strong>perplexity</strong> defined by</p>
+<p><span class="math display">\[ 2^{ \text{crossentropy}(p,q)} = 2^{ - \frac{1}{N} \sum_{n=1}^N \log_2 q(x_n) } \]</span></p>
+<p>seen as an indicator of the number of possibilities for the variable to predict, since the perplexity of a uniform k-class random variable would be k.</p>
+<p>Last, let’s remind that the combined sigmoid and cross-entropy has a very simple and stable derivative $  - y $</p>
+<p>NB: if you choose that your labels $ y { 1 } $, you can write the binary logistic loss</p>
+<p><span class="math display">\[ \mathscr{L} = \log \left(1 + e^{-y \cdot \hat{p} } \right) \]</span></p>
+<h1 id="multinomial-probabilities-multi-class-classification-multinomial-logistic-loss-cross-entropy-loss-log-loss">Multinomial probabilities / multi-class classification : multinomial logistic loss / cross entropy loss / log loss</h1>
+<p>It is a problem where we have <em>k</em> classes or categories, and only one valid for each example.</p>
+<p>The target values are still binary but represented as a vector y that will be defined by the following if the example x is of class c :</p>
+<p><span class="math display">\[  y_i =   \begin{cases}
+      0, &amp; \text{if}\ i \neq c \\
+      1, &amp; \text{otherwise}
+    \end{cases}
+\]</span></p>
+<p>If $ { p_i } $ is the probability of each class, then it is a multinomial distribution and</p>
+<p><span class="math display">\[ \sum_i p_i = 1 \]</span></p>
+<p>The equivalent to the sigmoid function in multi-dimensional space is the <strong>softmax function or logistic function or normalized exponential function</strong> to produce such a distribution from any input vector z :</p>
+<p><span class="math display">\[ z \rightarrow \left\{ \frac{\exp z_i }{ \sum_k \exp^{z_k} } \right\}_i  \]</span></p>
+<p>The error is also best described by cross-entropy :</p>
+<p><span class="math display">\[ \mathscr{L} = - \sum_{i=0}^k y_i \ln \hat{p}_i \]</span></p>
+<p>Cross-entropy is designed to deal with errors on probabilities. For example, $ ln(0.01) $ will be a lot stronger error signal than $ ln(0.1) $ and encourage to resolve errors. In some cases, the logarithm is bounded to avoid extreme punishments.</p>
+<p>In information theory, optimizing the log loss means minimizing the description length of y. The information content of a random variable to be in the class being $ - ln p_i $.</p>
+<p>Last, let’s remind that the combined softmax and cross-entropy has a very simple and stable derivative.</p>
+<h1 id="multi-label-classification">Multi-label classification</h1>
+<p>There is a variant for multi-label classification, in this case multiple $ y_i $ can have a value set to 1.</p>
+<p>For example, “car”, “automotible”, “motor vehicule” are three labels that can be applied to a same image of a car. On the image of a truck, you’ll only have “motor vehicule” active for example.</p>
+<p>In this case, the softmax function will not apply, we usually add a sigmoïd layer before the cross-entropy layer to ensure stable gradient estimation :</p>
+<p><span class="math display">\[ t \rightarrow \frac{1}{1+e^{-t}} \]</span></p>
+<p>The cross-entropy will look like :</p>
+<p><span class="math display">\[ \mathscr{L} = - \sum_{i=0}^k y_i \ln \hat{p}_i + (1 - y_i) \ln ( 1 - \hat{p}_i ) \]</span></p>
+<h1 id="infogain-loss-relative-entropy">Infogain loss / relative entropy</h1>
+<p>Many synonym exists : Kullback–Leibler divergence, discrimination information, information divergence, information gain, relative entropy, KLIC, KL divergence.</p>
+<p>It measures the difference between two probabilities.</p>
+<p><span class="math display">\[ KL(p,q) = H(p,q) - H(p) = - \sum p(x) \log q(x) + \sum p(x) \log p(x) = \sum p(x ) \ln \frac{ p(x)}{q(x)} \]</span></p>
+<p>hence in our nomenclature :</p>
+<p><span class="math display">\[ \mathscr{L} = \sum_i y_i \ln \frac{ y_i }{ \hat{p}_i } \]</span></p>
+<p>The infogain is the difference between the entropy before and the entropy after.</p>
+<h1 id="square-error-sum-of-squares-euclidian-loss">Square error / Sum of squares / Euclidian loss</h1>
+<p>This time, contrary to previous estimations that were probabilities, when predictions are scalars or metrics, we usually use the <strong>square error or euclidian loss</strong> which is the L2-norm of the error :</p>
+<p><span class="math display">\[ \mathscr{L} = \sum_i ( ŷ_i - y_i )^2 = \| ŷ - y \|_2^2 \]</span></p>
+<p>Minimising the squared error is equivalent to predicting the (conditional) mean of y.</p>
+<p>Due to the gradient being flat at the extremes for a sigmoid function, we do not use a sigmoid activation with a squared error loss because convergence will be slow if some neurons saturate on the wrong side.</p>
+<p>A squared error is often used with a rectified linear unit.</p>
+<p>The L2 norm penalizes large errors more strongly and therefore is very sensitive to outliers. To avoid this, we usually use the squared root version :</p>
+<p><span class="math display">\[ \mathscr{L} = \| ŷ - y \|_2 \]</span></p>
+<h1 id="absolute-value-loss-l1-loss">Absolute value loss / L1 loss</h1>
+<p>The absolute value loss is the L1-norm of the error :</p>
+<p><span class="math display">\[ \mathscr{L} = \sum_i |  ŷ_i - y_i | = \| ŷ - y \|_1 \]</span></p>
+<p>Minimizing the absolute value loss means predicting the (conditional) median of y. Variants can handle other quantiles. 0/1 loss for classification is a special case.</p>
+<p>Note that the L1 norm is not differentiable in 0, and it is possible to use a smooth L1 :</p>
+<p><span class="math display">\[ | d |_{\text{smooth}} = =   \begin{cases}
+      0.5 d^2, &amp; \text{if}\ | d  | \leq 1 \\
+      | d | - 0.5, &amp; \text{otherwise}
+    \end{cases}
+    \]</span></p>
+<p>Although the L2 norm is more precise and better in minizing prediction errors, the L1 norm produces sparser solutions, ignore more easily fine details and is less sensitive to outliers. Sparser solutions are good for feature selection in high dimensional spaces, as well for prediction speed.</p>
+<h1 id="hinge-loss-maximum-margin">Hinge loss / Maximum margin</h1>
+<p>Hinge loss is trying to separate the positive and negative examples $ (x,y) $, x being the input, y the target $ {-1, 1 } $, the loss for a linear model is defined by</p>
+<p><span class="math display">\[ \mathscr{L}(w) = \max (0, 1 - y w \cdot x ) \]</span></p>
+<p>The minimization of the loss will only consider examples that infringe the margin, otherwise the gradient will be zero since the max saturates.</p>
+<p>In order to minimize the loss,</p>
+<ul>
+<li><p>positive example will have to output a result superior to 1 : $ w x &gt; 1$</p></li>
+<li><p>negative example will have to output a result inferior to -1 : $ w x &lt; - 1$</p></li>
+</ul>
+<p>The hinge loss is a convex function, easy to minimize. Although it is not differentiable, it’s easy to compute its gradient locally. There exists also <a href="https://en.wikipedia.org/wiki/Hinge_loss" target="_blank" rel="noopener">a smooth version of the gradient</a>.</p>
+<h1 id="squared-hinge-loss">Squared hinge loss</h1>
+<p>It is simply the square of the hinge loss :</p>
+<p><span class="math display">\[ \mathscr{L}(w) = \max (0, 1 - y w \cdot x )^2 \]</span></p>
+<h1 id="one-versus-all-hinge-loss">One-versus-All Hinge loss</h1>
+<p>The multi-class version of the hinge loss</p>
+<p><span class="math display">\[ \mathscr{L}(w) = \sum_c \max (0, 1 -  \mathbb{1}_{y,c} w \cdot x ) \]</span></p>
+<p>where</p>
+<p><span class="math display">\[   \mathbb{1}_{y,c} =   \begin{cases}
+      -1, &amp; \text{if}\ y \neq c \\
+      1, &amp; \text{otherwise}
+    \end{cases}
+\]</span></p>
+<h1 id="crammer-and-singer-loss">Crammer and Singer loss</h1>
+<p>Crammer and Singer defined a multi-class version of the hinge loss :</p>
+<p><span class="math display">\[ \mathscr{L}(w) = \max (0, 1 + \max_{ c \neq y }  w_c \cdot x - w_y \cdot x ) \]</span></p>
+<p>so that minimizing the loss means to do both :</p>
+<ul>
+<li><p>maximize the prediction $ w_y x $ of the correct class</p></li>
+<li><p>minimize the predicted value $ w_c x $ for all other classes c that have the maximal value</p></li>
+</ul>
+<p>until for all these other classes, their predicted values $ w_c x $ are all below $ w_y x -1 $, the value for the correct class with a margin of 1.</p>
+<p>Note that is possible to replace the 1 with a smooth $ ( y, c) $ value that measures the dissimilarity :</p>
+<p><span class="math display">\[ \mathscr{L}(w) = \max (0, \max_{ c \neq y } \Delta ( y, c) + w_c \cdot x - w_y \cdot x ) \]</span></p>
+<h1 id="l1-l2-frobenius-l21-norms">L1 / L2, Frobenius / L2,1 norms</h1>
+<p>It is frequent to add some regularization terms to the cost function</p>
+<p><span class="math display">\[ \text{min}_w \mathscr{L}(w) + \gamma R(w) \]</span></p>
+<p>such as</p>
+<ul>
+<li>the L1-norm, for the LASSO regularization</li>
+</ul>
+<p><span class="math display">\[ \| w \|_1 = \sum_{i,j} | w_{i,j} | = \sum_i \| w_i \|_1 \]</span></p>
+<ul>
+<li>the L2-norm or Frobenius norm, for the ridge regularization</li>
+</ul>
+<p><span class="math display">\[ \| w \|_2 = \sqrt{ \sum_{i,j} w_{i,j}^2 } = \sqrt{ \sum_i  \| w_i \|_2^2 } \]</span></p>
+<ul>
+<li>the L2,1 norm, used for <a href="https://www.aaai.org/ocs/index.php/IJCAI/IJCAI11/paper/viewFile/3136/3481" target="_blank" rel="noopener">discriminative feature selection</a></li>
+</ul>
+<p><span class="math display">\[ \| w \|_{2,1} = \sum_i \sqrt{ \sum_j w_{i,j}^2 } \]</span></p>
+<h1 id="joint-embedding">Joint embedding</h1>
+<p>A <strong>joint loss</strong> is a sum of two losses :</p>
+<p><span class="math display">\[ \text{min}_{w_1,w_2} \mathscr{L}_1(w_1) + \mathscr{L}_2(w_2) \]</span></p>
+<p>and in the case of multi-modal classification, where data is composed of multiple parts, such as for example images (x1) and texts (x2), we usually use the joint loss with multiple <strong>embeddings</strong>, which are high dimensional feature spaces :</p>
+<p><span class="math display">\[ f_{w_1} : x_1 \rightarrow z_1 \]</span></p>
+<p><span class="math display">\[ g_{w_2} : x_2 \rightarrow z_2 \]</span></p>
+<p>and a similarity function, such as for example,</p>
+<p><span class="math display">\[ s_{w_3} : z_1, z_2 \rightarrow z_1^T w_3 z_2 \]</span></p>
+<p>In these examples of zero-shot learning where a simple classical multi-class hinge loss was able to train classifiers <a href="https://arxiv.org/pdf/1409.8403.pdf" target="_blank" rel="noopener">using precomputed output embedding for each class</a>, a <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Reed_Learning_Deep_Representations_CVPR_2016_paper.pdf" target="_blank" rel="noopener">joint embedding loss</a> can train the two embeddings simultanously.</p>
+<p>The joint embedding optimization can also be seen as <strong>maximizing the log-likelihood for a binomial problem</strong> where the output variable is the degree of similarity $ s_{1,2} = [ y_1 == y_2 ] $ and the input variable $ X = (x_1,x_2) $ the combined modalities :</p>
+<p><span class="math display">\[ \log p_{w_1,w_2,w_3}( s_{1,2} | x_1, x_2 ) \]</span></p>
+<p>where</p>
+<p><span class="math display">\[ p( s_{1,2} | x_1, x_2 ) = \int p( z_1 | x_1) p( z_2 | x_2) p( s_{1,2} | z_1, z_2) dz_1 dz_2\\
+\geq \max_{z_1,z_2} p(z_1|x_1) p(z_2|x_2) p(s_{1,2} | z_1, z_2 )  \]</span></p>
+<p>Hence, maximizing</p>
+<p><span class="math display">\[ \mathscr{L}(w) = \max_{z_1,z_2} \log p_{w_1}(z_1|x_1) + \log p_{w_2}(z_2|x_2) + \log p_{w_3}( s_{1,2} | z_1, z_2 ) \]</span></p>
+<p>In <a href="https://arxiv.org/pdf/1511.04512v3.pdf" target="_blank" rel="noopener">Zero shot learning via joint latent similarity Embedding</a>, Zhang <em>et al.</em> propose an algorithm that iteratively assigns to each example in the dataset an embedding value $ (z_1, z_2) $ that maximizes the objective function over all data, then optimizes $ w = ( w_1,w_2,w_3 ) $ for this assignment at a very good computational cost.</p>
+<h1 id="connectionist-temporal-classification-loss">Connectionist temporal classification loss</h1>
+<p>This loss function is designed for temporal classification, to have the underlying network concentrate its discriminative capacity and sharpen its classification around <strong>spikes</strong>.</p>
+<p>This loss has been used in <a href="ftp://ftp.idsia.ch/pub/juergen/icml2006.pdf" target="_blank" rel="noopener">audio classification</a>.</p>
+<p>We consider sequences <strong>x</strong> of length T, depending of the sampling interval. The idea is to design a network that is able to predict the correct class as well as <em>blanks</em> during no class is predicted. The underlying network output is enhanced with a <em>blank</em> class, and the output dictionary becomes $ L { blank } $. At each time step or <em>audio frame</em>, the network will predict the class probability <span class="math display">\[ y_k^t \]</span> and the probability of a <em>path</em> is given by</p>
+<p><span class="math display">\[ p(\pi | x ) = \prod_{t=1}^T  y_k^t \]</span></p>
+<p>Nevertheless not every path can be a label : in audio classification, if successive frames are too close, they will correspond to the same phoneme, that’s why the first rule is to reduce successive identical predictions into 1 phoneme if there is no blank between them. Also blanks can be removed.</p>
+<p><span class="math display">\[ \mathcal{B}(a--ab-) = \mathcal{B}(-aa-abb) = aab \]</span></p>
+<p>and the probability of a label in the CTC loss is defined as the sum of the probabilities of all paths reducing to it :</p>
+<p><span class="math display">\[ p(l | x ) = \sum_{\pi \in \mathcal{B}^{-1}(l)}  p(\pi | x ) \]</span></p>
+<p>The CTC loss is simply the negative log likelihood of this probability for correct classification</p>
+<p><span class="math display">\[ - \sum_{(x,l)\in \mathcal{S}} \ln p(l | x) \]</span></p>
+<p><a href="ftp://ftp.idsia.ch/pub/juergen/icml2006.pdf" target="_blank" rel="noopener">The original paper</a> gives the formulation to compute the derivative of the CTC loss.</p>
+<p><strong>You’re all set for choosing the right loss functions.</strong></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/theory/" rel="tag"># theory</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/pytorch-out-of-memory/" rel="next" title="Pytorch中的GPU显存使用优化">
+                <i class="fa fa-chevron-left"></i> Pytorch中的GPU显存使用优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/phd-advice/" rel="prev" title="A Survival Guide to a PhD">
+                A Survival Guide to a PhD <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#the-likelihood-and-the-log-loss"><span class="nav-number">1.</span> <span class="nav-text">The likelihood and the log loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#binomial-probabilities---log-loss-logistic-loss-cross-entropy-loss"><span class="nav-number">2.</span> <span class="nav-text">Binomial probabilities - log loss / logistic loss / cross-entropy loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#multinomial-probabilities-multi-class-classification-multinomial-logistic-loss-cross-entropy-loss-log-loss"><span class="nav-number">3.</span> <span class="nav-text">Multinomial probabilities / multi-class classification : multinomial logistic loss / cross entropy loss / log loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#multi-label-classification"><span class="nav-number">4.</span> <span class="nav-text">Multi-label classification</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#infogain-loss-relative-entropy"><span class="nav-number">5.</span> <span class="nav-text">Infogain loss / relative entropy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#square-error-sum-of-squares-euclidian-loss"><span class="nav-number">6.</span> <span class="nav-text">Square error / Sum of squares / Euclidian loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#absolute-value-loss-l1-loss"><span class="nav-number">7.</span> <span class="nav-text">Absolute value loss / L1 loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hinge-loss-maximum-margin"><span class="nav-number">8.</span> <span class="nav-text">Hinge loss / Maximum margin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#squared-hinge-loss"><span class="nav-number">9.</span> <span class="nav-text">Squared hinge loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#one-versus-all-hinge-loss"><span class="nav-number">10.</span> <span class="nav-text">One-versus-All Hinge loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#crammer-and-singer-loss"><span class="nav-number">11.</span> <span class="nav-text">Crammer and Singer loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#l1-l2-frobenius-l21-norms"><span class="nav-number">12.</span> <span class="nav-text">L1 / L2, Frobenius / L2,1 norms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#joint-embedding"><span class="nav-number">13.</span> <span class="nav-text">Joint embedding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#connectionist-temporal-classification-loss"><span class="nav-number">14.</span> <span class="nav-text">Connectionist temporal classification loss</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

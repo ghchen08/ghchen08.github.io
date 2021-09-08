@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="source copies from post, author is Lin Dahua.  Here is a list of books which I have read and feel it is worth recommending to friends who are interested in computer science. Machine Learning  P">
+<meta name="keywords" content="recommendation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Recommend some math books for machine learning">
+<meta property="og:url" content="http://cdnlp.top/2018/11/mathbooks/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="source copies from post, author is Lin Dahua.  Here is a list of books which I have read and feel it is worth recommending to friends who are interested in computer science. Machine Learning  P">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-29T01:52:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Recommend some math books for machine learning">
+<meta name="twitter:description" content="source copies from post, author is Lin Dahua.  Here is a list of books which I have read and feel it is worth recommending to friends who are interested in computer science. Machine Learning  P">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/11/mathbooks/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Recommend some math books for machine learning | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/11/mathbooks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Recommend some math books for machine learning</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-29T09:44:02+08:00">2018-11-29</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>source copies from <a href="http://www.zyh1690.org/lin-dahua-recommended-reading-list/" target="_blank" rel="noopener">post</a>, author is Lin Dahua.</p>
+</blockquote>
+<p>Here is a list of books which I have read and feel it is worth recommending to friends who are interested in computer science.</p>
+<h2 id="machine-learning">Machine Learning</h2>
+<blockquote>
+<p>Pattern Recognition and Machine Learning, Christopher M. Bishop</p>
+</blockquote>
+<p>A new treatment of classic machine learning topics, such as classification, regression, and time series analysis from a Bayesian perspective. It is a must read for people who intends to perform research on Bayesian learning and probabilistic inference.</p>
+<blockquote>
+<p>Graphical Models, Exponential Families, and Variational Inference, Martin J. Wainwright and Michael I. Jordan</p>
+</blockquote>
+<p>It is a comprehensive and brilliant presentation of three closely related subjects: graphical models, exponential families, and variational inference. This is the best manuscript that I have ever read on this subject. Strongly recommended to everyone interested in graphical models. The connections between various inference algorithms and convex optimization is clearly explained. Note: pdf version of this book is freely available online.</p>
+<blockquote>
+<p>Big Data: A Revolution That Will Transform How We Live, Work, and Think, Viktor Mayer-Schonberger, and Kenneth Cukier</p>
+</blockquote>
+<p>A short but insightful manuscript that will motivate you to rethink how we should face the explosive growth of data in the new century.</p>
+<blockquote>
+<p>Statistical Pattern Recognition (2nd/3rd Edition), Andrew R. Webb, and Keith D. Copsey</p>
+</blockquote>
+<p>A well written book on pattern recognition for beginners. It covers basic topics in this field, including discriminant analysis, decision trees, feature selection, and clustering — all are basic knowledge that researchers in machine learning or pattern recognition should understand.</p>
+<blockquote>
+<p>Learning with Kernels: Support Vector Machines, Regularization, Optimization, and Beyond, Bernhard Schlkopf and Alexander J. Smola</p>
+</blockquote>
+<p>A comprehensive and in-depth treatment of kernel methods and support vector machine. It not only clearly develops the mathematical foundation, namely the reproducing kernel Hilbert space, but also gives a lot of practical guidance (e.g. how to choose or design kernels.)</p>
+<h2 id="mathematics">Mathematics</h2>
+<blockquote>
+<p>Topology (2nd Edition), James Munkres</p>
+</blockquote>
+<p>A classic on topology for beginners. It provides a clear introduction of important concepts in general topology, such as continuity, connectedness, compactness, and metric spaces, which are the fundamentals that you have to grasped before embarking on more advanced subjects such as real analysis.</p>
+<blockquote>
+<p>Introductory Functional Analysis with Applications, Erwin Kreyszig</p>
+</blockquote>
+<p>It is a very well written book on functional analysis that I would like to recommend to every one who would like to study this subject for the first time. Starting from simple notions such as metrics and norms, the book gradually unfolds the beauty of functional analysis, exposing important topics including Banach spaces, Hilbert spaces, and spectral theory with a reasonable depth and breadth. Most important concepts needed in machine learning are covered by this book. The exercises are of great help to reinforce your understanding.</p>
+<blockquote>
+<p>Real Analysis and Probability (Cambridge Studies in Advanced Mathematics), R. M. Dudley</p>
+</blockquote>
+<p>This is a dense text that combines Real analysis and modern probability theory in 500+ pages. What I like about this book is its treatment that emphasizes the interplay between real analysis and probability theory. Also the exposition of measure theory based on semi-rings gives a deep insight of the algebraic structure of measures.</p>
+<blockquote>
+<p>Convex Optimization, Stephen Boyd, and Lieven Vandenberghe</p>
+</blockquote>
+<p>A classic on convex optimization. Everyone that I knew who had read this book liked it. The presentation style is very comfortable and inspiring, and it assumes only minimal prerequisite on linear algebra and calculus. Strongly recommended for any beginners on optimization. Note: the pdf of this book is freely available on the Prof. Boyd’s website.</p>
+<blockquote>
+<p>Nonlinear Programming (2nd Edition), Dimitri P. Bersekas</p>
+</blockquote>
+<p>A thorough treatment of nonlinear optimization. It covers gradient-based techniques, Lagrange multiplier theory, and convex programming. Part of this book overlaps with Boyd’s. Overall, it goes deeper and takes more efforts to read.</p>
+<blockquote>
+<p>Introduction to Smooth Manifolds, John M. Lee</p>
+</blockquote>
+<p>This is the book that I used to learn differential geometry and Lie group theory. It provides a detailed introduction to basics of modern differential geometry — manifolds, tangent spaces, and vector bundles. The connections between manifold theory and Lie group theory is also clearly explained. It also covers De Rham Cohomology and Lie algebra, where audience is invited to discover the beauty by linking geometry with algebra.</p>
+<blockquote>
+<p>Modern Graph Theory, Bela Bollobas</p>
+</blockquote>
+<p>It is a modern treatment of this classical theory, which emphasizes the connections with other mathematical subjects — for example, random walks and electrical networks. I found some messages conveyed by this book is enlightening for my research on machine learning methods.</p>
+<blockquote>
+<p>Probability Theory: A Comprehensive Course (Universitext), Achim Klenke</p>
+</blockquote>
+<p>This is a complete coverage of modern probability theory — not only including traditional topics, such as measure theory, independence, and convergence theorems, but also introducing topics that are typically in textbooks on stochastic processes, such as Martingales, Markov chains, and Brownian motion, Poisson processes, and Stochastic differential equations. It is recommended as the main textbook on probability theory.</p>
+<blockquote>
+<p>A First Course in Stochastic Processes (2nd Edition), Samuel Karlin, and Howard M. Taylor</p>
+</blockquote>
+<p>A classic textbook on stochastic process which I think are particularly suitable for beginners without much background on measure theory. It provides a complete coverage of many important stochastic processes in an intuitive way. Its development of Markov processes and renewal processes is enlightening.</p>
+<blockquote>
+<p>Poisson Processes (Oxford Studies in Probability), J. F. C. Kingman</p>
+</blockquote>
+<p>If you are interested in Bayesian nonparametrics, this is the book that you should definitely check out. This manuscript provides an unparalleled introduction to random point processes, including Poisson and Cox processes, and their deep theoretical connections with complete randomness.</p>
+<h2 id="programming">Programming</h2>
+<blockquote>
+<p>Structure and Interpretation of Computer Programs (2nd Edition), Harold Abelson, Gerald Jay Sussman, and Julie Sussman</p>
+</blockquote>
+<blockquote>
+<p>Timeless classic that must be read by all computer science majors. While some topics and the use of Scheme as the teaching language seems odd at first glance, the presentation of fundamental concepts such as abstraction, recursion, and modularity is so beautiful and insightful that you would never experienced elsewhere.</p>
+</blockquote>
+<blockquote>
+<p>Thinking in C++: Introduction to Standard C++ (2nd Edition), Bruce Eckel</p>
+</blockquote>
+<p>While it is kind of old (written in 2000), I still recommend this book to all beginners to learn C++. The thoughts underlying object-oriented programming is very clearly explained. It also provides a comprehensive coverage of C++ in a well-tuned pace.</p>
+<blockquote>
+<p>Effective C++: 55 Specific Ways to Improve Your Programs and Designs (3rd Edition), Scott Meyers</p>
+</blockquote>
+<p>The Effective C++ series by Scott Meyers is a must for anyone who is serious about C++ programming. The items (rules) listed in this book conveys the author’s deep understanding of both C++ itself and modern software engineering principles. This edition reflects latest updates in C++ development, including generic programming the use of TR1 library.</p>
+<blockquote>
+<p>Advanced C++ Metaprogramming, Davide Di Gennaro</p>
+</blockquote>
+<p>Like it or hate it, meta-programming has played an increasingly important role in modern C++ development. If you asked what is the key aspects that distinguishes C++ from all other languages, I would say it is the unparalleled generic programming capability based on C++ templates. This book summarizes the latest advancement of metaprogramming in the past decade. I believe it will take the place of Loki’s “Modern C++ Design” to become the bible for C++ meta-programming.</p>
+<blockquote>
+<p>Introduction to Algorithms (2nd/3rd Edition), Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein</p>
+</blockquote>
+<p>If you know nothing about algorithms, you never understand computer science. This is book is definitely a classic on algorithms and data structures that everyone who is serious about computer science must read. This contents of this book ranges from elementary topics such as classic sorting algorithms and hash table to advanced topics such as maximum flow, linear programming, and computational geometry. It is a book for everyone. Everytime I read it, I learned something new.</p>
+<blockquote>
+<p>Design Patterns: Elements of Reusable Object-Oriented Software, Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides</p>
+</blockquote>
+<p>Textbooks on C++, Java, or other languages typically use toy examples (animals, students, etc) to illustrate the concept of OOP. This way, however, does not reflect the full strength of object oriented programming. This book, which has been widely acknowledged as a classic in software engineering, shows you, via compelling examples distilled from real world projects, how specific OOP patterns can vastly improve your code’s reusability and extensibility.</p>
+<blockquote>
+<p>Structured Parallel Programming: Patterns for Efficient Computation, Michael McCool, James Reinders, and Arch Robison</p>
+</blockquote>
+<p>Recent trends of hardware advancement has switched from increasing CPU frequencies to increasing the number of cores. A significant implication of this change is that “free lunch has come to an end” — you have to explicitly parallelize your codes in order to benefit from the latest progress on CPU/GPUs. This book summarizes common patterns used in parallel programming, such as mapping, reduction, and pipelining — all are very useful in writing parallel codes.</p>
+<blockquote>
+<p>Introduction to High Performance Computing for Scientists and Engineers, Georg Hager and Gerhard Wellein</p>
+</blockquote>
+<p>This book covers important topics that you should know in developing high performance computing programs. Particularly, it introduces SIMD, memory hierarchies, OpenMP, and MPI. With these knowledges in mind, you understand what are the factors that might influence the run-time performance of your codes.</p>
+<blockquote>
+<p>CUDA Programming: A Developer’s Guide to Parallel Computing with GPUs, Shane Cook</p>
+</blockquote>
+<p>This book provides an in-depth coverage of important aspects related to CUDA programming — a programming technique that can unleash the unparalleled power of GPU computation. With CUDA and an affordable GPU card, you can run your data analysis program in the matter of minutes which may otherwise require multiple servers to run for hours.</p>
+<p>END</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/recommendation/" rel="tag"># recommendation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/cpp-compilation/" rel="next" title="The C++ compilation">
+                <i class="fa fa-chevron-left"></i> The C++ compilation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/intro-git/" rel="prev" title="Introduction to Git">
+                Introduction to Git <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#machine-learning"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mathematics"><span class="nav-number">2.</span> <span class="nav-text">Mathematics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#programming"><span class="nav-number">3.</span> <span class="nav-text">Programming</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

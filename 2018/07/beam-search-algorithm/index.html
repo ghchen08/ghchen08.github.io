@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Beam search 是seq2seq中decoder的常用算法，用于生成sequence，比greedy decoding 效果更好，但是计算量更大，也更耗时。下面是Transformer model中的beam search 中的程序的分析。">
+<meta name="keywords" content="pytorch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learn about beam search algorithm">
+<meta property="og:url" content="http://cdnlp.top/2018/07/beam-search-algorithm/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="Beam search 是seq2seq中decoder的常用算法，用于生成sequence，比greedy decoding 效果更好，但是计算量更大，也更耗时。下面是Transformer model中的beam search 中的程序的分析。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-18T02:17:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Learn about beam search algorithm">
+<meta name="twitter:description" content="Beam search 是seq2seq中decoder的常用算法，用于生成sequence，比greedy decoding 效果更好，但是计算量更大，也更耗时。下面是Transformer model中的beam search 中的程序的分析。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/07/beam-search-algorithm/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Learn about beam search algorithm | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/07/beam-search-algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Learn about beam search algorithm</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-17T19:22:24+08:00">2018-07-17</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Beam search 是seq2seq中decoder的常用算法，用于生成sequence，比greedy decoding 效果更好，但是计算量更大，也更耗时。下面是Transformer model中的beam search 中的程序的分析。 <a id="more"></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">beam_search</span><span class="params">(self, encoding, mask_src=None, mask_trg=None, width=<span class="number">2</span>, alpha=<span class="number">1.0</span>)</span>:</span>  </span><br><span class="line"><span class="comment"># W, width: beamsize, alpha: sentence length-norm</span></span><br><span class="line"><span class="comment"># B : batch size</span></span><br><span class="line"><span class="comment"># T : max sentence length in src and trg language</span></span><br><span class="line"><span class="comment"># C : hidden state size of decoder</span></span><br><span class="line"><span class="comment"># encoding 是list，每一个element是encoder相应layer输出的hidden state, encoding[0]是input embedding</span></span><br><span class="line"><span class="comment"># encoding size : B*W x T x C</span></span><br><span class="line"><span class="comment"># mask_src size : B*W x T</span></span><br><span class="line"><span class="comment"># outs size : B x W x (T+1)</span></span><br><span class="line"><span class="comment"># logps size : B x W</span></span><br><span class="line"><span class="comment"># hidden size : B x W x T x C</span></span><br><span class="line"><span class="comment"># eos_yet size : B x W</span></span><br><span class="line"><span class="comment"># topk2_logps size : B x W x Vocab</span></span><br><span class="line"><span class="comment"># topk_beam_inds size : B x W</span></span><br><span class="line"><span class="comment"># topk_token_inds size : B x W</span></span><br><span class="line"><span class="comment"># embedW used to transfer from index to word embedding in trg language</span></span><br><span class="line"><span class="comment"># eos_yet : indicate whether the sentence has come to an end. when 1, then yes.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    encoding = encoding[<span class="number">1</span>:]</span><br><span class="line">    W = width</span><br><span class="line">    B, T, C = encoding[<span class="number">0</span>].size()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># expanding</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(encoding)):</span><br><span class="line">        encoding[i] = encoding[i][:, <span class="keyword">None</span>, :].expand(</span><br><span class="line">            B, W, T, C).contiguous().view(B * W, T, C)</span><br><span class="line">    mask_src = mask_src[:, <span class="keyword">None</span>, :].expand(B, W, T).contiguous().view(B * W, T)</span><br><span class="line"></span><br><span class="line">    T *= self.length_ratio <span class="comment"># used for sentence length normalization</span></span><br><span class="line">    outs = Variable(encoding[<span class="number">0</span>].data.new(B, W, T + <span class="number">1</span>).long().fill_(</span><br><span class="line">        self.field.vocab.stoi[<span class="string">'&lt;pad&gt;'</span>]))</span><br><span class="line">    outs[:,:,<span class="number">0</span>] = self.field.vocab.stoi[<span class="string">'&lt;init&gt;'</span>]</span><br><span class="line"></span><br><span class="line">    logps = Variable(encoding[<span class="number">0</span>].data.new(B, W).float().fill_(<span class="number">0</span>))  <span class="comment"># scores</span></span><br><span class="line">    hiddens = [Variable(encoding[<span class="number">0</span>].data.new(B, W, T, C).zero_())  <span class="comment"># decoder states: batch x beamsize x len x h</span></span><br><span class="line">                <span class="keyword">for</span> l <span class="keyword">in</span> range(len(self.layers) + <span class="number">1</span>)]</span><br><span class="line">    embedW = self.out.weight * math.sqrt(self.d_model)</span><br><span class="line">    hiddens[<span class="number">0</span>] = hiddens[<span class="number">0</span>] + positional_encodings_like(hiddens[<span class="number">0</span>])</span><br><span class="line">    eos_yet = encoding[<span class="number">0</span>].data.new(B, W).byte().zero_()  <span class="comment"># batch x beamsize, all the sentences are not finished yet.</span></span><br><span class="line">    eos_mask = eos_yet.float().new(B,W,W).fill_(INF)</span><br><span class="line">    eos_mask[:, :, <span class="number">0</span>] = <span class="number">0</span>  <span class="comment"># batch x beam x beam</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> range(T):</span><br><span class="line">        hiddens[<span class="number">0</span>][:, :, t] = self.dropout(</span><br><span class="line">            hiddens[<span class="number">0</span>][:, :, t] + F.embedding(outs[:, :, t], embedW))</span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> range(len(self.layers)):</span><br><span class="line">            x = hiddens[l][:, :, :t + <span class="number">1</span>].contiguous().view(B * W, <span class="number">-1</span>, C)</span><br><span class="line">            x = self.layers[l].selfattn(x[:, <span class="number">-1</span>:, :], x, x)</span><br><span class="line">            </span><br><span class="line">            hiddens[l + <span class="number">1</span>][:, :, t] = self.layers[l].feedforward(</span><br><span class="line">                    self.layers[l].attention(x, encoding[l], encoding[l], mask_src)).view(</span><br><span class="line">                        B, W, C)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># topk2_logps: scores, topk2_inds: top word index at each beam, batch x beam x beam</span></span><br><span class="line">        topk2_logps = log_softmax(self.out(hiddens[<span class="number">-1</span>][:, :, t])) <span class="comment"># B*W*Vocab</span></span><br><span class="line">        topk2_logps[:, :, self.field.vocab.stoi[<span class="string">'&lt;pad&gt;'</span>]] = -INF</span><br><span class="line">        topk2_logps, topk2_inds = topk2_logps.topk(W, dim=<span class="number">-1</span>)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        topk2_logps = topk2_logps * Variable(eos_yet[:, :, <span class="keyword">None</span>].float() * eos_mask + <span class="number">1</span> - eos_yet[:, :, <span class="keyword">None</span>].float())</span><br><span class="line"></span><br><span class="line">        topk2_logps = topk2_logps + logps[:, :, <span class="keyword">None</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> t == <span class="number">0</span>:</span><br><span class="line">            logps, topk_inds = topk2_logps[:, <span class="number">0</span>].topk(W, dim=<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            logps, topk_inds = topk2_logps.view(B, W * W).topk(W, dim=<span class="number">-1</span>) <span class="comment"># use topk_inds to get eos_yet</span></span><br><span class="line"></span><br><span class="line">        topk_beam_inds = topk_inds.div(W)</span><br><span class="line"></span><br><span class="line">        topk_token_inds = topk2_inds.view(B, W * W).gather(<span class="number">1</span>, topk_inds) <span class="comment"># get next token vocab_index</span></span><br><span class="line">        eos_yet = eos_yet.gather(<span class="number">1</span>, topk_beam_inds.data)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># logps = logps * (1 - Variable(eos_yet.float()) * 1 / (t + 2)).pow(alpha)</span></span><br><span class="line">        logps = logps * (<span class="number">1</span> + Variable(eos_yet.float()) * <span class="number">1</span> / (t + <span class="number">1</span>)).pow(alpha)</span><br><span class="line"></span><br><span class="line">        outs = outs.gather(<span class="number">1</span>, topk_beam_inds[:, :, <span class="keyword">None</span>].expand_as(outs))</span><br><span class="line">        outs[:, :, t + <span class="number">1</span>] = topk_token_inds</span><br><span class="line"></span><br><span class="line">        topk_beam_inds_h = topk_beam_inds[:, :, <span class="keyword">None</span>, <span class="keyword">None</span>].expand_as(hiddens[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(hiddens)):</span><br><span class="line">            hiddens[i] = hiddens[i].gather(<span class="number">1</span>, topk_beam_inds_h)</span><br><span class="line"></span><br><span class="line">        eos_yet = eos_yet | (topk_token_inds.data == self.field.vocab.stoi[<span class="string">'&lt;eos&gt;'</span>])</span><br><span class="line">        <span class="keyword">if</span> eos_yet.all():</span><br><span class="line">            <span class="keyword">return</span> outs[:, <span class="number">0</span>, <span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">return</span> outs[:, <span class="number">0</span>, <span class="number">1</span>:]</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/illustrated-transformer/" rel="next" title="The Illustrated Transformer">
+                <i class="fa fa-chevron-left"></i> The Illustrated Transformer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/cpp-compilation/" rel="prev" title="The C++ compilation">
+                The C++ compilation <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

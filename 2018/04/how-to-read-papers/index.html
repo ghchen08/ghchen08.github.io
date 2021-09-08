@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="this paper can be downloaded from http://ccr.sigcomm.org/online/files/p83-keshavA.pdf  ABSTRACT Researchers spend a great deal of time reading research papers. However, this skill is rarely taugh">
+<meta name="keywords" content="methodology">
+<meta property="og:type" content="article">
+<meta property="og:title" content="how to read a paper by S. Keshav">
+<meta property="og:url" content="http://cdnlp.top/2018/04/how-to-read-papers/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="this paper can be downloaded from http://ccr.sigcomm.org/online/files/p83-keshavA.pdf  ABSTRACT Researchers spend a great deal of time reading research papers. However, this skill is rarely taugh">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-14T02:47:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="how to read a paper by S. Keshav">
+<meta name="twitter:description" content="this paper can be downloaded from http://ccr.sigcomm.org/online/files/p83-keshavA.pdf  ABSTRACT Researchers spend a great deal of time reading research papers. However, this skill is rarely taugh">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/04/how-to-read-papers/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>how to read a paper by S. Keshav | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/how-to-read-papers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">how to read a paper by S. Keshav</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-11T10:24:24+08:00">2018-04-11</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>this paper can be downloaded from <a href="http://ccr.sigcomm.org/online/files/p83-keshavA.pdf" class="uri" target="_blank" rel="noopener">http://ccr.sigcomm.org/online/files/p83-keshavA.pdf</a></p>
+</blockquote>
+<h2 id="abstract">ABSTRACT</h2>
+<p>Researchers spend a great deal of time reading research papers. However, this skill is rarely taught, leading to much wasted effort. This article outlines a practical and efficient three-pass method for reading research papers. I also describe how to use this method to do a literature survey.</p>
+<blockquote>
+<p>Keywords: Paper, Reading, Hints.</p>
+</blockquote>
+<h2 id="introduction">1. INTRODUCTION</h2>
+<p>Researchers must read papers for several reasons: to review them for a conference or a class, to keep current in their field, or for a literature survey of a new field. A typical researcher will likely spend hundreds of hours every year reading papers.</p>
+<p>Learning to efficiently read a paper is a critical but rarely taught skill. Beginning graduate students, therefore, must learn on their own using trial and error. Students waste much effort in the process and are frequently driven to frustration.</p>
+<p>For many years I have used a simple approach to efficiently read papers. This paper describes the ‘three-pass’ approach and its use in doing a literature survey.</p>
+<h2 id="the-three-pass-approach">2. THE THREE-PASS APPROACH</h2>
+<p>The key idea is that you should read the paper in up to three passes, instead of starting at the beginning and plowing your way to the end. Each pass accomplishes specific goals and builds upon the previous pass: The first pass gives you a general idea about the paper. The second pass lets you grasp the paper’s content, but not its details. The third pass helps you understand the paper in depth.</p>
+<h3 id="the-first-pass">2.1 The first pass</h3>
+<p>The first pass is a quick scan to get a bird’s-eye view of the paper. You can also decide whether you need to do any more passes. This pass should take about five to ten minutes and consists of the following steps:</p>
+<ol type="1">
+<li>Carefully read the title, abstract, and introduction</li>
+<li>Read the section and sub-section headings, but ignore everything else</li>
+<li>Read the conclusions</li>
+<li>Glance over the references, mentally ticking off the ones you’ve already read</li>
+</ol>
+<p>At the end of the first pass, you should be able to answer the five Cs:</p>
+<ol type="1">
+<li>Category: What type of paper is this? A measurement paper? An analysis of an existing system? A description of a research prototype?</li>
+<li>Context: Which other papers is it related to? Which theoretical bases were used to analyze the problem?</li>
+<li>Correctness: Do the assumptions appear to be valid?</li>
+<li>Contributions: What are the paper’s main contributions?</li>
+<li>Clarity: Is the paper well written?</li>
+</ol>
+<p>Using this information, you may choose not to read further. This could be because the paper doesn’t interest you, or you don’t know enough about the area to understand the paper, or that the authors make invalid assumptions. The first pass is adequate for papers that aren’t in your research area, but may someday prove relevant.</p>
+<p>Incidentally, when you write a paper, you can expect most care to choose coherent section and sub-section titles and to write concise and comprehensive abstracts. If a reviewer cannot understand the gist after one pass, the paper will likely be rejected; if a reader cannot understand the highlights of the paper after five minutes, the paper will likely never be read.</p>
+<h3 id="the-second-pass">2.2 The second pass</h3>
+<p>In the second pass, read the paper with greater care, but ignore details such as proofs. It helps to jot down the key points, or to make comments in the margins, as you read.</p>
+<ol type="1">
+<li>Look carefully at the figures, diagrams and other illustrations in the paper. Pay special attention to graphs. Are the axes properly labeled? Are results shown with error bars, so that conclusions are statistically significant? Common mistakes like these will separate rushed, shoddy work from the truly excellent.</li>
+<li>Remember to mark relevant unread references for further reading (this is a good way to learn more about the background of the paper).</li>
+</ol>
+<p>The second pass should take up to an hour. After this pass, you should be able to grasp the content of the paper. You should be able to summarize the main thrust of the paper, with supporting evidence, to someone else. This level of detail is appropriate for a paper in which you are interested, but does not lie in your research speciality.</p>
+<p>Sometimes you won’t understand a paper even at the end of the second pass. This may be because the subject matter is new to you, with unfamiliar terminology and acronyms. Or the authors may use a proof or experimental technique that you don’t understand, so that the bulk of the paper is incomprehensible. The paper may be poorly written with unsubstantiated assertions and numerous forward references. Or it could just be that it’s late at night and you’re tired.</p>
+<p>You can now choose to: (a) set the paper aside, hoping you don’t need to understand the material to be successful in your career, (b) return to the paper later, perhaps after reading background material or (c) persevere and go on to the third pass.</p>
+<h3 id="the-third-pass">2.3 The third pass</h3>
+<p>To fully understand a paper, particularly if you are reviewer, requires a third pass. The key to the third pass is to attempt to virtually reimplementthe paper: that is, making the same assumptions as the authors, recreate the work. By comparing this recreation with the actual paper, you can easily identify not only a paper’s innovations, but also its hidden failings and assumptions.</p>
+<p>This pass requires great attention to detail. You should identify and challenge every assumption in every statement. Moreover, you should think about how you yourself would present a particular idea. This comparison of the actual with the virtual lends a sharp insight into the proof and presentation techniques in the paper and you can very likely add this to your repertoire of tools. During this pass, you should also jot down ideas for future work.</p>
+<p>This pass can take about four or five hours for beginners, and about an hour for an experienced reader. At the end of this pass, you should be able to reconstruct the entire structure of the paper from memory, as well as be able to identify its strong and weak points. In particular, you should be able to pinpoint implicit assumptions, missing citations to relevant work, and potential issues with experimental or analytical techniques.</p>
+<h2 id="doing-a-literature-survey">3. DOING A LITERATURE SURVEY</h2>
+<p>Paper reading skills are put to the test in doing a literature survey. This will require you to read tens of papers, perhaps in an unfamiliar field. What papers should you read? Here is how you can use the three-pass approach to help.</p>
+<p>First, use an academic search engine such as Google Scholar or CiteSeer and some well-chosen keywords to find three to fiverecent papers in the area. Do one pass on each paper to get a sense of the work, then read their related work sections. You will find a thumbnail summary of the recent work, and perhaps, if you are lucky, a pointer to a recent survey paper. If you can find such a survey, you are done.</p>
+<p>Read the survey, congratulating yourself on your good luck. Otherwise, in the second step, <strong>find shared citations and repeated author names in the bibliography</strong>. These are the key papers and researchers in that area. Download the key papers and set them aside. Then go to <strong>the websites of the key researchers and see</strong> where they’ve published recently.</p>
+<p>That will help you identify the top conferences in that field because the best researchers usually publish in the top conferences.</p>
+<p>The third step is to go to the website for these top conferences and look through their recent proceedings. A quick scan will usually identify recent high-quality related work.</p>
+<p>These papers, along with the ones you set aside earlier, constitute the first version of your survey. Make two passes through these papers. If they all cite a key paper that you did not find earlier, obtain and read it, iterating as necessary.</p>
+<h2 id="experience">4. EXPERIENCE</h2>
+<p>I’ve used this approach for the last 15 years to read conference proceedings, write reviews, do background research, and to quickly review papers before a discussion. This disciplined approach prevents me from drowning in the details before getting a bird’s-eye-view. It allows me to estimate the amount of time required to review a set of papers. Moreover, I can adjust the depth of paper evaluation depending on my needs and how much time I have.</p>
+<h2 id="related-work">5. RELATED WORK</h2>
+<p>If you are reading a paper to do a review, you should also read Timothy Roscoe’s paper on “Writing reviews for systems conferences”<sup>[2]</sup>. If you’re planning to write a technical paper, you should refer both to Henning Schulzrinne’s comprehensive web site <sup>[3]</sup> and George Whitesides’s excellent overview of the process <sup>[4]</sup>. Finally, Simon Peyton Jones has a website that covers the entire spectrum of research skills <sup>[1]</sup>.</p>
+<h2 id="a-request">6. A REQUEST</h2>
+<p>I would like to make this a living document, updating it as I receive comments. Please take a moment to email me any comments or suggestions for improvement. You can also add comments at CCRo, the online edition of CCR <sup>[5]</sup>.</p>
+<h2 id="acknowledgments">7. ACKNOWLEDGMENTS</h2>
+<p>The first version of this document was drafted by my students: Hossein Falaki, Earl Oliver, and Sumair Ur Rahman. My thanks to them. I also benefited from Christophe Diot’s perceptive comments and Nicole Keshav’s eagle-eyed copy editing. This work was supported by grants from the National Science and Engineering Council of Canada, the Canada Research Chair Program, Nortel Networks, Microsoft, Intel Corporation, and Sprint Corporation.</p>
+<h2 id="references">8. REFERENCES</h2>
+<ul>
+<li>[1] S. Peyton Jones, <a href="http://research.microsoft.com/simonpj/Papers/giving-a-talk/giving-a-talk.htm" target="_blank" rel="noopener">“Research Skills”</a>.</li>
+<li>[2] T. Roscoe, <a href="http://people.inf.ethz.ch/troscoe/pubs/review-writing.pdf" target="_blank" rel="noopener">“Writing Reviews for Systems Conferences”</a>.</li>
+<li>[3] H. Schulzrinne, <a href="http://www.cs.columbia.edu/hgs/etc/writing-style.html" target="_blank" rel="noopener">“Writing Technical Articles,”</a>.</li>
+<li>[4] G.M. Whitesides, <a href="http://www.che.iitm.ac.in/misc/dd/writepaper.pdf" target="_blank" rel="noopener">“Whitesides’ Group: Writing a Paper,”</a></li>
+<li>[5] ACM SIGCOMM Computer Communication Review Online, <a href="http://www.sigcomm.org/ccr/drupal/" target="_blank" rel="noopener">http://www.sigcomm.org/ccr/drupal/.</a></li>
+<li>[6] <a href="https://lo.unisa.edu.au/mod/page/view.php?id=489314#top" class="uri" target="_blank" rel="noopener">https://lo.unisa.edu.au/mod/page/view.php?id=489314#top</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/methodology/" rel="tag"># methodology</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/use-ppt-to-draw-in-papers/" rel="next" title="paper作图工具之PPT篇">
+                <i class="fa fa-chevron-left"></i> paper作图工具之PPT篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/AI-startups/" rel="prev" title="AI创业公司">
+                AI创业公司 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#abstract"><span class="nav-number">1.</span> <span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text">1. INTRODUCTION</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-three-pass-approach"><span class="nav-number">3.</span> <span class="nav-text">2. THE THREE-PASS APPROACH</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#the-first-pass"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 The first pass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-second-pass"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 The second pass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-third-pass"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 The third pass</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#doing-a-literature-survey"><span class="nav-number">4.</span> <span class="nav-text">3. DOING A LITERATURE SURVEY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#experience"><span class="nav-number">5.</span> <span class="nav-text">4. EXPERIENCE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#related-work"><span class="nav-number">6.</span> <span class="nav-text">5. RELATED WORK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-request"><span class="nav-number">7.</span> <span class="nav-text">6. A REQUEST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acknowledgments"><span class="nav-number">8.</span> <span class="nav-text">7. ACKNOWLEDGMENTS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#references"><span class="nav-number">9.</span> <span class="nav-text">8. REFERENCES</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

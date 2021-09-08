@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在网上搜了一些资料，放在这里当作备份。  自然语言处理研究内容 自然语言处理（简称NLP），是研究计算机处理人类语言的一门技术，包括：  句法语义分析：对于给定的句子，进行分词、词性标记、命名实体识别和链接、句法分析、语义角色识别和多义词消歧。 信息抽取：从给定文本中抽取重要的信息，比如，时间、地点、人物、事件、原因、结果、数字、日期、货币、专有名词等等。通俗说来，就是要了解谁在什">
+<meta name="keywords" content="nlp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自然语言处理入门1">
+<meta property="og:url" content="http://cdnlp.top/2018/06/introduction-to-NLP/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="在网上搜了一些资料，放在这里当作备份。  自然语言处理研究内容 自然语言处理（简称NLP），是研究计算机处理人类语言的一门技术，包括：  句法语义分析：对于给定的句子，进行分词、词性标记、命名实体识别和链接、句法分析、语义角色识别和多义词消歧。 信息抽取：从给定文本中抽取重要的信息，比如，时间、地点、人物、事件、原因、结果、数字、日期、货币、专有名词等等。通俗说来，就是要了解谁在什">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-20T01:30:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自然语言处理入门1">
+<meta name="twitter:description" content="在网上搜了一些资料，放在这里当作备份。  自然语言处理研究内容 自然语言处理（简称NLP），是研究计算机处理人类语言的一门技术，包括：  句法语义分析：对于给定的句子，进行分词、词性标记、命名实体识别和链接、句法分析、语义角色识别和多义词消歧。 信息抽取：从给定文本中抽取重要的信息，比如，时间、地点、人物、事件、原因、结果、数字、日期、货币、专有名词等等。通俗说来，就是要了解谁在什">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/06/introduction-to-NLP/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>自然语言处理入门1 | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/06/introduction-to-NLP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">自然语言处理入门1</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-18T14:25:58+08:00">2018-06-18</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>在网上搜了一些资料，放在这里当作备份。</p>
+</blockquote>
+<h1 id="自然语言处理研究内容">自然语言处理研究内容</h1>
+<p>自然语言处理（简称NLP），是研究计算机处理人类语言的一门技术，包括：</p>
+<ol type="1">
+<li>句法语义分析：对于给定的句子，进行分词、词性标记、命名实体识别和链接、句法分析、语义角色识别和多义词消歧。</li>
+<li>信息抽取：从给定文本中抽取重要的信息，比如，时间、地点、人物、事件、原因、结果、数字、日期、货币、专有名词等等。通俗说来，就是要了解谁在什么时候、什么原因、对谁、做了什么事、有什么结果。涉及到实体识别、时间抽取、因果关系抽取等关键技术。</li>
+<li>文本挖掘（或者文本数据挖掘）：包括文本聚类、分类、信息抽取、摘要、情感分析以及对挖掘的信息和知识的可视化、交互式的表达界面。目前主流的技术都是基于统计机器学习的。</li>
+<li>机器翻译：把输入的源语言文本通过自动翻译获得另外一种语言的文本。根据输入媒介不同，可以细分为文本翻译、语音翻译、手语翻译、图形翻译等。机器翻译从最早的基于规则的方法到二十年前的基于统计的方法，再到今天的基于神经网络（编码-解码）的方法，逐渐形成了一套比较严谨的方法体系。</li>
+<li>信息检索：对大规模的文档进行索引。可简单对文档中的词汇，赋之以不同的权重来建立索引，也可利用1、2、3的技术来建立更加深层的索引。在查询的时候，对输入的查询表达式比如一个检索词或者一个句子进行分析，然后在索引里面查找匹配的候选文档，再根据一个排序机制把候选文档排序，最后输出排序得分最高的文档。</li>
+<li>问答系统： 对一个自然语言表达的问题，由问答系统给出一个精准的答案。需要对自然语言查询语句进行某种程度的语义分析，包括实体链接、关系识别，形成逻辑表达式，然后到知识库中查找可能的候选答案并通过一个排序机制找出最佳的答案。</li>
+<li>对话系统：系统通过一系列的对话，跟用户进行聊天、回答、完成某一项任务。涉及到用户意图理解、通用聊天引擎、问答引擎、对话管理等技术。此外，为了体现上下文相关，要具备多轮对话能力。同时，为了体现个性化，要开发用户画像以及基于用户画像的个性化回复。</li>
+</ol>
+<h1 id="fundamental-problems-of-statistical-natural-language-processing">Fundamental Problems of Statistical Natural Language Processing</h1>
+<ul>
+<li>Classification: assigning a label to a string, $ s \rightarrow c $
+<ul>
+<li>Text classification</li>
+<li>Sentiment analysis</li>
+</ul></li>
+<li>Matching: matching two strings
+<ul>
+<li>Search</li>
+<li>Question answering</li>
+<li>Dialogue (single turn)</li>
+</ul></li>
+<li>Translation: transforming one string to another
+<ul>
+<li>Machine translation</li>
+<li>Speech recognition</li>
+<li>Hand writing recognition</li>
+<li>Dialogue (single turn)</li>
+</ul></li>
+<li>Structured Prediction: mapping string to structure
+<ul>
+<li>Named entity extraction</li>
+<li>Part of speech tagging</li>
+<li>Sentence parsing</li>
+<li>Semantic parsing</li>
+</ul></li>
+<li>Markov Decision Process: deciding next state given previous state and action
+<ul>
+<li>Dialogue (multi turn, task dependent)</li>
+</ul></li>
+</ul>
+<h1 id="语系与语支">语系与语支</h1>
+<ul>
+<li>印欧语系：
+<ul>
+<li>希腊语，</li>
+<li>拉丁语族/罗曼语族：
+<ul>
+<li>意大利-达尔马提亚语支：意大利语，</li>
+<li>高卢-罗曼语支：法语，加泰罗尼亚语</li>
+<li>伊比利亚-罗曼语支：西班牙语、葡萄牙语</li>
+<li>东罗曼语支：罗马尼亚语，</li>
+</ul></li>
+<li>日耳曼语族
+<ul>
+<li>西日耳曼语支高地德语. ：德语，</li>
+<li>西日耳曼语支低地法兰克语. ：荷兰语，</li>
+<li>西日耳曼语支盎格鲁-弗里西语. ：英语，</li>
+<li>北日耳曼语支西北欧语. ：冰岛语，挪威语</li>
+<li>北日耳曼语支东北欧语. ：丹麦语，瑞典语</li>
+</ul></li>
+<li>斯拉夫语族Rich morphology.
+<ul>
+<li>东斯拉夫语支：俄语，乌克兰语</li>
+<li>西斯拉夫语支：波兰语，捷克语，斯洛伐克语，</li>
+<li>南斯拉夫语支：克罗地亚语，塞尔维亚语，斯洛文尼亚语</li>
+<li>东南斯拉夫语支：保加利亚语，</li>
+</ul></li>
+</ul></li>
+<li>汉藏语系
+<ul>
+<li>汉语族：汉语</li>
+<li>藏缅语族：藏语，缅甸语，</li>
+</ul></li>
+<li>阿尔泰语系Rich morphology.
+<ul>
+<li>蒙古语族：蒙古语</li>
+<li>突厥语族：维吾尔语，乌兹别克语，哈萨克语，土耳其语，</li>
+</ul></li>
+<li>日本语系：日语</li>
+<li>乌拉尔语系：匈牙利语，芬兰语</li>
+<li>亚非语系
+<ul>
+<li>闪米特语族：阿拉伯语，希伯来语</li>
+</ul></li>
+</ul>
+<h1 id="词性标注part-of-speech-tagging">词性标注(Part-of-speech tagging)</h1>
+<ol type="1">
+<li>ADJ：形容词。比如，new，good，high，special，big，local。</li>
+<li>ADV：副词。比如，really，already，still，early，now。</li>
+<li>CNJ：连词。比如，and，or，but，if，while，although。</li>
+<li>DET：限定词。比如，the，a，some，most，every，no。</li>
+<li>EX：存在量词。比如，there，there’s。</li>
+<li>FW：外来词。比如，dolce，ersatz，esprit，quo，maitre。</li>
+<li>MOD：情态动词。比如，will，can，would，may，must，should。</li>
+<li>N：名词。比如，year，home，costs，time，education。</li>
+<li>NP：专有名词。比如，Alison，Africa，April，Washington。</li>
+<li>NUM：数词。比如，twenty-four，fourth，1991，14:24。</li>
+<li>PRO：代词。比如，he，their，her，its，my，I，us。</li>
+<li>P：介词。比如，on，of，at，with，by，into，under。</li>
+<li>TO：词to。比如，to。</li>
+<li>UH：感叹词。比如，ah，bang，ha，whee，hmpf，oops。</li>
+<li>V：动词。比如，is，has，get，do，make，see，run。</li>
+<li>VD：过去式。比如，said，took，told，made，asked。</li>
+<li>VG：现在分词。比如，making，going，playing，working。</li>
+<li>VN：过去分词。比如，given，taken，begun，sung。</li>
+<li>WH：Wh限定词。比如，who，which，when，what，where，how。</li>
+</ol>
+<h1 id="句法依存分析dependency-parsing">句法依存分析(dependency parsing)</h1>
+<ol type="1">
+<li>主谓关系：SBV：我送她一束花（我&lt;–送）。</li>
+<li>动宾关系：VOB：我送她一束花（送–&gt;花）。</li>
+<li>间宾关系：IOB：我送她一束花（送–&gt;她）。</li>
+<li>前置宾语：FOB：他什么书都读（书&lt;–读）。</li>
+<li>兼语：DBL：他请我吃饭（请–&gt;我）。</li>
+<li>定中关系：ATT：红苹果（红&lt;–苹果）。</li>
+<li>状中结构：ADV：非常美丽（非常&lt;–美丽）。</li>
+<li>动补结构：CMP：做完了作业（做–&gt;完）。</li>
+<li>并列关系：COO：大山和大海（大山–&gt;大海）。</li>
+<li>介宾关系：POB：在贸易区内（在–&gt;内）。</li>
+<li>左附加关系：LAD：大山和大海（和&lt;–大海）。</li>
+<li>右附加关系：RAD：孩子们（孩子–&gt;们）。</li>
+<li>独立结构：IS：两个单句在结构上彼此独立。</li>
+<li>核心关系：HED：指整个句子的核心。</li>
+</ol>
+<h1 id="语义依存分析syntax-parsing">语义依存分析(Syntax parsing)</h1>
+<ol type="1">
+<li>施事关系：Agt：我送她一束花（我&lt;–送）。</li>
+<li>当事关系：Exp：我跑得快（跑–&gt;我）。</li>
+<li>感事关系：Aft：我思念家乡（思念–&gt;我）。</li>
+<li>领事关系：Poss：他有一本好读（他&lt;–有）。</li>
+<li>受事关系：Pat：他打了小明（打–&gt;小明）。</li>
+<li>客事关系：Cont：他听到鞭炬声（听–&gt;鞭炮声）。</li>
+<li>成事关系：Prod：他写了本小说（写–&gt;小说）。</li>
+<li>源事关系：Orig：我军缴获敌人四辆坦克（缴获–&gt;坦克）。</li>
+<li>涉事关系：Datv：他告诉我个秘密（告诉我）。</li>
+<li>比较角色：Comp：他成绩比我好（他–&gt;我）。</li>
+<li>属事角色：Belg：老赵有俩女儿（老赵&lt;–有）。</li>
+<li>类事角色：Clas：他是中学生（是–&gt;中学生）。</li>
+<li>依据角色：Accd：本庭依法宣判（依法&lt;–宣判）。</li>
+<li>缘故角色：Reas：他在愁女儿婚事（愁–&gt;婚事）。</li>
+<li>意图角色：Int：为了金牌他拼命努力（金牌&lt;–努力）。</li>
+<li>结局角色：Cons：他跑了满头大汗（跑–&gt;满头大汗）。</li>
+<li>方式角色：Mann：球惺惺滚进空门（慢慢&lt;–滚）。</li>
+<li>工具角色：Tool：她用砂锅熬粥(砂锅&lt;–熬粥)。</li>
+<li>材料角色：Malt：她用小米熬粥（小米&lt;–熬粥）。</li>
+<li>时间角色：Time：唐朝有个李白（唐朝&lt;–有）。</li>
+<li>空间角色：Loc：这房子朝南（朝–&gt; 南）。</li>
+<li>历程角色：Proc：火车正在过长江大桥（过–&gt; 大桥）。</li>
+<li>趋向角色：Dir：部队奔向南方（奔–&gt;南）。</li>
+<li>范围角色：Sco：产品应该比质M (比–&gt;质量)。</li>
+<li>数量角色：Quan：一年有365天（有–&gt;天）。</li>
+<li>数量数组：Qp：三本书（三–&gt;本）。</li>
+<li>频率角色：Freq：他每天看书（每天&lt;–看）。</li>
+<li>顺序角色：Seq：他跑第一（跑–&gt;第一）。</li>
+<li>描写角色：Desc(Feat)：他长得胖(长–&gt;胖)。</li>
+<li>宿主角色：Host：住房面积（住房&lt;–面积）。</li>
+<li>名字修饰角色：Nmod：栗戈里大街（果戈里&lt;–大街）。</li>
+<li>时间修饰角色：Tmod：星期一上午（星期一&lt;–上午）。</li>
+<li>反角色：r+main role：打篮球的小姑娘（打篮球&lt;–姑娘）。</li>
+<li>嵌套角色：d+main role：爷爷看见孙子在跑（看见–&gt;跑）。</li>
+<li>并列关系：eCoo：我喜欢唱歌和跳舞（唱歌–&gt;跳舞）。</li>
+<li>选择关系：eSelt：您是喝茶还是喝咖啡（茶–&gt;咖啡）。</li>
+<li>等同关系：eEqu：他们三个人一起走（他们–&gt;三个人）。</li>
+<li>先行关系：ePrec：首先，先。</li>
+<li>顺承关系：eSucc：随后，然后。</li>
+<li>递进关系：eProg：况且，并且。</li>
+<li>转折关系：eAdvt：却，然而。</li>
+<li>原因关系：eCau：因为，既然。</li>
+<li>结果关系：eResu：因此，以致。</li>
+<li>推论关系：elnf：才，则。</li>
+<li>条件关系：eCond：只要，除非。</li>
+<li>假设关系：eSupp：如果，要是。</li>
+<li>让步关系：eConc：纵使，哪怕。</li>
+<li>手段关系：eMetd。</li>
+<li>目的关系：ePurp：为了，以便。</li>
+<li>割舍关系：eAban：与其，也不。</li>
+<li>选取关系：ePref：不如，宁愿。</li>
+<li>总括关系：eSum：总而言之。</li>
+<li>分叙关系：eRect：例如，比方说。</li>
+<li>连词标记：mConj：和，或。</li>
+<li>的字标记：mAux：的，地，得。</li>
+<li>介词标记：mPrep：把，被。</li>
+<li>语气标记：mTone：吗，呢。</li>
+<li>时间标记：mTime：才，曾经。</li>
+<li>范围标记：mRang：都，到处。</li>
+<li>程度标记：mDegr：很，稍微。</li>
+<li>频率标记：mFreq：再，常常。</li>
+<li>趋向标记：mDir：上去，下来。</li>
+<li>播入语标记：mPars：总的来说，众所周知。</li>
+<li>否定标记：mNeg：不，没，未。</li>
+<li>情态标记：mMod：幸亏，会，能。</li>
+<li>标点标记：mPunc：,。!。</li>
+<li>重复标记：mPept：走啊走（走–&gt;走）。</li>
+<li>多数标记：mMaj：们，等。</li>
+<li>实词虚化标记：mVain。</li>
+<li>离合标记：mSepa：吃了个饭（吃–&gt;饭），洗了个澡（洗–&gt;澡）。</li>
+<li>根节点：Root：全句核心节点。</li>
+</ol>
+<p>END</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nlp/" rel="tag"># nlp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/tensorflow-installation/" rel="next" title="tensorFlow安装的问题及方法">
+                <i class="fa fa-chevron-left"></i> tensorFlow安装的问题及方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/Matplotlib-intro/" rel="prev" title="python绘图工具包Matplotlib的使用笔记">
+                python绘图工具包Matplotlib的使用笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#自然语言处理研究内容"><span class="nav-number">1.</span> <span class="nav-text">自然语言处理研究内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fundamental-problems-of-statistical-natural-language-processing"><span class="nav-number">2.</span> <span class="nav-text">Fundamental Problems of Statistical Natural Language Processing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#语系与语支"><span class="nav-number">3.</span> <span class="nav-text">语系与语支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#词性标注part-of-speech-tagging"><span class="nav-number">4.</span> <span class="nav-text">词性标注(Part-of-speech tagging)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#句法依存分析dependency-parsing"><span class="nav-number">5.</span> <span class="nav-text">句法依存分析(dependency parsing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#语义依存分析syntax-parsing"><span class="nav-number">6.</span> <span class="nav-text">语义依存分析(Syntax parsing)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

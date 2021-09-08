@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. Basic info Git用于文件的版本控制及协作开发。编辑文件后，使用git add filename把更新添加至暂存区，使用git commit -m &quot;messages&quot;提交暂存区的修改到本地git数据库。如果要同步至远程服务器，需要使用git push命令进行同步。 2. basic commands  git add，提交修改到暂存区 git commit，提交暂存区的">
+<meta name="keywords" content="tools">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to Git">
+<meta property="og:url" content="http://cdnlp.top/2018/12/intro-git/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="1. Basic info Git用于文件的版本控制及协作开发。编辑文件后，使用git add filename把更新添加至暂存区，使用git commit -m &quot;messages&quot;提交暂存区的修改到本地git数据库。如果要同步至远程服务器，需要使用git push命令进行同步。 2. basic commands  git add，提交修改到暂存区 git commit，提交暂存区的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-13T14:16:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Introduction to Git">
+<meta name="twitter:description" content="1. Basic info Git用于文件的版本控制及协作开发。编辑文件后，使用git add filename把更新添加至暂存区，使用git commit -m &quot;messages&quot;提交暂存区的修改到本地git数据库。如果要同步至远程服务器，需要使用git push命令进行同步。 2. basic commands  git add，提交修改到暂存区 git commit，提交暂存区的">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/12/intro-git/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Introduction to Git | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/12/intro-git/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Introduction to Git</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-07T13:41:20+08:00">2018-12-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="basic-info">1. Basic info</h2>
+<p>Git用于文件的版本控制及协作开发。编辑文件后，使用<code>git add filename</code>把更新添加至暂存区，使用<code>git commit -m "messages"</code>提交暂存区的修改到本地git数据库。如果要同步至远程服务器，需要使用<code>git push</code>命令进行同步。</p>
+<h2 id="basic-commands">2. basic commands</h2>
+<ul>
+<li><code>git add</code>，提交修改到暂存区</li>
+<li><code>git commit</code>，提交暂存区的修改，参数–amend是撤销上次的commit并重新提交。</li>
+<li><code>git push origin master</code>，将commit的修改同步至远程的master分支</li>
+<li><code>git fetch origin master:temp</code>，新建temp分支，并将远程的master同步至temp分支</li>
+<li><code>git merge temp</code>，将temp分支合并到当前分支</li>
+<li><code>git pull origin dev</code>，等同于<code>git fetch</code>+<code>git merge</code></li>
+<li><code>git branch new_name</code>，创建新的branch但并不自动切换，<code>git branch -d old_branch</code>，删除不用的branch。</li>
+<li><code>git checkout branch_name</code>，切换到某分支去，切换分支前需要使当前分支干净，可以保存进度（stashing)或者修补提交（amending commit)。分支切换会改变目录中的文件，使得文件对应于当前分支的结构。</li>
+<li><code>git checkout -b branch_name</code>，新建branch并自动切换过去</li>
+<li><code>git log -p</code>，查看历次commit的信息记录。</li>
+<li><code>git rm file.name</code>,<code>git mv old_name new_name</code>，表示在add加入暂存区后，要删除某文件或重命名。</li>
+</ul>
+<h2 id="examples">3. examples</h2>
+<h4 id="a.新建git仓库">a.新建git仓库</h4>
+<p>github上新建repo，本地<code>git clone</code>后，把已有的文件复制进去，并提交更新，同步至远程服务器，</p>
+<h4 id="b.-编辑并同步">b. 编辑并同步</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add file_name</span><br><span class="line">git status <span class="comment"># check whether all changes added.</span></span><br><span class="line">git commit -m <span class="string">"comments"</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<h4 id="c.-创建分支并切换合并">c. 创建分支并切换合并</h4>
+<p>场景描述：master分支为安全稳定的代码，dev为正在开发的比较稳定的代码，test是测试状态的代码。假如正在test分支上工作，突然接到任务需要解决dev分支上的问题。那么流程是切换到dev分支，新建hotfix分支，编辑并测试好解决方案，切换回dev分支，合并分支并删除hotfix分支，然后切换到test分支继续工作，流程如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git checkout dev <span class="comment">#切换至dev分支</span></span><br><span class="line">git checkout -b hotfix <span class="comment"># 新建并自动切换过去</span></span><br><span class="line"><span class="comment"># some edit and test work</span></span><br><span class="line">git checkout dev</span><br><span class="line">git merge hotfix <span class="comment"># merge hotfix branch into dev branch</span></span><br><span class="line">git branch -d hotfix <span class="comment"># delete hotfix branch which is not needed</span></span><br><span class="line">git checkout <span class="built_in">test</span> <span class="comment"># back to test branch to continue working</span></span><br></pre></td></tr></table></figure>
+<h4 id="d.-合并远程到本地">d. 合并远程到本地</h4>
+<p>在本地开发时，如果远程仓库内容有更新，需要合并到本地，假如要从远程的dev branch合并到本地的dev branch，流程如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin dev:temp</span><br><span class="line">git checkout dev</span><br><span class="line">git merge temp</span><br></pre></td></tr></table></figure>
+<p>如果出现合并冲突，即不同的仓库对同一处进行了不同的修改，那么需要手动合并冲突。使用<code>git status</code>查看什么文件出现冲突，然后打开文件进行合并，在=====分隔符的上下选择一处进行合并，然后重新<code>git add;git commit</code>，即可。</p>
+<h4 id="e.-撤销更改">e. 撤销更改</h4>
+<p>情景描述：程序写了一半发现改错了，需要回退到之前的一个版本。操作流程如下：</p>
+<p>采用命令<code>git reset --hard commit_id</code>可以回退到相应ID的版本，采用命令<code>git reflog</code>查到未来的某一个ID后，重新采用<code>git reset --hard commit_id</code>就可以撤销回退，变为回退之前的版本。</p>
+<h2 id="others">4. others</h2>
+<p>分支的命名：master用于稳定安全的代码，dev表示正在开发的分支，next表示后续开发及测试，这些都是长期分支.</p>
+<p>设置换行符为unix/windows，推荐如下： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 提交时转换为LF，检出时不转换</span></span><br><span class="line">git config --global core.autocrlf input</span><br></pre></td></tr></table></figure></p>
+<p>若文件已经是crlf格式，git windows自带了doc2unix程序，直接执行<code>find . -type f -exec dos2unix {} +</code>即可。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tools/" rel="tag"># tools</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/mathbooks/" rel="next" title="Recommend some math books for machine learning">
+                <i class="fa fa-chevron-left"></i> Recommend some math books for machine learning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/pytorch-out-of-memory/" rel="prev" title="Pytorch中的GPU显存使用优化">
+                Pytorch中的GPU显存使用优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#basic-info"><span class="nav-number">1.</span> <span class="nav-text">1. Basic info</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#basic-commands"><span class="nav-number">2.</span> <span class="nav-text">2. basic commands</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#examples"><span class="nav-number">3.</span> <span class="nav-text">3. examples</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a.新建git仓库"><span class="nav-number">3.0.1.</span> <span class="nav-text">a.新建git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b.-编辑并同步"><span class="nav-number">3.0.2.</span> <span class="nav-text">b. 编辑并同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c.-创建分支并切换合并"><span class="nav-number">3.0.3.</span> <span class="nav-text">c. 创建分支并切换合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#d.-合并远程到本地"><span class="nav-number">3.0.4.</span> <span class="nav-text">d. 合并远程到本地</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#e.-撤销更改"><span class="nav-number">3.0.5.</span> <span class="nav-text">e. 撤销更改</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#others"><span class="nav-number">4.</span> <span class="nav-text">4. others</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

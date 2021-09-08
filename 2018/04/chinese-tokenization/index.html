@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="转自https://yanyiwu.com/work/2014/04/07/hmm-segment-xiangjie.html  　　关于HMM模型的介绍，网上的资料已经烂大街，但是大部分都是在背书背公式，本文在此针对HMM模型在中文分词中的应用，讲讲实现原理。 尽可能的撇开公式，撇开推导。结合实际开源代码作为例子，争取做到雅俗共赏，童叟无欺。 1. 模型介绍 HMM(Hidden M">
+<meta name="keywords" content="NLP, learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中文分词之HMM模型详解">
+<meta property="og:url" content="http://cdnlp.top/2018/04/chinese-tokenization/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="转自https://yanyiwu.com/work/2014/04/07/hmm-segment-xiangjie.html  　　关于HMM模型的介绍，网上的资料已经烂大街，但是大部分都是在背书背公式，本文在此针对HMM模型在中文分词中的应用，讲讲实现原理。 尽可能的撇开公式，撇开推导。结合实际开源代码作为例子，争取做到雅俗共赏，童叟无欺。 1. 模型介绍 HMM(Hidden M">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-07T12:50:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="中文分词之HMM模型详解">
+<meta name="twitter:description" content="转自https://yanyiwu.com/work/2014/04/07/hmm-segment-xiangjie.html  　　关于HMM模型的介绍，网上的资料已经烂大街，但是大部分都是在背书背公式，本文在此针对HMM模型在中文分词中的应用，讲讲实现原理。 尽可能的撇开公式，撇开推导。结合实际开源代码作为例子，争取做到雅俗共赏，童叟无欺。 1. 模型介绍 HMM(Hidden M">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/04/chinese-tokenization/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>中文分词之HMM模型详解 | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/chinese-tokenization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">中文分词之HMM模型详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-07T14:37:08+08:00">2018-04-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>转自https://yanyiwu.com/work/2014/04/07/hmm-segment-xiangjie.html</p>
+</blockquote>
+<p>　　关于HMM模型的介绍，网上的资料已经烂大街，但是大部分都是在背书背公式，本文在此针对HMM模型在<strong>中文分词</strong>中的应用，讲讲实现原理。 尽可能的撇开公式，撇开推导。结合实际开源代码作为例子，争取做到<strong>雅俗共赏，童叟无欺</strong>。</p>
+<h2 id="模型介绍">1. 模型介绍</h2>
+<p><strong>HMM(Hidden Markov Model): 隐式马尔科夫模型。</strong></p>
+<p>　　HMM模型可以应用在很多领域，所以它的模型参数描述一般都比较抽象，以下篇幅直接使用它在中文分词中的实际含义来介绍HMM的模型参数。HMM模型是一个五元组:</p>
+<ul>
+<li>StatusSet: 状态值集合</li>
+<li>ObservedSet: 观察值集合</li>
+<li>TransProbMatrix: 转移概率矩阵</li>
+<li>EmitProbMatrix: 发射概率矩阵</li>
+<li>InitStatus: 初始状态分布</li>
+</ul>
+<p>HMM模型可以用来解决三种问题：</p>
+<ol type="1">
+<li>参数(StatusSet, TransProbMatrix, EmitRobMatrix, InitStatus)已知的情况下，求解<strong>观察值序列</strong>。(Forward-backward算法)</li>
+<li>参数(ObservedSet, TransProbMatrix, EmitRobMatrix, InitStatus)已知的情况下，求解<strong>状态值序列</strong>。(viterbi算法)</li>
+<li>参数(ObservedSet)已知的情况下，求解<strong>(TransProbMatrix, EmitRobMatrix, InitStatus)</strong>。(Baum-Welch算法)</li>
+</ol>
+<p>　　其中，第三种问题最玄乎也最不常用，第二种问题最常用，【中文分词】，【语音识别】, 【新词发现】， 【词性标注】 都有它的一席之地。 所以本文主要介绍第二种问题，即【viterbi算法求解状态值序列】的方法。</p>
+<h2 id="五元组参数在中文分词中的具体含义">2. 五元组参数在中文分词中的具体含义</h2>
+<p>接下来我们讲实的，不讲虚的，针对中文分词应用，直接给五元组参数赋予具体含义：</p>
+<h3 id="statusset-observedset">StatusSet &amp; ObservedSet</h3>
+<p>状态值集合为(B, M, E, S): {B:begin, M:middle, E:end, S:single}，每个状态代表的是该字在词语中的位置，B代表该字是词语中的起始字，M代表是词语中的中间字，E代表是词语中的结束字，S则代表是单字成词。</p>
+<p>观察值集合为就是所有汉字(东南西北你我他…)，甚至包括标点符号所组成的集合。</p>
+<p>状态值也就是我们要求的值，在HMM模型中文分词中，我们的输入是一个句子(也就是观察值序列)，输出是这个句子中每个字的状态值。 比如:</p>
+<blockquote>
+<p>小明硕士毕业于中国科学院计算所</p>
+</blockquote>
+<p>输出的状态序列为</p>
+<blockquote>
+<p>BEBEBMEBEBMEBES</p>
+</blockquote>
+<p>根据这个状态序列我们可以进行切词:</p>
+<blockquote>
+<p>BE/BE/BME/BE/BME/BE/S</p>
+</blockquote>
+<p>所以切词结果如下:</p>
+<blockquote>
+<p>小明/硕士/毕业于/中国/科学院/计算/所</p>
+</blockquote>
+<p>同时我们可以注意到：</p>
+<p><strong>B后面只可能接(M or E)，不可能接(B or S)。而M后面也只可能接(M or E)，不可能接(B, S)</strong>。</p>
+<p>没错，就是这么简单，现在输入输出都明确了，下文讲讲输入和输出之间的具体过程。</p>
+<p>上文只介绍了五元组中的两元【StatusSet, ObservedSet】，下文介绍剩下的三元【InitStatus, TransProbMatrix, EmitProbMatrix】。</p>
+<p>这五元的关系是通过一个叫<code>Viterbi</code>的算法串接起来， <code>ObservedSet</code>序列值是<code>Viterbi</code>的输入， 而<code>StatusSet</code>序列值是<code>Viterbi</code>的输出， 输入和输出之间<code>Viterbi</code>算法还需要借助三个模型参数， 分别是InitStatus, TransProbMatrix, EmitProbMatrix， 接下来一一讲解：</p>
+<h3 id="initstatus">InitStatus</h3>
+<p>初始状态概率分布是最好理解的，可以示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#B</span><br><span class="line">-0.26268660809250016</span><br><span class="line">#E</span><br><span class="line">-3.14e+100</span><br><span class="line">#M</span><br><span class="line">-3.14e+100</span><br><span class="line">#S</span><br><span class="line">-1.4652633398537678</span><br></pre></td></tr></table></figure>
+<p>示例数值是对概率值取对数之后的结果(可以让概率相乘的计算变成对数相加)，其中<code>-3.14e+100</code>作为负无穷，也就是对应的概率值是0。下同。 也就是句子的第一个字属于<code>{B,E,M,S}</code>这四种状态的概率，如上可以看出，E和M的概率都是0，这和实际相符合，开头的第一个字只可能是词语的首字(B)，或者是单字成词(S)。</p>
+<h3 id="transprobmatrix">TransProbMatrix</h3>
+<p>转移概率是马尔科夫链很重要的一个知识点，大学里面学过概率论的人都知道，马尔科夫链最大的特点就是当前<code>T=i</code>时刻的状态<code>Status(i)</code>，只和<code>T=i</code>时刻之前的n个状态有关。也就是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;Status(i-1), Status(i-2), Status(i-3), ... Status(i - n)&#125;</span><br></pre></td></tr></table></figure>
+<p>更进一步的说，HMM模型有三个基本假设作为模型的前提，其中有个【有限历史性假设】，也就是马尔科夫链的<code>n=1</code>。即Status(i)只和Status(i-1)相关，这个假设能大大简化问题。</p>
+<p>回过头看<code>TransProbMatrix</code>，其实就是一个<code>4x4</code>(4就是状态值集合的大小)的二维矩阵，示例如下：</p>
+<p>矩阵的横坐标和纵坐标顺序是<code>BEMS x BEMS</code>。(数值是概率求对数后的值，别忘了。)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-3.14e+100 -0.510825623765990 -0.916290731874155 -3.14e+100</span><br><span class="line">-0.5897149736854513 -3.14e+100 -3.14e+100 -0.8085250474669937</span><br><span class="line">-3.14e+100 -0.33344856811948514 -1.2603623820268226 -3.14e+100</span><br><span class="line">-0.7211965654669841 -3.14e+100 -3.14e+100 -0.6658631448798212</span><br></pre></td></tr></table></figure>
+<p>比如<code>TransProbMatrix[0][0]</code>代表的含义就是从状态B转移到状态B的概率，由</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TransProbMatrix[0][0] = -3.14e+100</span><br></pre></td></tr></table></figure>
+<p>可知，这个转移概率是0，这符合常理。由状态各自的含义可知，状态B的下一个状态只可能是ME，不可能是BS，所以不可能的转移对应的概率都是0，也就是对数值负无穷，在此记为<code>-3.14e+100</code>。</p>
+<p>由上<code>TransProbMatrix</code>矩阵可知，对于各个状态可能转移的下一状态，且转移概率对应如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#B</span><br><span class="line">#E:-0.510825623765990,M:-0.916290731874155</span><br><span class="line">#E</span><br><span class="line">#B:-0.5897149736854513,S:-0.8085250474669937</span><br><span class="line">#M</span><br><span class="line">#E:-0.33344856811948514,M:-1.2603623820268226</span><br><span class="line">#S</span><br><span class="line">#B:-0.7211965654669841,S:-0.6658631448798212</span><br></pre></td></tr></table></figure>
+<h3 id="emitprobmatrix">EmitProbMatrix</h3>
+<p>这里的发射概率(EmitProb)其实也是一个条件概率而已，根据HMM模型三个基本假设里的【观察值独立性假设】，观察值只取决于当前状态值，也就是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(Observed[i], Status[j]) = P(Status[j]) * P(Observed[i]|Status[j])</span><br></pre></td></tr></table></figure>
+<p>其中<code>P(Observed[i]|Status[j])</code>这个值就是从<code>EmitProbMatrix</code>中获取。</p>
+<p><code>EmitProbMatrix</code>示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#B</span><br><span class="line">耀:-10.460283,涉:-8.766406,谈:-8.039065,伊:-7.682602,洞:-8.668696,...</span><br><span class="line">#E</span><br><span class="line">耀:-9.266706,涉:-9.096474,谈:-8.435707,伊:-10.223786,洞:-8.366213,...</span><br><span class="line">#M</span><br><span class="line">耀:-8.47651,涉:-10.560093,谈:-8.345223,伊:-8.021847,洞:-9.547990,....</span><br><span class="line">#S</span><br><span class="line">蘄:-10.005820,涉:-10.523076,唎:-15.269250,禑:-17.215160,洞:-8.369527...</span><br></pre></td></tr></table></figure>
+<p>虽然<code>EmitProbMatrix</code>也称为矩阵，这个矩阵太稀疏了，实际工程中一般是将上面四行发射转移概率存储为4个Map，详见代码<a href="https://github.com/yanyiwu/cppjieba/blob/master/src/HMMSegment.hpp" target="_blank" rel="noopener">HMMSegment</a>。</p>
+<p>到此，已经介绍完HMM模型的五元参数，假设现在手头上已经有这些参数的具体概率值，并且已经加载进来，(也就是有该模型的字典了，详见<a href="https://github.com/yanyiwu/cppjieba/tree/master/dict" target="_blank" rel="noopener">HMMDict</a>里面的<code>hmm_model.utf8</code>)，那么我们只剩下<code>Viterbi</code>这个算法函数，这个模型就算可以开始使用了。所以接下来讲讲<code>Viterbi</code>算法。</p>
+<h2 id="hmm中文分词之viterbi算法">3. HMM中文分词之Viterbi算法</h2>
+<p>输入样例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">小明硕士毕业于中国科学院计算所</span><br></pre></td></tr></table></figure>
+<p>Viterbi算法计算过程如下：</p>
+<h4 id="定义变量">1. 定义变量</h4>
+<p>二维数组 weight[4][15]，4是状态数(0:B,1:E,2:M,3:S)，15是输入句子的字数。比如 weight[0][2] 代表 状态B的条件下，出现’硕’这个字的可能性。</p>
+<p>二维数组 path[4][15]，4是状态数(0:B,1:E,2:M,3:S)，15是输入句子的字数。比如 path[0][2] 代表 weight[0][2]取到最大时，前一个字的状态，比如 path[0][2] = 1, 则代表 weight[0][2]取到最大时，前一个字(也就是<code>明</code>)的状态是E。记录前一个字的状态是为了使用viterbi算法计算完整个 weight[4][15] 之后，能对输入句子从右向左地回溯回来，找出对应的状态序列。</p>
+<p>使用InitStatus对weight二维数组进行初始化</p>
+<p>已知InitStatus如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#B</span><br><span class="line">-0.26268660809250016</span><br><span class="line">#E</span><br><span class="line">-3.14e+100</span><br><span class="line">#M</span><br><span class="line">-3.14e+100</span><br><span class="line">#S</span><br><span class="line">-1.4652633398537678</span><br></pre></td></tr></table></figure>
+<p>且由EmitProbMatrix可以得出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Status(B) -&gt; Observed(小)  :  -5.79545</span><br><span class="line">Status(E) -&gt; Observed(小)  :  -7.36797</span><br><span class="line">Status(M) -&gt; Observed(小)  :  -5.09518</span><br><span class="line">Status(S) -&gt; Observed(小)  :  -6.2475</span><br></pre></td></tr></table></figure>
+<p>所以可以初始化 weight[i][0] 的值如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">weight[0][0] = -0.26268660809250016 + -5.79545 = -6.05814</span><br><span class="line">weight[1][0] = -3.14e+100 + -7.36797 = -3.14e+100</span><br><span class="line">weight[2][0] = -3.14e+100 + -5.09518 = -3.14e+100</span><br><span class="line">weight[3][0] = -1.4652633398537678 + -6.2475 = -7.71276</span><br></pre></td></tr></table></figure>
+<p>注意上式计算的时候是相加而不是相乘，因为之前取过对数的原因。</p>
+<h4 id="遍历句子计算整个weight二维数组">2. 遍历句子计算整个weight二维数组</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//遍历句子，下标i从1开始是因为刚才初始化的时候已经对0初始化结束了</span><br><span class="line">for(size_t i = 1; i &lt; 15; i++)</span><br><span class="line">&#123;</span><br><span class="line">    // 遍历可能的状态</span><br><span class="line">    for(size_t j = 0; j &lt; 4; j++) </span><br><span class="line">    &#123;</span><br><span class="line">        weight[j][i] = MIN_DOUBLE;</span><br><span class="line">        path[j][i] = -1;</span><br><span class="line">        //遍历前一个字可能的状态</span><br><span class="line">        for(size_t k = 0; k &lt; 4; k++)</span><br><span class="line">        &#123;</span><br><span class="line">            double tmp = weight[k][i-1] + _transProb[k][j] + _emitProb[j][sentence[i]];</span><br><span class="line">            if(tmp &gt; weight[j][i]) // 找出最大的weight[j][i]值</span><br><span class="line">            &#123;</span><br><span class="line">                weight[j][i] = tmp;</span><br><span class="line">                path[j][i] = k;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此遍历下来，<code>weight[4][15]</code> 和 <code>path[4][15]</code> 就都计算完毕。</p>
+<h4 id="确定边界条件和路径回溯">3. 确定边界条件和路径回溯</h4>
+<p>边界条件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对于每个句子，最后一个字的状态只可能是 E 或者 S，不可能是 M 或者 B。</span><br></pre></td></tr></table></figure>
+<p>所以在本文的例子中我们只需要比较 <code>weight[1(E)][14]</code> 和 <code>weight[3(S)][14]</code> 的大小即可。</p>
+<p>在本例中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">weight[1][14] = -102.492;</span><br><span class="line">weight[3][14] = -101.632;</span><br></pre></td></tr></table></figure>
+<p>所以 S &gt; E，也就是对于路径回溯的起点是 <code>path[3][14]</code>。</p>
+<p>回溯的路径是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SEBEMBEBEMBEBEB</span><br></pre></td></tr></table></figure>
+<p>倒序一下就是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BE/BE/BME/BE/BME/BE/S</span><br></pre></td></tr></table></figure>
+<p>所以切词结果就是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">小明/硕士/毕业于/中国/科学院/计算/所</span><br></pre></td></tr></table></figure>
+<p>到此，一个HMM模型中文分词算法过程就阐述完毕了。</p>
+<p>也就是给定我们一个模型，我们对模型进行载入完毕之后，只要运行一遍<code>Viterbi</code>算法，就可以找出每个字对应的状态，根据状态也就可以对句子进行分词。</p>
+<h2 id="模型的训练问题">4. 模型的训练问题</h2>
+<p>以上讲的前提是基于模型来进行切词，也就是假设我们手头上的HMM模型已经是被训练好了的(也就是InitStatus, TransProbMatrix, EmitProbMatrix这三个模型的关键参数都是已知的)，没有涉及到这三个参数是如何得到的。 这三个参数其实也是基于已分词完毕的语料进行统计计算，计算出相应的频率和条件概率就可以算出这三个参数。具体在此就不讲了。</p>
+<h2 id="last-备注">Last-备注</h2>
+<p>HMM模型的三个基本假设如下：</p>
+<ul>
+<li>有限历史性假设:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(Status[i]|Status[i-1],Status[i-2],... Status[1]) = P(Status[i]|Status[i-1])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>齐次性假设(状态和当前时刻无关):</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(Status[i]|Status[i-1]) = P(Status[j]|Status[j-1])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>观察值独立性假设(观察值只取决于<strong>当前</strong>状态值):</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(Observed[i]|Status[i],Status[i-1],...,Status[1]) = P(Observed[i]|Status[i])</span><br></pre></td></tr></table></figure>
+<p>END</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/join-two-rows-in-different-file/" rel="prev" title="用python按行合并两个文件">
+                用python按行合并两个文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型介绍"><span class="nav-number">1.</span> <span class="nav-text">1. 模型介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五元组参数在中文分词中的具体含义"><span class="nav-number">2.</span> <span class="nav-text">2. 五元组参数在中文分词中的具体含义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#statusset-observedset"><span class="nav-number">2.1.</span> <span class="nav-text">StatusSet &amp; ObservedSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initstatus"><span class="nav-number">2.2.</span> <span class="nav-text">InitStatus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transprobmatrix"><span class="nav-number">2.3.</span> <span class="nav-text">TransProbMatrix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#emitprobmatrix"><span class="nav-number">2.4.</span> <span class="nav-text">EmitProbMatrix</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hmm中文分词之viterbi算法"><span class="nav-number">3.</span> <span class="nav-text">3. HMM中文分词之Viterbi算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义变量"><span class="nav-number">3.0.1.</span> <span class="nav-text">1. 定义变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#遍历句子计算整个weight二维数组"><span class="nav-number">3.0.2.</span> <span class="nav-text">2. 遍历句子计算整个weight二维数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#确定边界条件和路径回溯"><span class="nav-number">3.0.3.</span> <span class="nav-text">3. 确定边界条件和路径回溯</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型的训练问题"><span class="nav-number">4.</span> <span class="nav-text">4. 模型的训练问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#last-备注"><span class="nav-number">5.</span> <span class="nav-text">Last-备注</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

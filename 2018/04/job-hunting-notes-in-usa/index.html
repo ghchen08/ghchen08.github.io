@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="转载 故事 大概几周前，签了第一份在美国的工作合同。算作是过去大半年对人工智能和数据科学探索领域的一个小结点。在这段小小的旅程中，有太多人帮助我，写下此文希望对转行进入这个领域工作的新同学有所帮助也希望努力通过自己的力量推广有效利他职业生涯(Effective Altruism)的概念。这篇文章分成两个部分，前半部分是故事，侧重于分享一些个人的情绪和心理成长，后半部分分享一些干的攻略和教训，会">
+<meta name="keywords" content="自我提升, 求职">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zz异国数据科学求职记">
+<meta property="og:url" content="http://cdnlp.top/2018/04/job-hunting-notes-in-usa/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="转载 故事 大概几周前，签了第一份在美国的工作合同。算作是过去大半年对人工智能和数据科学探索领域的一个小结点。在这段小小的旅程中，有太多人帮助我，写下此文希望对转行进入这个领域工作的新同学有所帮助也希望努力通过自己的力量推广有效利他职业生涯(Effective Altruism)的概念。这篇文章分成两个部分，前半部分是故事，侧重于分享一些个人的情绪和心理成长，后半部分分享一些干的攻略和教训，会">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-09T05:47:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zz异国数据科学求职记">
+<meta name="twitter:description" content="转载 故事 大概几周前，签了第一份在美国的工作合同。算作是过去大半年对人工智能和数据科学探索领域的一个小结点。在这段小小的旅程中，有太多人帮助我，写下此文希望对转行进入这个领域工作的新同学有所帮助也希望努力通过自己的力量推广有效利他职业生涯(Effective Altruism)的概念。这篇文章分成两个部分，前半部分是故事，侧重于分享一些个人的情绪和心理成长，后半部分分享一些干的攻略和教训，会">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/04/job-hunting-notes-in-usa/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>zz异国数据科学求职记 | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/job-hunting-notes-in-usa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">zz异国数据科学求职记</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-09T13:22:01+08:00">2018-04-09</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/career/" itemprop="url" rel="index"><span itemprop="name">career</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>转载</p>
+<h2 id="故事">故事</h2>
+<p>大概几周前，签了第一份在美国的工作合同。算作是过去大半年对人工智能和数据科学探索领域的一个小结点。在这段小小的旅程中，有太多人帮助我，写下此文希望对转行进入这个领域工作的新同学有所帮助也希望努力通过自己的力量推广有效利他职业生涯(Effective Altruism)的概念。这篇文章分成两个部分，前半部分是故事，侧重于分享一些个人的情绪和心理成长，后半部分分享一些干的攻略和教训，会多讲点技术细节(Technical)的东西，希望能帮助后来者节省时间。</p>
+<p>在人工智能这个行业已经有太多太多计算机科学家、统计学家、数学家。如果我们希望得到一个更加开放民主不作恶的人工智能社区，需要有更多的心理学家、经济学、文学家和艺术家加入。希望这篇文章能给人文社科背景的转行求职同学以及更广大的希望努力把这个世界变得美好一点点的小伙伴们一些力量！</p>
+<h3 id="有效利他的职业生涯effective-altruism-movement">有效利他的职业生涯(Effective Altruism Movement)</h3>
+<p>一直到去年年末的时候，我在美国的求职活动始终处于一种停滞状态。直到我有一天在网上闲逛遇到了一个叫80000hours的网站和一场叫Effective Altruism的社会运动，我的世界才发生了一次质的改变。</p>
+<p>80000hours是由牛津大学哲学系同学Benjamin Todd创办的一个非盈利性公益网站。80000小时是我们每个人平均拥有的职业生涯的长度。这个网站鼓励年轻人严肃地思考一个问题：“我们选择怎样的工作才能最大程度上帮助到别人，解决这个世界急需解决的问题？”</p>
+<p>我仿佛发现新大陆一样如饥似渴地阅读了这个网站建站以来几乎所有的文章。每一篇都促使我去思考一些很重要但我从没想过的问题。比如从反面思考我不应该去从事哪些工作？从事这些工作会对社会带来某种程度上的危害？我后来想了想有这么几样：</p>
+<ul>
+<li>从事游戏开发（我觉得这是在浪费更多年轻人的时间）</li>
+<li>进行武器研究（把人类社会往战争又推进了一步）</li>
+<li>替超级有钱的人避税（影响一个自由竞争的市场经济）</li>
+</ul>
+<p>这样的问题还有很多很多，比如：</p>
+<ul>
+<li>当今的世界和社会有什么急需解决且可解决的重大问题？这些问题是可以通过我的工作得到一点改善的。</li>
+<li>我可以用过什么样的职业生涯来帮助到别人？</li>
+<li>关于职业生涯有哪些常规建议是非常糟糕的？</li>
+</ul>
+<p>在进行了很久的批判性思考以后，我基本上认同了网站上提出的三种服务社会和他人的方法，分别是：</p>
+<ul>
+<li>通过获取来给予（追求一个高回报的行业比如金融或者科技，通过赚钱来做慈善给予，最正面的例子有比尔盖茨、巴菲特、扎克伯格说的好像都太大了其实我认识很多身边职业生涯刚起步的工程师都有这么干的。）</li>
+<li>从事有意义的研究工作（比如一个经济学博士可以研究怎么样的机制可以让一个慈善组织高效运行？）</li>
+<li>直接加入慈善组织</li>
+</ul>
+<p>我自己最后选择过一种(Earning to Give)的生活，就当下而言最好的选择就是破门而入进入AI领域，毕竟这个领域是走向光明还是邪恶目前为止还是很不确定的一件事，而且这样做可以在极短的时间内捐出自己小部分的工资直接帮助自己信仰和希望帮助的领域：比如开放科学社区、康复医学和中国的农村教育。</p>
+<p>我越想越兴奋，越想越激动，心中无比感恩。毕竟在成长的岁月中，我是个幸运的不能再幸运的家伙，我读了可能是中国和美国最好的大学之一，我选择了自己喜欢的专业，从事着热爱的工作。我越是长大越是觉得一个人所谓的成就其实和他个人努力与奋斗的相关系数非常小，更多时候其实纯粹只是运气的成分。天地不仁，以万物为刍狗，如果我在当下是相对幸运的个体，那就该为这个社会和世界做些什么了。</p>
+<p>我清楚记得那是2017年的最后一天，我在冰天雪地的山谷高昂而快速地前进，和我最亲密的朋友讲了自己的想法，并定下了2018的第一个新年愿望(New Year Resolution)，至少捐赠一千美金给致力于促进科学开放、康复医学普及和改善中国农村教育的慈善组织或非盈利机构。</p>
+<p>为了实现这个目标，我必须尽快地找到在美国的第一份工作。</p>
+<p>从此以后，我每天的努力有了全新的意义，并且从How to get a job? 的种种细节问题中跳脱出来。 在2018的第一个月我上线了自己的个人作品集，包裹了与数据科学相关的作品集，每天做常规的Sql练习、Data Challenge练习、Python Coding练习、做概率题等等，总之过得非常充实。我甚至感觉自己年轻了好几岁，又好像回到了十八岁，对理解这个复杂世界的本质有着无限渴求，渴望去征服星辰大海。我不断从各种角度去敲击那扇门，而且我有种预感这扇门快破了。现在这差最后一下了。</p>
+<h3 id="暴雪中的networking和发现新世界">暴雪中的Networking和发现新世界</h3>
+<p>康村的冬天暴雪漫天，而且黑夜长又孤寂。在这种孤寂中与人交流的渴望变得日益迫切。也是在浏览80000hours网站的过程中，我阅读到了有关求职中最需要做的一件是Networking。</p>
+<p>关于Networking，其实我到美国的第一天起就反复听到这个词，但是具体而言该如何Networking，每一步该如何操作心里是一头雾水的，总觉得这是件非常吓人的事情。好在80000hours几乎给出了手把手的指导，这种指导细节到你给人Cold Email时该说什么样的话，问怎么样的问题。</p>
+<p>Networking这件事几乎是我在求职过程中的一个转折点，在此之前，我几乎还是在门外从各个角度管窥门内的一切。而每天和业界的从业者打电话约Coffee Date，却让我有机会实实在在知道了门内究竟每天在发生什么？需要什么？有哪些需要解决的问题？有哪些正在面临的挑战？</p>
+<p>这里要感谢每个指导过我的校友、朋友甚至素不相识的天涯同路人。在这个过程中，我走离自己的Comfort Zone越来越远，接触到了来自不同文化背景的美国人、穆斯林、非洲裔、印度哥（锻炼印度英语听力有多么重要！），我狭隘的世界观被一次次撕碎然后有重新拼接出一个新的版图。</p>
+<p>如果关于异国求职，我只能告诉后来者一件事情，那我会说尽早尽早开始Networking，并且没有必要抱任何功利目的，带着一颗好奇的心去请教去聊天就行。世界上愿意帮你的人远比你想象得要多。关于该如何Networking详见本文第二部分攻略贴。</p>
+<p>找工作本质上是找人。转行，本质上除了重建自己的知识结构，其实更重要的是走出自己原来的社交圈子走进一个新的圈子。Make the friend and keep the old, one is sliver and the other is gold. 一个反常识的结论是我们通关过弱关系找到工作的次数远远大于强关系，主动的去建立弱关系，他们会带给你极大的差异化信息。</p>
+<h2 id="攻略">攻略</h2>
+<p>故事讲完了，下面唠点干的。这些教训和经验比较适用于2018年前后的北美数据科学家求职市场，往后的日子由于床破的政策、国际大势的变化，行业本身的周期，都不好说。。。</p>
+<p>如果想让上帝发笑，请预测未来！</p>
+<h3 id="如何获得一个面试的机会">如何获得一个面试的机会?</h3>
+<p>最高效的方式是Information Interview and Referral，其次是校招，最差是海投。90%的时间要放在Networking, Information Interview和校招上，10%的时间实在无聊了，点一点浪投几波也是行的。</p>
+<p>获得内推的机会，这件事情一开始看上去还挺难的，其实真干起来容易。我们可以把这个问题分成以下三个小问题来处理，处理好了这三个问题，相信我，你一定会被refer，说不定还能发现自己从未发现过的机会！</p>
+<h3 id="如何接近陌生人">如何接近陌生人?</h3>
+<p>告诉全世界你正在找工作。向你身边一切可以Reach Out的人ReachOut，包括但不限于家人和亲戚、朋友、教授、校友、男友（前男友）、女友（前女友）、Hiring Manager。 如果在大城市可以多参加线下的Meetup，如果在农村那就只能多写Cold Email，多打Cold Call。 关于第一封Cold Email的措辞和模板大家可以在网上找，但是我还是强烈建议可以试用一下80000hours上的scripts，措辞极其到位。</p>
+<h3 id="如何问好问题">如何问好问题?</h3>
+<p>在约好了电话或Dates以后、就进入到了信息咨询Information Interview环节了。这时候的关键点是千万不要自己主动提出要referral。你所需要做的是不断打听关于这个行业的问题、动态。你应该多问少说。</p>
+<blockquote>
+<p>不要要refer，不要要refer，不要要refer！</p>
+</blockquote>
+<p>重要的事情说三遍，非常反直觉的结果是问问题的方式可能是获得referral的最好方式。</p>
+<p>在每次信息咨询Information Interview以后，你需要请求和你聊天的人再向你推荐一个他的朋友或同事（采取深度优先的搜索策略，你要想象自己是个人肉爬虫），坚持一周左右你就会觉得自己越来越深入这个领域，而且学到书本中从来不会教给你的东西。</p>
+<h3 id="如何跟进">如何跟进？</h3>
+<p>关于Networking需要具备的一个正确(Mindset)心态是：</p>
+<blockquote>
+<p>如果别人没有内推你，这只能说明你还没有准备好，但起码他们帮你在正确的道路上又推了一步。</p>
+<p>导师关系(Mentorship)是自己争取到的，不是给予你的。</p>
+</blockquote>
+<h3 id="哪有好的社区与平台">哪有好的社区与平台？</h3>
+<p>数据科学现在已经成为一个庞大的产业，既然是产业那么就有各种平台。成为一个好的求职者，你需要同时兼顾三个角色，好的推销员(卖自己)、好的工程师(业务熟练)、好的天使或者VC(对企业的未来有一个自己独到的判断)。 所以下面列了一些我用到的资源：</p>
+<ul>
+<li>Breakout List</li>
+</ul>
+<p>斯坦福商学院的教授Andy Rachleff每年会出一个Breakout List，考察所有湾区的Startup，并且对未来可能高速成长的企业做了一个报告。我几乎投了这个List上的所有公司，但基本都没要我，但是起码建立了一个我像VC一样去找工作而不是像一个begger一样找工作的强壮心态。</p>
+<ul>
+<li>Leap.ai</li>
+</ul>
+<p>清华学长办的一个用人工智能帮你找工作的平台（感谢siyin学姐拉群并让我找到一个新世界）。</p>
+<ul>
+<li>Kaggle</li>
+</ul>
+<p>比赛是要打的。不比武招亲，不知道自己弱在哪里。</p>
+<ul>
+<li>KD Nuggets</li>
+<li>Bootcamp School</li>
+</ul>
+<p>Bootcamp这件事情正在成为一个越来越热的产业。你可以理解为美国版的蓝翔技校。在DS领域做得较好的有：Insight Data Science和Galvanize当然还有很多很多，看一下他们的课程大纲和往届学员的经验贴能有不少收获。</p>
+<ul>
+<li>Triplebyte</li>
+</ul>
+<p>现在主要还是码农同学求职用的利器，但是我列在这里是因为高度认可这家的理念，就是工作这件事情应该尽可能少看求职者的受教育程度、族裔、文化背景等等，唯一要看也应该看的就是活好不好。</p>
+<h3 id="如何学习以及如何解决问题">如何学习以及如何解决问题？</h3>
+<p>我觉得这是进入科技行业一个最本质的问题。Money is the shittest motivation。大家千万不要为了金钱这个因素跳槽或者换工作，因为这个动机真的没办法持久支撑你。你转行的最大动机应该是为了学习与在短暂生命中经历不一样的生活。</p>
+<p>学习是科技行业最令人激动人心的一个地方。因为在这里，知识淘汰和迭代的速度太XX快了！</p>
+<p>先引一段王晓波老师的话</p>
+<blockquote>
+<p>解数学题和算法题要寻找到一种杀猪的感觉，特别来劲，一道一道解。解多了就没意思了。</p>
+</blockquote>
+<p>学习的一般策略第一是要野蛮地采集多模态数据。什么是好的策略？在最短时间内犯最多错误的策略是好的学习策略。我们进步通常是在两种情境下发生的：</p>
+<ul>
+<li><p>在极其安全和熟悉的条件下，做极其困难的事。</p></li>
+<li><p>在极其困难艰险的环境下，做高度熟练和安全的事。</p></li>
+</ul>
+<p>学校是一个相对安全和熟悉的条件，所以快速成长的方法就是主动去做困难的事，做难的题，上难的课，做复杂的项目，因为这时候犯错的成本太低了，几乎可以忽略不计。</p>
+<p>第二，是要觉知到自己处于学习的哪个层次与状态。英文说是要Notice what your brain is going through and realize what you brain is going again and agin, realize the pattern of your brain。一旦观察到自己大脑的工作模式才能加以调试和优化。</p>
+<p>第三，是要做深度高强度的工作。时间可以很短。每天没有必要花很长世间学习。我认为四五个小时其实足够了。但强度一定要大密度一定要高。不要多任务工作，关了所有的社交媒体，以及要尽可能多地想办法获得反馈。反馈越多进步越快。</p>
+<p>第四，一些基本的策略。这里建议大家关注心理学界这两年兴起的一些Leaning Science的研究，里面提到几项手段是可以帮助你快速提高的，以学习数学和计算机科学为例：</p>
+<ul>
+<li>试图自己证明一个定理（实在弄不出可以抄答案，但是抄完以后第二天一定要从自己的记忆中凭借自己的能力再完成一次）</li>
+<li>不断地和别人解释一个问题和讲述一个概念(Expression is the best way of forming an impression.)。有条件的话和同学组队学习，编程也可Pair Coding。</li>
+<li>测试和解题目前为止还是促进学习的最好方法。题海战术是庸俗但依旧经典的战术。</li>
+<li>尽管我们生活在一个有Google的年代，该记该背的东西还是要记。记忆最好的方法是有间隔重复(Spaced Repetition)。(详情可见艾宾浩斯的Forgetting Curve研究）。但是对待数学定理，务必先理解工作机制再记忆。</li>
+<li>在不同情境下使用同一个知识，比如正态分布这个东西。尝试在心理学领域应用它，在经济学领域应用它，甚至在打拳的时候都能应用它。</li>
+</ul>
+<h3 id="哪些坑是需要避免的">哪些坑是需要避免的？</h3>
+<p>以下其实都是我自己犯过的错误。写出来让后来者为戒。</p>
+<p>坑一：千万不要等准备好才开始！生活不是做学术研究，不要等到数据齐了再开始行动。</p>
+<p>坑二：没有一个明确到极致的目标！一个错误的清晰目标比一个正确的模糊目标要重要。任何时候，都要告诉自己、告诉面试官我喜欢数据科学中的自然语言处理的电商行业的聊天机器人XXX比我喜欢数据科学要好一万倍。</p>
+<p>坑三：想太多自己想得到的事，没有想自己能付出和贡献的事。</p>
+<p>坑四：过早地陷入如何在R与Python中实现一个功能。如果你不能在草稿纸上解决一个问题，你在电脑里也绝没有可能解决一个问题。动手是极其重要的，但是比动手更重要的是心中要有一个high level的方案。哪怕这个方案不靠谱。</p>
+<p>坑五：贪多嚼不烂，必须勤于复习。我们心理加工的极限没有你想象得那么强大。贪大易放弃，必须规定范围，从很小很具体的例子进入。</p>
+<p>坑六： 复制别人是没有前途的!!对转专业的同学来说一定要建立起一个强大的心理框架那就是自己原来的专业绝不是你的劣势，这是个多元化的世界。题要刷，代码要写，但这不是一个只要代码写得好就能解决问题的世界，世界很复杂，要照顾到很多正交的因素去完善。</p>
+<h3 id="如何准备数据科学面试">如何准备数据科学面试?</h3>
+<p>数据科学家的面试是最糟糕的。 有些公司考Case，有些公司喜欢考概率和数学，有些公司考算法数据结构，所以没办法都要准备。。。</p>
+<h3 id="如何准备sql问题">如何准备SQL问题？</h3>
+<p>SQL是底线。这是所有公司都会考的内容。毕竟机器学习也好、深度学习也好、区块链也好，这些都是Buzz Word。如果你不能从数据库中拿到数据，剩下的全都是扯淡。</p>
+<p>关于如果准备Sql，我在Quora上写过一个英文的回答，大家可以访问我的博客参考（点击“阅读原文”）。</p>
+<h3 id="如何准备数据挑战和回家作业">如何准备数据挑战和回家作业?</h3>
+<p>做完一个东西比做好一个东西重要，一定要多体会end-to-end的流程，刚开始可以用kaggle的玩具问题作为练手。</p>
+<p>商业问题极其相似，代码复用，总结套路。</p>
+<p>数学的严格性在商业世界可能不是那么重要。</p>
+<p>像用你的左手和右手那样用Python和R。</p>
+<h3 id="如何准备产品指标metrics和case-interview">如何准备产品指标(Metrics)和Case Interview？</h3>
+<p>这种问题的套路在于最后的最后你的结论都要指向两个方面，要么是告诉营销端的同事如何优化市场营销策略，要么是告诉开发端的同事如何改进产品功能。在这里你必须把一个宏大问题不断变小变小直到变成一个可以测量的指标。举个例子：</p>
+<blockquote>
+<p>We made a change to our subscription offering adding new features. We expect this to increase subscription retention. How can we test if the change is successful? Collect the customer retention data and label those who have subscribed more than 1 year back 1 and the rest 0.</p>
+<p>Collect variables related to user behavior and segment for a short period of time frame, in this case we will choose one week. For example I will choose some variables such as (did she unscribe?), (did she use any subscription products?),(how many times dis she use?)</p>
+<p>Then I will use a machine learning method such as regression, random forest to check if my variable choosed can accurately predict the long term rentention. Then my final model output will be a proxy for my long-term retention.</p>
+<p>And now I will run a test on whether the new features can improve the short proxy I choose. I am assuming the new features will not change our user behavioral dramatically.</p>
+<p>If the short proxy fails I will enlength the timeframe window and try three weeks of data. According to some past experience, three weeks of data should be enough to predict the long term retention rate in most cases.</p>
+</blockquote>
+<p>有价值的参考书有：</p>
+<ul>
+<li>Lean Analytics</li>
+<li>商学院面咨询的那套东西该撸还是要撸一下Case in point啥的</li>
+</ul>
+<h3 id="如何准备概率论与机器学习问题">如何准备概率论与机器学习问题？</h3>
+<p>熟读《Introduction to Statistical Learning》。熟读这本书商业界的问题够用了。不要过分复杂问题，你要做的是在Industry找一个Data Science的工作，而不是同时读一个机器学习的Phd、一个自然语言处理的Phd和一个研究Boosting的Phd。</p>
+<p>有6-7个常考的概率分布要非常熟，弄清楚它们的诞生场景和应用场景以及它们之间的关系。</p>
+<h3 id="如何准备算法与数据结构">如何准备算法与数据结构？</h3>
+<p>这方面我自己做得很不好。主要是时间太紧是在没空刷Leetcode。反倒是现在找好工作以后会每天安心做个一两道。所以如果你有空，请写好新时代的八股文。</p>
+<h3 id="如何让自己在求职期间生活幸福">如何让自己在求职期间生活幸福？</h3>
+<p>最后的最后我们来聊一聊积极心理学的问题。求职是件很抑郁的事情。所以人生嘛，开心最重要。</p>
+<p>找不找得到工作都是其次的，最重要的是开心。要确保自己不burn out. 工作是为生命本体服务的。如果生活不幸福，那么要工作有什么意义。</p>
+<h3 id="摆脱自我怀疑">摆脱自我怀疑</h3>
+<p>你问我在这段旅程中，慌不慌。我慌啊，我慌得要死啊。</p>
+<p>我害怕在Job Market上自己怎么也竞争不过十八九岁CSmajor从十岁开始就编程的美国小弟弟。</p>
+<p>我害怕自己岁数有点太大了学习的速度变慢了。</p>
+<p>我害怕没办法在那么短的时间内适应一个新环境。</p>
+<p>总之，我害怕很多很多事情。上课的时候面试的时候，你总是会看到一堆人，然后心里想。</p>
+<p>我靠，他们怎么那么牛逼！他们怎么什么都会！自己问什么弱得像个渣渣。</p>
+<p>但是，我知道摆脱自我怀疑的方法。那就是要有一种宗教般的热情去相信</p>
+<p>自律、相信坚持不懈的学习、相信在大时间尺度上方法对了，作为后来者总能赶上的道理！</p>
+<h2 id="最后的最后">最后的最后</h2>
+<p>感谢看完这篇长文！我们每个人都只有80000个小时的职业生涯来改变世界和自己。在年轻时通过工作为自己信仰的世界、理想安安静静地战斗，努力捍卫自己的生活方式可能是我能想到的最好的生活。</p>
+<blockquote>
+<p>原文转自微信公众号文章<a href="http://mp.weixin.qq.com/s/ZCfuY5jsNU8G_AFHDGzmbQ" target="_blank" rel="noopener">转行：小文青异国数据科学求职记及如何构建一个有效利他的职业生涯</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/自我提升-求职/" rel="tag"># 自我提升, 求职</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/join-two-rows-in-different-file/" rel="next" title="用python按行合并两个文件">
+                <i class="fa fa-chevron-left"></i> 用python按行合并两个文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/Acrobat-pdf-configure/" rel="prev" title="Adobe Acrobat pdf软件的设置">
+                Adobe Acrobat pdf软件的设置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#故事"><span class="nav-number">1.</span> <span class="nav-text">故事</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有效利他的职业生涯effective-altruism-movement"><span class="nav-number">1.1.</span> <span class="nav-text">有效利他的职业生涯(Effective Altruism Movement)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#暴雪中的networking和发现新世界"><span class="nav-number">1.2.</span> <span class="nav-text">暴雪中的Networking和发现新世界</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻略"><span class="nav-number">2.</span> <span class="nav-text">攻略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何获得一个面试的机会"><span class="nav-number">2.1.</span> <span class="nav-text">如何获得一个面试的机会?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何接近陌生人"><span class="nav-number">2.2.</span> <span class="nav-text">如何接近陌生人?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何问好问题"><span class="nav-number">2.3.</span> <span class="nav-text">如何问好问题?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何跟进"><span class="nav-number">2.4.</span> <span class="nav-text">如何跟进？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哪有好的社区与平台"><span class="nav-number">2.5.</span> <span class="nav-text">哪有好的社区与平台？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何学习以及如何解决问题"><span class="nav-number">2.6.</span> <span class="nav-text">如何学习以及如何解决问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哪些坑是需要避免的"><span class="nav-number">2.7.</span> <span class="nav-text">哪些坑是需要避免的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何准备数据科学面试"><span class="nav-number">2.8.</span> <span class="nav-text">如何准备数据科学面试?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何准备sql问题"><span class="nav-number">2.9.</span> <span class="nav-text">如何准备SQL问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何准备数据挑战和回家作业"><span class="nav-number">2.10.</span> <span class="nav-text">如何准备数据挑战和回家作业?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何准备产品指标metrics和case-interview"><span class="nav-number">2.11.</span> <span class="nav-text">如何准备产品指标(Metrics)和Case Interview？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何准备概率论与机器学习问题"><span class="nav-number">2.12.</span> <span class="nav-text">如何准备概率论与机器学习问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何准备算法与数据结构"><span class="nav-number">2.13.</span> <span class="nav-text">如何准备算法与数据结构？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何让自己在求职期间生活幸福"><span class="nav-number">2.14.</span> <span class="nav-text">如何让自己在求职期间生活幸福？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#摆脱自我怀疑"><span class="nav-number">2.15.</span> <span class="nav-text">摆脱自我怀疑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后的最后"><span class="nav-number">3.</span> <span class="nav-text">最后的最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

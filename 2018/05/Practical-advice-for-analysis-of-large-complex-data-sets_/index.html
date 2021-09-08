@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="By PATRICK RILEY  For a number of years, I led the data science team for Google Search logs. We were often asked to make sense of confusing results, measure new phenomena from logged behavior, val">
+<meta name="keywords" content="data-analysis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Practical advice for analysis of large, complex data sets">
+<meta property="og:url" content="http://cdnlp.top/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets /index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="By PATRICK RILEY  For a number of years, I led the data science team for Google Search logs. We were often asked to make sense of confusing results, measure new phenomena from logged behavior, val">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-03T02:48:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Practical advice for analysis of large, complex data sets">
+<meta name="twitter:description" content="By PATRICK RILEY  For a number of years, I led the data science team for Google Search logs. We were often asked to make sense of confusing results, measure new phenomena from logged behavior, val">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets /"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Practical advice for analysis of large, complex data sets | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Practical advice for analysis of large, complex data sets</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-03T10:41:12+08:00">2018-05-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>By PATRICK RILEY</p>
+</blockquote>
+<p>For a number of years, I led the data science team for Google Search logs. We were often asked to make sense of confusing results, measure new phenomena from logged behavior, validate analyses done by others, and interpret metrics of user behavior. Some people seemed to be naturally good at doing this kind of high quality data analysis. These engineers and analysts were often described as “careful” and “methodical”. But what do those adjectives actually mean? What actions earn you these labels?</p>
+<p>To answer those questions, I put together a document shared Google-wide which I optimistically and simply titled “Good Data Analysis.” To my surprise, this document has been read more than anything else I’ve done at Google over the last eleven years. Even four years after the last major update, I find that there are multiple Googlers with the document open any time I check.</p>
+<p>Why has this document resonated with so many people over time? I think the main reason is that it’s full of specific actions to take, not just abstract ideals. I’ve seen many engineers and analysts pick up these habits and do high quality work with them. I’d like to share the contents of that document in this blog post.</p>
+<p>The advice is organized into three general areas:</p>
+<ul>
+<li>Technical: Ideas and techniques for how to manipulate and examine your data.</li>
+<li>Process: Recommendations on how you approach your data, what questions to ask, and what things to check.</li>
+<li>Social: How to work with others and communicate about your data and insights.</li>
+</ul>
+<h2 id="technical">Technical</h2>
+<h3 id="look-at-your-distributions">Look at your distributions</h3>
+<p>While we typically use summary metrics (means, median, standard deviation, etc.) to communicate about distributions, you should usually be looking at a much richer representation of the distribution. Something like histograms, CDFs, Q-Q plots, etc. will allow you to see if there are important interesting features of the data such as multi-modal behavior or a significant class of outliers that you need to decide how to summarize.</p>
+<h3 id="consider-the-outliers">Consider the outliers</h3>
+<p>You should look at the outliers in your data. They can be canaries in the coal mine for more fundamental problems with your analysis. It’s fine to exclude them from your data or to lump them together into an “Unusual” category, but you should make sure you know why data ended up in that category. For example, looking at the queries with the lowest click-through rate (CTR) may reveal clicks on elements in the user interface that you are failing to count. Looking at queries with the highest CTR may reveal clicks you should not be counting. On the other hand, some outliers you will never be able to explain so you need to be careful in how much time you devote this.</p>
+<h3 id="report-noiseconfidence">Report noise/confidence</h3>
+<p>First and foremost, we must be aware that randomness exists and will fool us. If you aren’t careful, you will find patterns in the noise. Every estimator that you produce should have a notion of your confidence in this estimate attached to it. Sometimes this will be more formal and precise (through techniques such as confidence intervals or credible intervals for estimators, and p-values or Bayes factors for conclusions) and other times you will be more loose. For example if a colleague asks you how many queries about frogs we get on Mondays, you might do a quick analysis looking and a couple of Mondays and report “usually something between 10 and 12 million” (not real numbers).</p>
+<h3 id="look-at-examples">Look at examples</h3>
+<p>Anytime you are producing new analysis code, you need to look at examples of the underlying data and how your code is interpreting those examples. It’s nearly impossible to produce working analysis code of any complexity without this. Your analysis is removing lots of features from the underlying data to produce useful summaries. By looking at the full complexity of individual examples, you can gain confidence that your summarization is reasonable.</p>
+<p>You should be doing stratified sampling to look at a good sample across the distribution of values so you are not too focussed on the most common cases.</p>
+<p>For example, if you are computing Time to Click, make sure you look at examples throughout your distribution, especially the extremes. If you don’t have the right tools/visualization to look at your data, you need to work on those first.</p>
+<h3 id="slice-your-data">Slice your data</h3>
+<p>Slicing means to separate your data into subgroups and look at the values of your metrics in those subgroups separately. In analysis of web traffic, we commonly slice along dimensions like mobile vs. desktop, browser, locale, etc. If the underlying phenomenon is likely to work differently across subgroups, you must slice the data to see if it is. Even if you do not expect a slice to matter, looking at a few slices for internal consistency gives you greater confidence that you are measuring the right thing. In some cases, a particular slice may have bad data, a broken experience, or in some way be fundamentally different.</p>
+<p>Anytime you are slicing your data to compare two groups (like experiment/control, but even time A vs. time B comparisons), you need to be aware of mix shifts. A mix shift is when the amount of data in a slice is different across the groups you are comparing. Simpson’s paradox and other confusions can result. Generally, if the relative amount of data in a slice is the same across your two groups, you can safely make a comparison.</p>
+<h3 id="consider-practical-significance">Consider practical significance</h3>
+<p>With a large volume of data, it can be tempting to focus solely on statistical significance or to hone in on the details of every bit of data. But you need to ask yourself, “Even if it is true that value X is 0.1% more than value Y, does it matter?” This can be especially important if you are unable to understand/categorize part of your data. If you are unable to make sense of some user agents strings in our logs, whether it’s 0.1% of 10% makes a big difference in how much you should investigate those cases.</p>
+<p>On the flip side, you sometimes have a small volume of data. Many changes will not look statistically significant but that is different than claiming it is “neutral”. You must ask yourself “How likely is it that there is still a practically significant change”?</p>
+<h3 id="check-for-consistency-over-time">Check for consistency over time</h3>
+<p>One particular slicing you should almost always employ is to slice by units of time (we often use days, but other units may be useful also). This is because many disturbances to underlying data happen as our systems evolve over time. Typically the initial version of a feature or the initial data collection will be checked carefully, but it is not uncommon for something to break along the way.</p>
+<p>Just because a particular day or set of days is an outlier does not mean you should discard it. Use the data as a hook to find a causal reason for that day being different before you discard it.</p>
+<p>The other benefit of looking at day over day data is it gives you a sense of the variation in the data that would eventually lead to confidence intervals or claims of statistical significance. This should not generally replace rigorous confidence interval calculation, but often with large changes you can see they will be statistically significant just from the day-over-day graphs.</p>
+<h2 id="process">Process</h2>
+<h3 id="separate-validation-description-and-evaluation">Separate Validation, Description, and Evaluation</h3>
+<p>I think about about exploratory data analysis as having 3 interrelated stages:</p>
+<ul>
+<li>Validation or Initial Data Analysis: Do I believe data is self-consistent, that the data was collected correctly, and that data represents what I think it does? This often goes under the name of “sanity checking”. For example, if manual testing of a feature was done, can I look at the logs of that manual testing? For a feature launched on mobile devices, do my logs claim the feature exists on desktops?</li>
+<li>Description: What’s the objective interpretation of this data? For example, “Users do fewer queries with 7 words in them?”, “The time page load to click (given there was a click) is larger by 1%”, and “A smaller percentage of users go to the next page of results.”</li>
+<li>Evaluation: Given the description, does the data tell us that something good is happening for the user, for Google, for the world? For example, “Users find results faster” or “The quality of the clicks is higher.”</li>
+</ul>
+<p>By separating these phases, you can more easily reach agreement with others. Description should be things that everyone can agree on from the data. Evaluation is likely to have much more debate because you imbuing meaning and value to the data. If you do not separate Description and Evaluation, you are much more likely to only see the interpretation of the data that you are hoping to see. Further, Evaluation tends to be much harder because establishing the normative value of a metric, typically through rigorous comparisons with other features and metrics, takes significant investment.</p>
+<p>These stages do not progress linearly. As you explore the data, you may jump back and forth between the stages, but at any time you should be clear what stage you are in.</p>
+<h3 id="confirm-exptdata-collection-setup">Confirm expt/data collection setup</h3>
+<p>Before looking at any data, make sure you understand the experiment and data collection setup. Communicating precisely between the experimentalist and the analyst is a big challenge. If you can look at experiment protocols or configurations directly, you should do it. Otherwise, write down your own understanding of the setup and make sure the people responsible for generating the data agree that it’s correct.</p>
+<p>You may spot unusual or bad configurations or population restrictions (such as valid data only for a particular browser). Anything notable here may help you build and verify theories later. Some things to consider:</p>
+<ul>
+<li>If it’s a features of a product, try it out yourself. If you can’t, at least look through screenshots/descriptions of behavior.</li>
+<li>Look for anything unusual about the time range the experiment ran over (holidays, big launches, etc.)</li>
+</ul>
+<h3 id="check-vital-signs">Check vital signs</h3>
+<p>Before actually answering the question you are interested in (e.g. “Did users use my awesome new feature?”) you need to check for a lot of other things that may not be related to what you are interested in but may be useful in later analysis or indicate problems in the data. Did the number of users change? Did the right number of affected queries show up in all my subgroups? Did error rates changes? Just as your doctor always checks your height, weight, and blood pressure when you go in, check your data vital signs to potential catch big problems. This is one important part of the “Validation” stage.</p>
+<h3 id="standard-first-custom-second">Standard first, custom second</h3>
+<p>This is a variant of checking for what shouldn’t change. Especially when looking at new features and new data, it’s tempting to jump right into the metrics that are novel or special for this new feature. But you should always look at standard metrics first, even if you expect them to change. For example, when adding a brand new UI feature to the search page, you should make sure you understand the impact on standard metrics like clicks on results before diving into the special metrics about this new UI feature. You do this because standard metrics are much better validated and more likely to be correct. If your new, custom metrics don’t make sense with your standard metrics, your new, custom metrics are likely wrong.</p>
+<h3 id="measure-twice-or-more">Measure twice, or more</h3>
+<p>Especially if you are trying to capture a new phenomenon, try to measure the same underlying thing in multiple ways. Then, check to see if these multiple measurements are consistent. By using multiple measurements, you can identify bugs in measurement or logging code, unexpected features of the underlying data, or filtering steps that are important. It’s even better if you can use different data sources for the measurements.</p>
+<h3 id="check-for-reproducibility">Check for reproducibility</h3>
+<p>Both slicing and consistency over time are particular examples of checking for reproducibility. If a phenomenon is important and meaningful, you should see it across different user populations and time. But reproducibility means more than this as well. If you are building models of the data, you want those models to be stable across small perturbations in the underlying data. Using different time ranges or random sub-samples of your data will tell you how reliable/reproducible this model is. If it is not reproducible, you are probably not capturing something fundamental about the underlying process that produced this data.</p>
+<h3 id="check-for-consistency-with-past-measurements">Check for consistency with past measurements</h3>
+<p>Often you will be calculating a metric that is similar to things that have been counted in the past. You should compare your metrics to metrics reported in the past, even if these measurements are on different user populations. For example, if you are looking at measuring search volume on a special population and you measure a much larger number than the commonly accepted number, then you need to investigate. Your number may be right on this population, but now you have to do more work to validate this. Are you measuring the same thing? Is there a rational reason to believe these populations are different? You do not need to get exact agreement, but you should be in the same ballpark. If you are not, assume that you are wrong until you can fully convince yourself. Most surprising data will turn out to be a error, not a fabulous new insight. New metrics should be applied to old data/features first</p>
+<p>If you gather completely new data and try to learn something new, you won’t know if you got it right. When you gather a new kind of data, you should first apply this data to a known feature or data. For example, if you have a new metric for user satisfaction, you should make sure it tells you your best features help satisfaction. Doing this provides validation for when you then go to learn something new.</p>
+<h3 id="make-hypotheses-and-look-for-evidence">Make hypotheses and look for evidence</h3>
+<p>Typically, exploratory data analysis for a complex problem is iterative. You will discover anomalies, trends, or other features of the data. Naturally, you will make hypotheses to explain this data. It’s essential that you don’t just make a hypothesis and proclaim it to be true. Look for evidence (inside or outside the data) to confirm/deny this theory. For example, If you believe an anomaly is due to the launch of some other feature or a holiday in Katmandu, make sure that the population the feature launched to is the only one affected by the anomaly. Alternatively, make sure that the magnitude of the change is consistent with the expectations of the launch.</p>
+<p>Good data analysis will have a story to tell. To make sure it’s the right story, you need to tell the story to yourself, predict what else you should see in the data if that hypothesis is true, then look for evidence that it’s wrong. One way of doing this is to ask yourself, “What experiments would I run that would validate/invalidate the story I am telling?” Even if you don’t/can’t do these experiments, it may give you ideas on how to validate with the data that you do have.</p>
+<p>The good news is that these hypotheses and possible experiments may lead to new lines of inquiry that transcend trying to learn about any particular feature or data. You then enter the realm of understanding not just this data, but deriving new metrics and techniques for all kinds of future analyses.</p>
+<h3 id="exploratory-analysis-benefits-from-end-to-end-iteration">Exploratory analysis benefits from end to end iteration</h3>
+<p>When doing exploratory analysis, you should strive to get as many iterations of the whole analysis as possible. Typically you will have multiple steps of signal gathering, processing, modelling, etc. If you spend too long to get the very first stage of your initial signals perfect you are missing out on opportunities to get more iterations in the same amount of time. Further, when you finally look at your data at the end, you may make discoveries that change your direction. Therefore, your initial focus should not be on perfection but on getting something reasonable all the way through. Leave notes for yourself and acknowledge things like filtering steps and data records that you can’t parse/understand, but trying to get rid of all of them is a waste of time at the beginning of exploratory analysis.</p>
+<h2 id="social">Social</h2>
+<h3 id="data-analysis-starts-with-questions-not-data-or-a-technique">Data analysis starts with questions, not data or a technique</h3>
+<p>There’s always a reason that you are doing some analysis. If you take the time to formulate your needs as questions or hypotheses, it will go a long way towards making sure that you are gathering the data you should be gathering and that you are thinking about the possible gaps in the data. Of course, the questions you ask can and should evolve as you look at the data. But analysis without a question will end up aimless.</p>
+<p>Further, you have to avoid the trap of finding some favorite technique and then only finding the parts of problems that this technique works on. Again, making sure you are clear what the questions are will help you avoid this.</p>
+<h3 id="acknowledge-and-count-your-filtering">Acknowledge and count your filtering</h3>
+<p>Almost every large data analysis starts by filtering the data in various stages. Maybe you want to consider only US users, or web searches, or searches with a result click. Whatever the case, you must</p>
+<ul>
+<li>Acknowledge and clearly specify what filtering you are doing</li>
+<li>Count how much is being filtered at each of your steps</li>
+</ul>
+<p>Often the best way to do the latter is to actually compute all your metrics even for the population you are excluding. Then you can look at that data to answer questions like “What fraction of queries did my filtering remove?”</p>
+<p>Further, looking at examples of what is filtered is also essential for filtering steps that are novel for your analysis. It’s easy to accidentally include some “good” data when you make a simple rule of data to exclude.</p>
+<h3 id="ratios-should-have-clear-numerator-and-denominators">Ratios should have clear numerator and denominators</h3>
+<p>Many interesting metrics are ratios of underlying measures. Unfortunately, there is often ambiguity of what your ratio is. For example, if I say click-through rate of a site on search results, is it:</p>
+<ul>
+<li>“# clicks on site’ / ‘# results for that site’</li>
+<li>‘# search result pages with clicks to that site’ / ‘# search result pages with that site shown’</li>
+</ul>
+<p>When you communicate results, you must be clear about this. Otherwise your audience (and you!) will have trouble comparing to past results and interpreting a metric correctly.</p>
+<h3 id="educate-your-consumers">Educate your consumers</h3>
+<p>You will often be presenting your analysis and results to people who are not data experts. Part of your job is to educate them on how to interpret and draw conclusions from your data. This runs the gamut from making sure they understand confidence intervals to why certain measurements are unreliable in your domain to what typical effect sizes are for “good” and “bad” changes to understanding population bias effects.</p>
+<p>This is especially important when your data has a high risk of being misinterpreted or selectively cited. You are responsible for providing the context and a full picture of the data and not just the number a consumer asked for.</p>
+<h3 id="be-both-skeptic-and-champion">Be both skeptic and champion</h3>
+<p>As you work with data, you must be both the champion of the insights you are gaining as well as a skeptic. You will hopefully find some interesting phenomena in the data you look at. When you have an interesting phenomenon you should ask both “What other data could I gather to show how awesome this is?” and “What could I find that would invalidate this?”. Especially in cases where you are doing analysis for someone who really wants a particular answer (e.g. “My feature is awesome”) you are going to have to play the skeptic to avoid making errors.</p>
+<h3 id="share-with-peers-first-external-consumers-second">Share with peers first, external consumers second</h3>
+<p>A skilled peer reviewer can provide qualitatively different feedback and sanity-checking than the consumers of your data can, especially since consumers generally have an outcome they want to get. Ideally, you will have a peer that knows something about the data you are looking at, but even a peer with just experience looking at data in general is extremely valuable. The previous points suggested some ways to get yourself to do the right kinds of sanity checking and validation. But sharing with a peer is one of the best ways to force yourself to do all these things. Peers are useful at multiple points through the analysis. Early on you can find out about gotchas your peer knows about, suggestions for things to measure, and past research in this area. Near the end, peers are very good at pointing out oddities, inconsistencies, or other confusions.</p>
+<h3 id="expect-and-accept-ignorance-and-mistakes">Expect and accept ignorance and mistakes</h3>
+<p>There are many limits to what we can learn from data. Nate Silver makes a strong case in The Signal and the Noise that only by admitting the limits of our certainty can we make advances in better prediction. Admitting ignorance is a strength but it is not usually immediately rewarded. It feels bad at the time, but will ultimately earn you respect with colleagues and leaders who are data-wise. It feels even worse when you make a mistake and discover it later (or even too late!), but proactively owning up to your mistakes will translate into credibility. Credibility is the key social value for any data scientist.</p>
+<h2 id="closing-thoughts">Closing thoughts</h2>
+<p>No short list of advice can be complete even when we break through the barrier of the Top 10 List format (for those of you who weren’t counting, there are 24 here). As you apply these ideas to real problems, you’ll find the habits and techniques that are most important in your domain, the tools that help you do those analyses quickly and correctly, and the advice you wish were on this list. Make sure you share what you’ve learned so we can all be better data scientists.</p>
+<blockquote>
+<p>I’d like to thank everyone who provided insight that went into this document, but especially Diane Tang, Rehan Khan, Elizabeth Tucker, Amir Najmi, Hilary Hutchinson, Joel Darnauer, Dale Neal, and Aner Ben-Artzi.</p>
+</blockquote>
+<blockquote>
+<p>source from: <a href="http://www.unofficialgoogledatascience.com/2016/10/practical-advice-for-analysis-of-large.html" class="uri" target="_blank" rel="noopener">http://www.unofficialgoogledatascience.com/2016/10/practical-advice-for-analysis-of-large.html</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/data-analysis/" rel="tag"># data-analysis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/parameter-initialization-in-nmt/" rel="next" title="机器翻译中参数的初始化">
+                <i class="fa fa-chevron-left"></i> 机器翻译中参数的初始化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/file-read-write-in-python/" rel="prev" title="python中文件内容的读写">
+                python中文件内容的读写 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#technical"><span class="nav-number">1.</span> <span class="nav-text">Technical</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#look-at-your-distributions"><span class="nav-number">1.1.</span> <span class="nav-text">Look at your distributions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#consider-the-outliers"><span class="nav-number">1.2.</span> <span class="nav-text">Consider the outliers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#report-noiseconfidence"><span class="nav-number">1.3.</span> <span class="nav-text">Report noise/confidence</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#look-at-examples"><span class="nav-number">1.4.</span> <span class="nav-text">Look at examples</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slice-your-data"><span class="nav-number">1.5.</span> <span class="nav-text">Slice your data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#consider-practical-significance"><span class="nav-number">1.6.</span> <span class="nav-text">Consider practical significance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#check-for-consistency-over-time"><span class="nav-number">1.7.</span> <span class="nav-text">Check for consistency over time</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#process"><span class="nav-number">2.</span> <span class="nav-text">Process</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#separate-validation-description-and-evaluation"><span class="nav-number">2.1.</span> <span class="nav-text">Separate Validation, Description, and Evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#confirm-exptdata-collection-setup"><span class="nav-number">2.2.</span> <span class="nav-text">Confirm expt/data collection setup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#check-vital-signs"><span class="nav-number">2.3.</span> <span class="nav-text">Check vital signs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#standard-first-custom-second"><span class="nav-number">2.4.</span> <span class="nav-text">Standard first, custom second</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#measure-twice-or-more"><span class="nav-number">2.5.</span> <span class="nav-text">Measure twice, or more</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#check-for-reproducibility"><span class="nav-number">2.6.</span> <span class="nav-text">Check for reproducibility</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#check-for-consistency-with-past-measurements"><span class="nav-number">2.7.</span> <span class="nav-text">Check for consistency with past measurements</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#make-hypotheses-and-look-for-evidence"><span class="nav-number">2.8.</span> <span class="nav-text">Make hypotheses and look for evidence</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exploratory-analysis-benefits-from-end-to-end-iteration"><span class="nav-number">2.9.</span> <span class="nav-text">Exploratory analysis benefits from end to end iteration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#social"><span class="nav-number">3.</span> <span class="nav-text">Social</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-analysis-starts-with-questions-not-data-or-a-technique"><span class="nav-number">3.1.</span> <span class="nav-text">Data analysis starts with questions, not data or a technique</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#acknowledge-and-count-your-filtering"><span class="nav-number">3.2.</span> <span class="nav-text">Acknowledge and count your filtering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ratios-should-have-clear-numerator-and-denominators"><span class="nav-number">3.3.</span> <span class="nav-text">Ratios should have clear numerator and denominators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#educate-your-consumers"><span class="nav-number">3.4.</span> <span class="nav-text">Educate your consumers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#be-both-skeptic-and-champion"><span class="nav-number">3.5.</span> <span class="nav-text">Be both skeptic and champion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#share-with-peers-first-external-consumers-second"><span class="nav-number">3.6.</span> <span class="nav-text">Share with peers first, external consumers second</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#expect-and-accept-ignorance-and-mistakes"><span class="nav-number">3.7.</span> <span class="nav-text">Expect and accept ignorance and mistakes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#closing-thoughts"><span class="nav-number">4.</span> <span class="nav-text">Closing thoughts</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

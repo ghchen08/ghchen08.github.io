@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="文章转自：Kavita Ganesan Blog  Based on some recent conversations, I realized that text preprocessing is a severely overlooked topic. A few people I spoke to mentioned inconsistent results from their N">
+<meta name="keywords" content="nlp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文读懂文本数据预处理">
+<meta property="og:url" content="http://cdnlp.top/2020/05/text-preprocess-NLP/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="文章转自：Kavita Ganesan Blog  Based on some recent conversations, I realized that text preprocessing is a severely overlooked topic. A few people I spoke to mentioned inconsistent results from their N">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-09T08:10:01.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一文读懂文本数据预处理">
+<meta name="twitter:description" content="文章转自：Kavita Ganesan Blog  Based on some recent conversations, I realized that text preprocessing is a severely overlooked topic. A few people I spoke to mentioned inconsistent results from their N">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2020/05/text-preprocess-NLP/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>一文读懂文本数据预处理 | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/05/text-preprocess-NLP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">一文读懂文本数据预处理</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-09T19:11:32+08:00">2020-05-09</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>文章转自：<a href="http://kavita-ganesan.com/text-preprocessing-tutorial" target="_blank" rel="noopener">Kavita Ganesan Blog</a></p>
+</blockquote>
+<p>Based on some recent conversations, I realized that text preprocessing is a severely overlooked topic. A few people I spoke to mentioned inconsistent results from their NLP applications only to realize that they were not preprocessing their text or were using the wrong kind of text preprocessing for their project.</p>
+<p>With that in mind, I thought of shedding some light around what text preprocessing really is, the different techniques of text preprocessing and a way to estimate how much preprocessing you may need. For those interested, I’ve also made some text preprocessing code snippets in python for you to try. Now, let’s get started!</p>
+<h2 id="what-is-text-preprocessing">What is text preprocessing?</h2>
+<p>To preprocess your text simply means to bring your text into a form that is predictable and analyzable for your task. A task here is a combination of approach and domain. For example, extracting top keywords with tfidf (approach) from Tweets (domain) is an example of a Task.</p>
+<blockquote>
+<p>Task = approach + domain</p>
+</blockquote>
+<p>One task’s ideal preprocessing, can become another task’s worst nightmare. So take note, text preprocessing is not directly transferable from task to task.</p>
+<p>Let’s take a very simple example, let’s say you are trying to discover commonly used words in a news dataset. If your pre-processing step involves removing stop words because some other task used it, then you are probably going to miss out on some of the common words as you have ALREADY eliminated it. So really, it’s not a one-size-fits-all approach. Types of text preprocessing techniques</p>
+<p>There are different ways to preprocess your text. Here are some of the approaches that you should know about and I will try to highlight the importance of each.</p>
+<h2 id="lowercasing">Lowercasing</h2>
+<p>Lowercasing ALL your text data, although commonly overlooked, is one of the simplest and most effective form of text preprocessing. It is applicable to most text mining and NLP problems and can help in cases where your dataset is not very large and significantly helps with consistency of expected output.</p>
+<p>Quite recently, one of my blog readers trained a word embedding model for similarity lookups. He found that different variation in input capitalization (e.g. ‘Canada’ vs. ‘canada’) gave him different types of output or no output at all. This was probably happening because the dataset had mixed-case occurrences of the word ‘Canada’ and there was insufficient evidence for the neural-network to effectively learn the weights for the less common version. This type of issue is bound to happen when your dataset is fairly small and lowercasing is a great way to deal with sparsity issues.</p>
+<p>Here is an example of how lowercasing solves the sparsity issue, where the same words with different cases map to the same lowercase form:</p>
+<p>Another example where lowercasing is very useful is for search. Imagine, you are looking for documents containing “usa”. However, no results were showing up because “usa” was indexed as “USA”. Now, who should we blame? The U.I. designer who set-up the interface or the engineer who set-up the search index?</p>
+<p>While lowercasing should be standard practice, I’ve also had situations where preserving the capitalization was important. For example, in predicting the programming language of a source code file. The word System in Java is quite different from system in python. Lowercasing the two makes them identical, causing the classifier to lose important predictive features. While lowercasing is generally helpful, it may not be applicable for all tasks.</p>
+<h2 id="stemming">Stemming</h2>
+<p>Stemming is the process of reducing inflection in words (e.g. troubled, troubles) to their root form (e.g. trouble). The “root” in this case may not be a real root word, but just a canonical form of the original word.</p>
+<p>Stemming uses a crude heuristic process that chops off the ends of words in the hope of correctly transforming words into its root form. So the words “trouble”, “troubled” and “troubles” might actually be converted to troubl instead of trouble because the ends were just chopped off (ughh, how crude!).</p>
+<p>There are different algorithms for stemming. The most common algorithm, which is also known to be empirically effective for English, is Porters Algorithm. Here is an example of stemming in action with Porter Stemmer:</p>
+<p>Stemming is useful for dealing with sparsity issues as well as standardizing vocabulary. I’ve had success with stemming in search applications in particular. The idea is that, if say you search for “deep learning classes”, you also want to surface documents that mention “deep learning class” as well as “deep learn classes”, although the latter doesn’t sound right. But you get where we are going with this. You want to match all variations of a word to bring up the most relevant documents.</p>
+<p>In most of my previous text classification work however, stemming only marginally helped improved classification accuracy as opposed to using better engineered features and text enrichment approaches such as using word embeddings.</p>
+<h2 id="lemmatization">Lemmatization</h2>
+<p>Lemmatization on the surface is very similar to stemming, where the goal is to remove inflections and map a word to its root form. The only difference is that, lemmatization tries to do it the proper way. It doesn’t just chop things off, it actually transforms words to the actual root. For example, the word “better” would map to “good”. It may use a dictionary such as WordNet for mappings or some special rule-based approaches. Here is an example of lemmatization in action using a WordNet-based approach:</p>
+<p>In my experience, lemmatization provides no significant benefit over stemming for search and text classification purposes. In fact, depending on the algorithm you choose, it could be much slower compared to using a very basic stemmer and you may have to know the part-of-speech of the word in question in order to get a correct lemma. This paper finds that lemmatization has no significant impact on accuracy for text classification with neural architectures.</p>
+<p>I would personally use lemmatization sparingly. The additional overhead may or may not be worth it. But you could always try it to see the impact it has on your performance metric.</p>
+<h2 id="stop-word-removal">Stop-word removal</h2>
+<p>Stop words are a set of commonly used words in a language. Examples of stop words in English are “a”, “the”, “is”, “are” and etc. The intuition behind using stop words is that, by removing low information words from text, we can focus on the important words instead. For example, in the context of a search system, if your search query is “what is text preprocessing?”, you want the search system to focus on surfacing documents that talk about text preprocessing over documents that talk about what is. This can be done by preventing all words from your stop word list from being analyzed. Stop words are commonly applied in search systems, text classification applications, topic modeling, topic extraction and others.</p>
+<p>In my experience, stop word removal while effective in search and topic extraction systems, showed to be non-critical in classification systems. However, it does help reduce the number of features in consideration which helps keep your models decently sized.</p>
+<p>Here is an example of stop word removal in action. All stop words are replaced with a dummy character, W:</p>
+<p>Stop word lists can come from pre-established sets or you can create a custom one for your domain. Some libraries (e.g. sklearn) allow you to remove words that appeared in X% of your documents, which can also give you a stop word removal effect.</p>
+<h2 id="normalization">Normalization</h2>
+<p>A highly overlooked preprocessing step is text normalization. Text normalization is the process of transforming text into a canonical (standard) form. For example, the word “gooood” and “gud” can be transformed to “good”, its canonical form. Another example is mapping of near identical words such as “stopwords”, “stop-words” and “stop words” to just “stopwords”.</p>
+<p>Text normalization is important for noisy texts such as social media comments, text messages and comments to blog posts where abbreviations, misspellings and use of out-of-vocabulary words (oov) are prevalent. This paper showed that by using a text normalization strategy for Tweets, they were able to improve sentiment classification accuracy by ~4%.</p>
+<p>Here’s an example of words before and after normalization:</p>
+<p>Notice how the variations, map to the same canonical form.</p>
+<p>In my experience, text normalization has even been effective for analyzing highly unstructured clinical texts where physicians take notes in non-standard ways. I’ve also found it useful for topic extraction where near synonyms and spelling differences are common (e.g. topic modelling, topic modeling, topic-modeling, topic-modelling).</p>
+<p>Unfortunately, unlike stemming and lemmatization, there isn’t a standard way to normalize texts. It typically depends on the task. For example, the way you would normalize clinical texts would arguably be different from how your normalize sms text messages.</p>
+<p>Some common approaches to text normalization include dictionary mappings (easiest), statistical machine translation (SMT) and spelling-correction based approaches. This interesting article compares the use of a dictionary based approach and a SMT approach for normalizing text messages. Interestingly, I’m also seeing more and more papers related to text normalization in the research world.</p>
+<h2 id="noise-removal">Noise Removal</h2>
+<p>Noise removal is about removing characters digits and pieces of text that can interfere with your text analysis. Noise removal is one of the most essential text preprocessing steps. It is also highly domain dependent. For example, in Tweets, noise could be all special characters except hashtags as it signifies concepts that can characterize a Tweet. The problem with noise is that it can produce results that are inconsistent in your downstream tasks. Let’s take the example below:</p>
+<p>Notice that all the raw words above have some surrounding noise in them. If you stem these words, you can see that the stemmed result does not look very pretty. None of them have a correct stem. However, with some cleaning as applied in this notebook, the results now look much better:</p>
+<p>Noise removal is one of the first things you should be looking into when it comes to Text Mining and NLP. There are various ways to remove noise. This includes punctuation removal, special character removal, numbers removal, html formatting removal, domain specific keyword removal (e.g. ‘RT’ for retweet), source code removal, header removal and more. It all depends on which domain you are working in and what entails noise for your task. The code snippet in my notebook shows how to do some basic noise removal.</p>
+<h2 id="text-enrichment-augmentation">Text Enrichment / Augmentation</h2>
+<p>Text enrichment involves augmenting your original text data with information that you did not previously have. Text enrichment provides more semantics to your original text, thereby improving its predictive power and the depth of analysis you can perform on your data.</p>
+<p>In an information retrieval example, expanding a user’s query to improve the matching of keywords is a form of augmentation. A query like text mining could become text document mining analysis. While this doesn’t make sense to a human, it can help fetch documents that are more relevant.</p>
+<p>You can get really creative with how you enrich your text. You can use part-of-speech tagging to get more granular information about the words in your text. For example, in a document classification problem, the appearance of the word book as a noun could result in a different classification than book as a verb as one is used in the context of reading and the other is used in the context of reserving something. This article talks about how Chinese text classification is improved with a combination of nouns and verbs as input features.</p>
+<p>With the availability of large amounts texts however, people have started using embeddings to enrich the meaning of words, phrases and sentences for classification, search, summarization and text generation in general. This is especially true in deep learning based NLP approaches where a word level embedding layer is quite common. You can either start with pre-established embeddings or create your own and use it in downstream tasks.</p>
+<p>Other ways to enrich your text data include phrase extraction, where you recognize compound words as one (aka chunking), expansion with synonyms and dependency parsing.</p>
+<h2 id="do-you-need-all-the-text-preprocessing-types">Do you need all the text preprocessing types?</h2>
+<p>Not really, but you do have to do some of it for sure if you want good, consistent results. To give you an idea of what the bare minimum should be, I’ve broken it down to Must Do, Should Do and Task Dependent. Everything that falls under task dependent can be quantitatively or qualitatively tested before deciding you actually need it. Remember, less is more and you want to keep your approach as elegant as possible. The more overhead you add, the more layers you will have to peel back when you run into issues.</p>
+<h3 id="must-do">Must Do:</h3>
+<pre><code>Noise removal
+Lowercasing (can be task dependent in some cases)</code></pre>
+<h3 id="should-do">Should Do:</h3>
+<pre><code>Simple normalization – (e.g. standardize near identical words)</code></pre>
+<h3 id="task-dependent">Task Dependent:</h3>
+<pre><code>Advanced normalization (e.g. addressing out-of-vocabulary words)
+Stop-word removal
+Stemming / lemmatization
+Text enrichment / augmentation</code></pre>
+<p>So, for any task, the minimum you should do is try to lowercase your text and remove noise. What entails noise depends on your domain (see section on Noise Removal). You can also do some basic normalization steps for more consistency and then systematically add other layers as you see fit.</p>
+<h2 id="general-rule-of-thumb">General Rule of Thumb</h2>
+<p>Not all tasks need the same level of preprocessing. For some tasks, you can get away with the minimum. However, for others, the dataset is so noisy that, if you don’t preprocess enough, it’s going to be garbage-in-garbage-out.</p>
+<p>Here’s a general rule of thumb. This will not always hold true, but works for most cases. If you have a lot of well written texts to work with in a fairly general domain, then preprocessing is not extremely critical; you can get away with the bare minimum (e.g. training a word embedding model using all of Wikipedia texts or Reuters news articles). However, if you are working in a very narrow domain (e.g. Tweets about health foods) and data is sparse and noisy, you could benefit from more preprocessing layers, although each layer you add (e.g. stop word removal, stemming, normalization) needs to be quantitatively or qualitatively verified as a meaningful layer.</p>
+<p>Here’s a table that summarizes how much preprocessing you should be performing on your text data:</p>
+<p>I hope the ideas here would steer you towards the right preprocessing steps for your projects. Remember, less is more. A friend of mine once mentioned to me how he made a large e-commerce search system more efficient and less buggy just by throwing out layers of unneeded preprocessing.</p>
+<p>END</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nlp/" rel="tag"># nlp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/python-debug/" rel="next" title="使用pdb调试python">
+                <i class="fa fa-chevron-left"></i> 使用pdb调试python
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-is-text-preprocessing"><span class="nav-number">1.</span> <span class="nav-text">What is text preprocessing?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lowercasing"><span class="nav-number">2.</span> <span class="nav-text">Lowercasing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stemming"><span class="nav-number">3.</span> <span class="nav-text">Stemming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lemmatization"><span class="nav-number">4.</span> <span class="nav-text">Lemmatization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stop-word-removal"><span class="nav-number">5.</span> <span class="nav-text">Stop-word removal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#normalization"><span class="nav-number">6.</span> <span class="nav-text">Normalization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#noise-removal"><span class="nav-number">7.</span> <span class="nav-text">Noise Removal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-enrichment-augmentation"><span class="nav-number">8.</span> <span class="nav-text">Text Enrichment / Augmentation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#do-you-need-all-the-text-preprocessing-types"><span class="nav-number">9.</span> <span class="nav-text">Do you need all the text preprocessing types?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#must-do"><span class="nav-number">9.1.</span> <span class="nav-text">Must Do:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#should-do"><span class="nav-number">9.2.</span> <span class="nav-text">Should Do:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#task-dependent"><span class="nav-number">9.3.</span> <span class="nav-text">Task Dependent:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#general-rule-of-thumb"><span class="nav-number">10.</span> <span class="nav-text">General Rule of Thumb</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

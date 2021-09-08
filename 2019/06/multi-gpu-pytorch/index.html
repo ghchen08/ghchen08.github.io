@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="转自Thomas Wolf的文章  I’ve spent most of 2018 training neural networks that tackle the limits of my GPUs. Whether it was a 150 millions parameters language model like OpenAI’s huge Generative Pre-trai">
+<meta name="keywords" content="pytorch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pytorch的多GPU实践">
+<meta property="og:url" content="http://cdnlp.top/2019/06/multi-gpu-pytorch/index.html">
+<meta property="og:site_name" content="知智读行">
+<meta property="og:description" content="转自Thomas Wolf的文章  I’ve spent most of 2018 training neural networks that tackle the limits of my GPUs. Whether it was a 150 millions parameters language model like OpenAI’s huge Generative Pre-trai">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-13T08:41:44.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pytorch的多GPU实践">
+<meta name="twitter:description" content="转自Thomas Wolf的文章  I’ve spent most of 2018 training neural networks that tackle the limits of my GPUs. Whether it was a 150 millions parameters language model like OpenAI’s huge Generative Pre-trai">
+
+
+
+
+
+
+  <link rel="canonical" href="http://cdnlp.top/2019/06/multi-gpu-pytorch/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>pytorch的多GPU实践 | 知智读行</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知智读行</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">cd the NLP world</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-categories menu-item-active">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2019/06/multi-gpu-pytorch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="筑辰">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知智读行">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">pytorch的多GPU实践</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-13T11:25:57+08:00">2019-06-13</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views: 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>转自<a href="https://medium.com/huggingface/training-larger-batches-practical-tips-on-1-gpu-multi-gpu-distributed-setups-ec88c3e51255" target="_blank" rel="noopener">Thomas Wolf的文章</a></p>
+</blockquote>
+<p>I’ve spent most of 2018 training neural networks that tackle the limits of my GPUs. Whether it was a 150 millions parameters language model like OpenAI’s huge Generative Pre-trained Transformer (or the recent and similar BERT model) or a meta-learning neural net fed with 30 million element inputs like the one of our ICLR ‘18 paper, I could barely fit more than a few training samples on a GPU.</p>
+<p>But most of the time stochastic gradient descent algorithms require larger batches than just a handful of examples to get decent results.</p>
+<p>How can you train your model on large batches when your GPU can’t hold more than a few samples? There are several tools, tips and tricks you can use to do that and I thought it would be nice to gather all the things I use and learned in a post.</p>
+<p>In this post I will mainly talk about the PyTorch framework. Some of these tools are not in PyTorch yet (as of 1.0) so I include some custom code as well.</p>
+<p>In particular, we’ll talk about:</p>
+<p>How you can train a model on a single or multi GPU server with batches larger than the GPUs memory or when even a single training sample won’t fit (!), How you can make the most efficient use of a multi-GPU machine, and The simplest way to train a model using several machines in a distributed setup. Let’s start by the simplest trick: gradient accumulation.</p>
+<p>⌛️Large batches on one or several GPU(s) So, you’ve build a nice model that might be the new SOTA on this neat task but every time you try to stack more than a few samples in a batch you get a CUDA RuntimeError: out of memory.</p>
+<p>Adam confirms your predicament! 😱Oh no! But you’re pretty sure that doubling the batch size will improve the results.</p>
+<p>How can you do that? There is an easy solution to this problem: accumulating gradients. Here is a quick reminder on how stochastic gradient descent works from my earlier post on meta-learning:</p>
+<p>The 5-steps of a gradient descent optimization algorithm The PyTorch code equivalent of these 5 steps can also be written in 5 lines:</p>
+<p>During the loss.backward() operation, gradients are computed for each parameter (in green on our animation) and stored in a tensor associated to each parameter: parameter.grad (the middle graph on our animation).</p>
+<p>Accumulating gradients just means that, before calling optimizer.step() to perform a step of gradient descent, we will sum the gradients of several backward operations in the parameter.grad tensors. This is straightforward to do in PyTorch as the gradient tensors are not reset unless we call model.zero_grad() or optimizer.zero_grad(). We’ll also need to divide by the number of accumulation steps if our loss is averaged over the training samples.</p>
+<p>Here is a simple gist for training a model using gradient accumulation. In this example we can train with a batch size that is accumulation_steps-larger than the maximum size that fits on our GPU(s):</p>
+<p>Grzegorz Chlebus made a nice post describing how to do gradient accumulation in TensorFlow, check it out here.</p>
+<p>Pushing that to the extreme Can you train a model for which not even a single sample can fit on a GPU?</p>
+<p>Well if your architecture doesn’t have too-much skip connections, yes, it’s possible! The solution is to trade compute for memory using gradient-checkpointing.</p>
+<p>Basically, the idea is to back-propagate the gradients in small chunks along the model, trading the memory needed to store a full back propagation graph with the additional compute of a partial forward pass associated to each chunk. This is a rather slow method as we add additional compute to reduce the memory requirements but it can be interesting in some settings, e.g. to train RNN models over very long sequences (see for example my previous introduction to meta-learning).</p>
+<p>I won’t go into more details here and will just refer you to the relevant links:</p>
+<p>TensorFlow: https://github.com/openai/gradient-checkpointing PyTorch doc: https://pytorch.org/docs/stable/checkpoint.html</p>
+<p>A “Memory-poor” strategy that needs O(1) memory (but requires O(n²) computation steps) — From Yaroslav Bulatov’s nice post: https://medium.com/tensorflow/fitting-larger-networks-into-memory-583e3c758ff9 🕰 Making the best of a multi-GPU machine Now let’s talk more specifically about training model on multi-GPUs.</p>
+<p>The go-to strategy to train a PyTorch model on a multi-GPU server is to use torch.nn.DataParallel. It’s a container which parallelizes the application of a module by splitting the input across the specified devices, chunking along the batch dimension.</p>
+<p>DataParallel is very easy to use, we just add one line to encapsulate the model:</p>
+<p>However one issue can arise with DataParallel: unbalanced GPU usage.</p>
+<p>Under some settings GPU-1 will be used a lot more than the other GPUs. Where does this come from? I made an illustration to better explain what DataParallel does under the hood:</p>
+<p>Forward and Backward passes with torch.nn.DataParallel During step 4 of the Forward pass (top-right), the results of all the parallel computations are gathered on GPU-1. This is fine for a lot of classification problems but it can become problematic when you train a language model on large batch for example.</p>
+<p>Let’s quickly compute the size of the output for a language model:</p>
+<p>Number of elements in the output of a language model If we assume a 40k vocabulary, 250 tokens in our sequences, 32 samples per batch and 4 bytes to store each element in the memory, the output of our model takes about 1,2 GB. We need to double that to store the associated gradient tensors, our model output thus requires 2,4 GB of memory!</p>
+<p>That’s a significant portion of a typical 10 GB GPU memory and means that GPU-1 will be over-used with regards to the other GPUs, limiting the effect of the parallelization.</p>
+<p>We cannot easily reduce the number of elements in this output without tweaking the model and/or optimization scheme. But we can make sure the memory load is more evenly distributed among the GPUs.</p>
+<p>⚖️ Balanced load on a multi-GPU machine There are two main solution to the imbalanced GPU usage issue:</p>
+<p>computing the loss in the forward pass of your model, computing the loss in a parallel fashion. The first option is the easiest but sometimes you can’t use it or it’s not practical for various reasons (e.g. your forward pass becomes too complicated and slow because of Python’s GIL) so let’s talk a bit about the second solution. Along the road we’ll learn interesting things about how PyTorch multi-GPU modules work.</p>
+<p>In that case, the solution is to keep each partial output on its GPU instead of gathering all of them to GPU-1. We well need to distribute our loss criterion computation as well to be able to compute and back propagate our loss.</p>
+<p>Thankfully for us, Hang Zhang (张航) has open-sourced a nice PyTorch package called PyTorch-Encoding which comprises these custom parallelization functions.</p>
+<p>I’ve extracted and slightly adapted this module and you can download here a gist (parallel.py) to include and call from your code. It mainly comprises two modules: DataParallelModel and DataParallelCriterion which are made to be used as follows:</p>
+<p>The difference between DataParallelModel and torch.nn.DataParallel is just that the output of the forward pass (predictions) is not gathered on GPU-1 and is thus a tuple of n_gpu tensors, each tensor being located on a respective GPU.</p>
+<p>The DataParallelCriterion container encapsulate the loss function and takes as input the tuple of n_gpu tensors and the target labels tensor. It computes the loss function in parallel on each GPU, splitting the target label tensor the same way the model input was chunked by DataParallel.</p>
+<p>I made an illustration of DataParallelModel/DataParallelCriterion internals:</p>
+<p>Using DataParallelModel and DataParallelCriterion Here is how to handle two particular cases you may encounter:</p>
+<p>Your model outputs several tensors: you likely want to disentangle them: output_1, output_2 = zip(*predictions) Sometimes you don’t want to use a parallel loss function: gather all the tensors on the cpu: gathered_predictions = parallel.gather(predictions) ⏰ Distributed training: training on several machines Now how can we harness the power of several servers to train on even larger batches?</p>
+<p>The simplest option is to use PyTorch DistributedDataParallel which is meant to be almost a drop-in replacement for DataParallel discussed above.</p>
+<p>But be careful: while the code looks similar, training your model in a distributed setting will change your workflow because you will actually have to start an independent python training script on each node (these scripts are all identical). As we will see, once started, these training scripts will be synchronized together by PyTorch distributed backend.</p>
+<p>In practice, this means that each training script will have:</p>
+<p>its own optimizer and performs a complete optimization step with each iteration, no parameter broadcast (step 2 in DataParallel) is needed, an independent Python interpreter: this will also avoid the GIL-freeze that can come from driving several parallel execution threads in a single Python interpreter. Models that make heavy use of Python loops/call in their forward passes can be slowed down by the python interpreter’s GIL when several parallel forward calls are driven by a single interpreter. In these settings, DistributedDataParallel can advantageously replace DataParallel even on a single-machine setup. Now let’s just dive straight in the code and usage.</p>
+<p>DistributedDataParallel is build on top of torch.distributed package which provide low-level primitives for synchronizing distributed operations and can make use of several backends (tcp, gloo, mpi, nccl) with different capabilities.</p>
+<p>In this post I will select one simple way to use it out-of-the-box but you should read the doc and this nice tutorial by Séb Arnold to dive deeper in this module.</p>
+<p>We will consider a simple but general setup with two 4-GPU servers (nodes):</p>
+<p>The main server (server 1) has an accessible IP and an open port for communication. 🏃 Adapting our Python training script for distributed training First we need to adapt our script so that it can be run separately on each machine (node). We are actually going to go fully distributed and run a separate process for each GPU of each node, so 8 process in total.</p>
+<p>Our training script is a bit longer as we need to initialize the distributed backend for synchronization, encapsulate the model and prepare the data to train each process on a separate subset of the data (each process is independent so we have to care of having each of them handle a different slice of the dataset ourselves). Here is the updated code:</p>
+<p>✨ Launching multiple instances of our Python training script We are almost done now. We just have to start an instance of our training script on each server.</p>
+<p>To run our script, we’ll use the torch.distributed.launch utility of PyTorch. It will take care of setting the environment variables and call each script with the right local_rank argument. The first machine will be our master, it need to be accessible from all the other machine and thus have an accessible IP address (192.168.1.1 in our example) and an open port (1234 in our case). On this first machine, we run our training script using torch.distributed.launch:</p>
+<p>python -m torch.distributed.launch –nproc_per_node=4 –nnodes=2 –node_rank=0 –master_addr=“192.168.1.1” –master_port=1234 OUR_TRAINING_SCRIPT.py (–arg1 –arg2 –arg3 and all other arguments of our training script) On the second machine we similarly start our script:</p>
+<p>python -m torch.distributed.launch –nproc_per_node=4 –nnodes=2 –node_rank=1 –master_addr=“192.168.1.1” –master_port=1234 OUR_TRAINING_SCRIPT.py (–arg1 –arg2 –arg3 and all other arguments of our training script) These two commands are identical excepted for the –node_rank argument which is set to 0 on the first machine and 1 on the second (and would be 2 on an additional server etc…)</p>
+<p>The process of running a bunch of almost identical commands on a cluster of machine might looks a bit tedious. So now is probably a good time to learn about the magic of… GNU parallel:</p>
+<p>One exciting improvement of the coming PyTorch v1.0 is the release of a new c10d backend for the distributed module. I will update this short introduction when v1.0 is released with more details on the new backend 🔥</p>
+<p>This conclude our quick post on a few tips, tricks and tools to train your model on larger batches in a variety of settings.</p>
+<p>I hope you enjoyed this more technical post!</p>
+<p>Clap 👏 a couple of times if you liked it and want us to post more of these!</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/pytorch-matrix-multiplication/" rel="next" title="pytorch中的Tensor乘法运算">
+                <i class="fa fa-chevron-left"></i> pytorch中的Tensor乘法运算
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/Vim-config/" rel="prev" title="Vim配置参考">
+                Vim配置参考 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
+                alt="筑辰" />
+            
+              <p class="site-author-name" itemprop="name">筑辰</p>
+              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">筑辰</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.1.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
