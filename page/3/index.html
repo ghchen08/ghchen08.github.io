@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
 <head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
@@ -78,7 +78,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Pisces',
     version: '6.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
@@ -103,17 +103,16 @@
 
 
 
-  <meta name="description" content="notes and thoughts about Natural Language Processing">
-<meta name="keywords" content="NLP, learning">
+  <meta name="description" content="Notes and thoughts about natural language processing">
 <meta property="og:type" content="website">
 <meta property="og:title" content="知智读行">
 <meta property="og:url" content="http://cdnlp.top/page/3/index.html">
 <meta property="og:site_name" content="知智读行">
-<meta property="og:description" content="notes and thoughts about Natural Language Processing">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:description" content="Notes and thoughts about natural language processing">
+<meta property="og:locale">
+<meta property="article:author" content="筑辰">
+<meta property="article:tag" content="NLP, learning">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="知智读行">
-<meta name="twitter:description" content="notes and thoughts about Natural Language Processing">
 
 
 
@@ -166,9 +165,11 @@
       .logo-line-after i { right: initial; }
     }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/custom_css_source.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -177,7 +178,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+  <div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
 
@@ -229,7 +230,7 @@
         
           
   
-  <li class="menu-item menu-item-about">
+  <li class="menu-item menu-item-about menu-item-active">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
 </li>
@@ -239,7 +240,7 @@
         
           
   
-  <li class="menu-item menu-item-categories menu-item-active">
+  <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
 </li>
@@ -305,7 +306,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/AI-startups/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -377,11 +378,13 @@ source from: https://github.com/lipiji/AIStartups
 
 与人工智能相关的创业公司或团队。
 国内
-
 第四范式：http://www.4paradigm.com/ ：戴文渊、杨强教授
+
 商汤科技： http://www.sensetime.com/cn ， 香港中文大学汤晓鸥教授及其团队。该实验室cv技术一流。
+
 范数科技：http://www.lpnorm.com/ ， 文本生成，自动写作，数据汇聚、抽取，知识图谱，人工智能。
-明略数据
+
+明略数据：http:/
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -444,7 +447,7 @@ source from: https://github.com/lipiji/AIStartups
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/how-to-read-papers/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -514,8 +517,7 @@ source from: https://github.com/lipiji/AIStartups
           
 this paper can be downloaded from http://ccr.sigcomm.org/online/files/p83-keshavA.pdf
 
-ABSTRACT
-Researchers spend a great deal of time reading research papers. However, this skill is rarely taught, leading to much wasted effort. This article out
+ABSTRACTResearchers spend a great deal of time reading research papers. However, this skill is rarely taught, leading to much wasted effort. This article outlines
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -578,7 +580,7 @@ Researchers spend a great deal of time reading research papers. However, this sk
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/use-ppt-to-draw-in-papers/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -646,8 +648,7 @@ Researchers spend a great deal of time reading research papers. However, this sk
         
           
           paper难免需要画图，简单的数据曲线图可以用excel解决，复杂一些的可以用python或者origin来解决。模型图、框架图等简单的可以用PPT解决，复杂一些的可以用inkScape或者visio来画，当然AutoCAD也是可以的。这里整理一下使用PPT画图过程中的问题。
-属性设置
-在画出形状之后，需要设置形状的属性。比如线宽、线型、箭头形式、颜色等等，不一而论。为了使得形状统一，建议使用height width的数据来控制方框的大小，而不是凭感觉画。对齐的话使用开始-&gt;排列-&g
+属性设置在画出形状之后，需要设置形状的属性。比如线宽、线型、箭头形式、颜色等等，不一而论。为了使得形状统一，建议使用height width的数据来控制方框的大小，而不是凭感觉画。对齐的话使用开始-&gt;排列-&gt;对
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -710,7 +711,7 @@ Researchers spend a great deal of time reading research papers. However, this sk
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/Acrobat-pdf-configure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -778,8 +779,7 @@ Researchers spend a great deal of time reading research papers. However, this sk
         
           
           Adobe Acrobat是windows系统中常用的一款pdf阅读器，相较于其他pdf软件，它的主要优点在于功能全面，缺点是软件安装空间太大，不小巧。不过日常在电脑上用Acrobat看paper的体验还是不错的。下面是关于该软件的一些设置，以看paper为例说明。
-自定义preference
-在edit-prefences中，general标签下，选中use single-key accelerators to access tools（单键加速工具），可以使用快捷键切换不同功能，比如h-
+自定义preference在edit-prefences中，general标签下，选中use single-key accelerators to access tools（单键加速工具），可以使用快捷键切换不同功能，比如h-手形鼠
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -842,7 +842,7 @@ Researchers spend a great deal of time reading research papers. However, this sk
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/job-hunting-notes-in-usa/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -928,9 +928,8 @@ Researchers spend a great deal of time reading research papers. However, this sk
         
           
           转载
-故事
-大概几周前，签了第一份在美国的工作合同。算作是过去大半年对人工智能和数据科学探索领域的一个小结点。在这段小小的旅程中，有太多人帮助我，写下此文希望对转行进入这个领域工作的新同学有所帮助也希望努力通过自己的力量推广有效利他职业生涯(Effective Altruism)的概念。这篇文章分成两个部分，前半部分是故事，侧重于分享一些个人的情绪和心理成长，后半部分分享一些干的攻略和教训，会多讲点技术细节(Technical)的东西，希望能帮助后来者节省时间。
-在人工智能这个行业已经有太
+故事大概几周前，签了第一份在美国的工作合同。算作是过去大半年对人工智能和数据科学探索领域的一个小结点。在这段小小的旅程中，有太多人帮助我，写下此文希望对转行进入这个领域工作的新同学有所帮助也希望努力通过自己的力量推广有效利他职业生涯(Effective Altruism)的概念。这篇文章分成两个部分，前半部分是故事，侧重于分享一些个人的情绪和心理成长，后半部分分享一些干的攻略和教训，会多讲点技术细节(Technical)的东西，希望能帮助后来者节省时间。
+在人工智能这个行业已经有太多太多计
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -993,7 +992,7 @@ Researchers spend a great deal of time reading research papers. However, this sk
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/join-two-rows-in-different-file/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1123,7 +1122,7 @@ Researchers spend a great deal of time reading research papers. However, this sk
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/chinese-tokenization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1194,9 +1193,8 @@ Researchers spend a great deal of time reading research papers. However, this sk
 转自https://yanyiwu.com/work/2014/04/07/hmm-segment-xiangjie.html
 
 　　关于HMM模型的介绍，网上的资料已经烂大街，但是大部分都是在背书背公式，本文在此针对HMM模型在中文分词中的应用，讲讲实现原理。 尽可能的撇开公式，撇开推导。结合实际开源代码作为例子，争取做到雅俗共赏，童叟无欺。
-1. 模型介绍
-HMM(Hidden Markov Model): 隐式马尔科夫模型。
-　　HMM模型可以应用在很多领域，所以它的模型参数
+1. 模型介绍HMM(Hidden Markov Model): 隐式马尔科夫模型。
+　　HMM模型可以应用在很多领域，所以它的模型参数描述一般都比较
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1245,7 +1243,7 @@ HMM(Hidden Markov Model): 隐式马尔科夫模型。
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-left&quot; aria-label&#x3D;&quot;Previous page&quot;&gt;&lt;&#x2F;i&gt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
   </nav>
 
 
@@ -1279,10 +1277,10 @@ HMM(Hidden Markov Model): 隐式马尔科夫模型。
             
               <img class="site-author-image" itemprop="image"
                 src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
-                alt="筑辰" />
+                alt="" />
             
-              <p class="site-author-name" itemprop="name">筑辰</p>
-              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           
@@ -1290,7 +1288,7 @@ HMM(Hidden Markov Model): 隐式马尔科夫模型。
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
                     <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">posts</span>
@@ -1407,7 +1405,7 @@ HMM(Hidden Markov Model): 隐式马尔科夫模型。
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -1423,7 +1421,7 @@ HMM(Hidden Markov Model): 隐式马尔科夫模型。
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v5.4.0</div>
 
 
 
@@ -1536,24 +1534,7 @@ HMM(Hidden Markov Model): 隐式马尔科夫模型。
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="custom_mathjax_source">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
 
 
 

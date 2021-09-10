@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
 <head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
@@ -78,7 +78,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Pisces',
     version: '6.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
@@ -103,17 +103,16 @@
 
 
 
-  <meta name="description" content="notes and thoughts about Natural Language Processing">
-<meta name="keywords" content="NLP, learning">
+  <meta name="description" content="Notes and thoughts about natural language processing">
 <meta property="og:type" content="website">
 <meta property="og:title" content="知智读行">
 <meta property="og:url" content="http://cdnlp.top/index.html">
 <meta property="og:site_name" content="知智读行">
-<meta property="og:description" content="notes and thoughts about Natural Language Processing">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:description" content="Notes and thoughts about natural language processing">
+<meta property="og:locale">
+<meta property="article:author" content="筑辰">
+<meta property="article:tag" content="NLP, learning">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="知智读行">
-<meta name="twitter:description" content="notes and thoughts about Natural Language Processing">
 
 
 
@@ -166,9 +165,11 @@
       .logo-line-after i { right: initial; }
     }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/custom_css_source.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -177,7 +178,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+  <div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
 
@@ -229,7 +230,7 @@
         
           
   
-  <li class="menu-item menu-item-about">
+  <li class="menu-item menu-item-about menu-item-active">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
 </li>
@@ -239,7 +240,7 @@
         
           
   
-  <li class="menu-item menu-item-categories menu-item-active">
+  <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
 </li>
@@ -305,7 +306,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/05/text-preprocess-NLP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -375,7 +376,7 @@
           
 文章转自：Kavita Ganesan Blog
 
-Based on some recent conversations, I realized that text preprocessing is a severely overlooked topic. A few people I spoke to mentioned inconsistent results from their NLP applications only to realize that they were not
+Based on some recent conversations, I realized that text preprocessing is a severely overlooked topic. A few people I spoke to mentioned inconsistent results from their NLP applications only to realize that they were not  p
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -438,7 +439,7 @@ Based on some recent conversations, I realized that text preprocessing is a seve
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/04/python-debug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -579,7 +580,7 @@ pdb.disable() 可以忽略当前设置的pdb断点；pdb.enable()再次启用当
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/03/NLP-idea/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -650,9 +651,8 @@ pdb.disable() 可以忽略当前设置的pdb断点；pdb.enable()再次启用当
 转自 微软亚研院微博
 
 今天的讲座主要回答两个问题，第一是自然语言处理到底有哪些新的进展；第二是这些新的进展给我们的搜索引擎带来了什么新的变化，或者未来可能会带来什么新的变化。
-自然语言技术的重要组成
-自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。
-NLP基础包括词的表示，比如现在热门的word Embedding。词的表示包括上下文无关的表示和上下文有关的表示，前者就是静态的Word Embedding，后者现在一般使用各种预训练模
+自然语言技术的重要组成自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。
+NLP基础包括词的表示，比如现在热门的word Embedding。词的表示包括上下文无关的表示和上下文有关的表示，前者就是静态的Word Embedding，后者现在一般使用各种预训练模型，根据当前的
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -715,7 +715,7 @@ NLP基础包括词的表示，比如现在热门的word Embedding。词的表示
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/03/optim/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -785,7 +785,7 @@ NLP基础包括词的表示，比如现在热门的word Embedding。词的表示
           
 转载自 updated overview of recent gradient descent algorithms, 作者: John Chen
 
-In this blog post, we will cover some of the recent advances in optimization for gradient descent algorithms. There are various sources online that compare the most famous
+In this blog post, we will cover some of the recent advances in optimization for gradient descent algorithms. There are various sources online that compare the most famous ap
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -848,7 +848,7 @@ In this blog post, we will cover some of the recent advances in optimization for
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/03/Latex-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -917,11 +917,10 @@ In this blog post, we will cover some of the recent advances in optimization for
           
           本文主要摘抄关于latex写计算机领域会议论文的笔记。参考资料： https://www.latexstudio.net/hulatex/index.htm 等。
 文章框架方面
-
 所有的论述都用现在时时态，不管是你自己的或者是别人的，包括related work。
 对于所有的表格或者图片，在正文中需要有地方引用或者呼应。
 要仔细考虑Figure1， 用来可视化，模型介绍，或者总结文章的贡献。一般是放在第一页或者第二页，即使到第三页或者以后才会用到，还是要放到第二页。
-不要简单只用me
+不要简单只用method/ap
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -984,7 +983,7 @@ In this blog post, we will cover some of the recent advances in optimization for
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/03/Vim-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1055,13 +1054,12 @@ In this blog post, we will cover some of the recent advances in optimization for
 参考来源：https://vimjc.com/, https://missing.csail.mit.edu/2020/editors/
 
 1. 配置参考文件：
-
 vim for server: https://github.com/wklken/vim-for-server
 The ultimate Vim configuration: https://github.com/amix/vimrc
 
 2. 配置文件的几个说明：
-
-set autoread, 文件修改之后自动
+set autoread, 文件修改之后自动更新内容
+set mag
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1124,7 +1122,7 @@ set autoread, 文件修改之后自动
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2019/06/multi-gpu-pytorch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1194,7 +1192,7 @@ set autoread, 文件修改之后自动
           
 转自Thomas Wolf的文章
 
-I’ve spent most of 2018 training neural networks that tackle the limits of my GPUs. Whether it was a 150 millions parameters language model like OpenAI’s huge Generative Pre-trained Transformer (or the recent and similar BERT mo
+I’ve spent most of 2018 training neural networks that tackle the limits of my GPUs. Whether it was a 150 millions parameters language model like OpenAI’s huge Generative Pre-trained Transformer (or the recent and similar BERT model
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1257,7 +1255,7 @@ I’ve spent most of 2018 training neural networks that tackle the limits of my 
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2019/06/pytorch-matrix-multiplication/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1325,9 +1323,8 @@ I’ve spent most of 2018 training neural networks that tackle the limits of my 
         
           
           pytorch中的Tensor乘法分为点乘(dot multiplication/point-wise multiplication/element-wise multiplication)和矩阵乘法(matrix multiplication)。
-1. Tensor dot multiplication
-Tensor dot multiplcation 采用 *符号，如：C=A * B，如果是矩阵A的point-wise的平方运算，可以采用C=A ** 2来实现。
-:todo dot p
+1. Tensor dot multiplicationTensor dot multiplcation 采用 *符号，如：C=A * B，如果是矩阵A的point-wise的平方运算，可以采用C=A ** 2来实现。
+:todo dot produ
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1390,7 +1387,7 @@ Tensor dot multiplcation 采用 *符号，如：C=A * B，如果是矩阵A的poi
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2019/05/model-debug-recipe/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1456,12 +1453,7 @@ Tensor dot multiplcation 采用 *符号，如：C=A * B，如果是矩阵A的poi
 
       
         
-          
-          
-source from https://karpathy.github.io/2019/04/25/recipe/
-
-Some few weeks ago I posted a tweet on “the most common neural net mistakes”, listing a few common gotchas related to training neural nets. The tweet got quite a bit more engagement than 
-          ...
+          A collection of practical advice for the process of achieving strong results with neural networks.
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/05/model-debug-recipe/#more" rel="contents">
@@ -1523,7 +1515,7 @@ Some few weeks ago I posted a tweet on “the most common neural net mistakes”
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2019/05/phd-advice/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1589,10 +1581,7 @@ Some few weeks ago I posted a tweet on “the most common neural net mistakes”
 
       
         
-          
-          source from https://karpathy.github.io/2016/09/07/phd/
-This guide is patterned after my “Doing well in your courses”, a post I wrote a long time ago on some of the tips/tricks I’ve developed during my undergrad. I’ve received nice comments about tha
-          ...
+          A collection of tips/tricks for navigating the PhD experience.
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/05/phd-advice/#more" rel="contents">
@@ -1654,7 +1643,7 @@ This guide is patterned after my “Doing well in your courses”, a post I wrot
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2019/04/about-loss-func/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1725,7 +1714,7 @@ This guide is patterned after my “Doing well in your courses”, a post I wrot
 source from christopher5106 blog
 
 In machine learning many different losses exist.
-A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective function to optimize. For an introduction to machine 
+A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective function to optimize. For an introduction to machine lear
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1788,7 +1777,7 @@ A loss is a “penalty” score to reduce when training an algorithm on data. It
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/12/pytorch-out-of-memory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1918,7 +1907,7 @@ A loss is a “penalty” score to reduce when training an algorithm on data. It
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/12/intro-git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1985,13 +1974,11 @@ A loss is a “penalty” score to reduce when training an algorithm on data. It
       
         
           
-          1. Basic info
-Git用于文件的版本控制及协作开发。编辑文件后，使用git add filename把更新添加至暂存区，使用git commit -m "messages"提交暂存区的修改到本地git数据库。如果要同步至远程服务器，需要使用git push命令进行同步。
+          1. Basic infoGit用于文件的版本控制及协作开发。编辑文件后，使用git add filename把更新添加至暂存区，使用git commit -m &quot;messages&quot;提交暂存区的修改到本地git数据库。如果要同步至远程服务器，需要使用git push命令进行同步。
 2. basic commands
-
 git add，提交修改到暂存区
 git commit，提交暂存区的修改，参数–amend是撤销上次的commit并重新提交。
-git push origin mas
+git push origin m
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2054,7 +2041,7 @@ git push origin mas
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/11/mathbooks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -2126,8 +2113,7 @@ source copies from post, author is Lin Dahua.
 
 Here is a list of books which I have read and feel it is worth recommending to friends who are interested in computer science.
 Machine Learning
-
-Pattern Recognition and Machine Learning, Christoph
+Pattern Recognition and Machine Learning,Christopher M. Bi
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2190,7 +2176,7 @@ Pattern Recognition and Machine Learning, Christoph
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/11/cpp-compilation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -2259,12 +2245,11 @@ Pattern Recognition and Machine Learning, Christoph
           
           source from https://github.com/green7ea/cpp-compilation, many thanks!
 The C++ Build Process Explained
-
 The last good thing written in C was Franz Schubert’s Symphony Number 9.
 – Erwin Dieterich
 
 
-Fifty years of programming language research, a
+Fifty years of programming language research, and we en
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2313,7 +2298,7 @@ Fifty years of programming language research, a
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot; aria-label&#x3D;&quot;Next page&quot;&gt;&lt;&#x2F;i&gt;</a>
   </nav>
 
 
@@ -2347,10 +2332,10 @@ Fifty years of programming language research, a
             
               <img class="site-author-image" itemprop="image"
                 src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
-                alt="筑辰" />
+                alt="" />
             
-              <p class="site-author-name" itemprop="name">筑辰</p>
-              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           
@@ -2358,7 +2343,7 @@ Fifty years of programming language research, a
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
                     <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">posts</span>
@@ -2475,7 +2460,7 @@ Fifty years of programming language research, a
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -2491,7 +2476,7 @@ Fifty years of programming language research, a
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v5.4.0</div>
 
 
 
@@ -2707,24 +2692,7 @@ Fifty years of programming language research, a
         }
     });
 </script>
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="custom_mathjax_source">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
     
   

@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
 <head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
@@ -78,7 +78,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Pisces',
     version: '6.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
@@ -103,17 +103,16 @@
 
 
 
-  <meta name="description" content="notes and thoughts about Natural Language Processing">
-<meta name="keywords" content="NLP, learning">
+  <meta name="description" content="Notes and thoughts about natural language processing">
 <meta property="og:type" content="website">
 <meta property="og:title" content="知智读行">
 <meta property="og:url" content="http://cdnlp.top/page/2/index.html">
 <meta property="og:site_name" content="知智读行">
-<meta property="og:description" content="notes and thoughts about Natural Language Processing">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:description" content="Notes and thoughts about natural language processing">
+<meta property="og:locale">
+<meta property="article:author" content="筑辰">
+<meta property="article:tag" content="NLP, learning">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="知智读行">
-<meta name="twitter:description" content="notes and thoughts about Natural Language Processing">
 
 
 
@@ -166,9 +165,11 @@
       .logo-line-after i { right: initial; }
     }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/custom_css_source.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -177,7 +178,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+  <div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
 
@@ -229,7 +230,7 @@
         
           
   
-  <li class="menu-item menu-item-about">
+  <li class="menu-item menu-item-about menu-item-active">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
 </li>
@@ -239,7 +240,7 @@
         
           
   
-  <li class="menu-item menu-item-categories menu-item-active">
+  <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
 </li>
@@ -305,7 +306,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/07/beam-search-algorithm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -371,7 +372,7 @@
 
       
         
-          <p>Beam search 是seq2seq中decoder的常用算法，用于生成sequence，比greedy decoding 效果更好，但是计算量更大，也更耗时。下面是Transformer model中的beam search 中的程序的分析。
+          <p>Beam search 是seq2seq中decoder的常用算法，用于生成sequence，比greedy decoding 效果更好，但是计算量更大，也更耗时。下面是Transformer model中的beam search 中的程序的分析。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/07/beam-search-algorithm/#more" rel="contents">
@@ -433,7 +434,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/07/illustrated-transformer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -499,14 +500,13 @@
 
       
         
-          <p>This post sources from <a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">Jay Alammar’s blog</a>, it is a great post to illustrate the transformer nmt model and provides lots of good references. enjoy.</p>
+          <p>This post sources from <a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-transformer/"><br>Jay Alammar’s blog</a>, it is a great post to illustrate the transformer nmt model and provides lots of good references. enjoy.</p>
 <hr>
-<p>In the <a href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/" target="_blank" rel="noopener">previous post, we looked at Attention</a> – a ubiquitous method in modern deep learning models. Attention is a concept that helped improve the performance of neural machine translation applications. In this post, we will look at <strong>The Transformer</strong> – a model that uses attention to boost the speed with which these models can be trained. The Transformers outperforms the Google Neural Machine Translation model in specific tasks. The biggest benefit, however, comes from how The Transformer lends itself to parallelization. It is in fact Google Cloud’s recommendation to use The Transformer as a reference model to use their <a href="https://cloud.google.com/tpu/" target="_blank" rel="noopener">Cloud TPU</a> offering. So let’s try to break the model apart and look at how it functions.</p>
-<p>The Transformer was proposed in the paper <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention is All You Need</a>. A TensorFlow implementation of it is available as a part of the <a href="https://github.com/tensorflow/tensor2tensor" target="_blank" rel="noopener">Tensor2Tensor</a> package. Harvard’s NLP group created a <a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html" target="_blank" rel="noopener">guide annotating the paper with PyTorch implementation</a>. In this post, we will attempt to oversimplify things a bit and introduce the concepts one by one to hopefully make it easier to understand to people without in-depth knowledge of the subject matter.</p>
-<h2 id="a-high-level-look">A High-Level Look</h2>
-<p>Let’s begin by looking at the model as a single black box. In a machine translation application, it would take a sentence in one language, and output its translation in another.</p>
-<div class="img-div-any-width" data-markdown="0">
-<p><img src="/images/t/the_transformer_3.png"></p>
+<p>In the <a target="_blank" rel="noopener" href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">previous post, we looked at Attention</a> – a ubiquitous method in modern deep learning models. Attention is a concept that helped improve the performance of neural machine translation applications. In this post, we will look at <strong>The Transformer</strong> – a model that uses attention to boost the speed with which these models can be trained. The Transformers outperforms the Google Neural Machine Translation model in specific tasks. The biggest benefit, however, comes from how The Transformer lends itself to parallelization. It is in fact Google Cloud’s recommendation to use The Transformer as a reference model to use their <a target="_blank" rel="noopener" href="https://cloud.google.com/tpu/">Cloud TPU</a> offering. So let’s try to break the model apart and look at how it functions.</p>
+<p>The Transformer was proposed in the paper <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">Attention is All You Need</a>. A TensorFlow implementation of it is available as a part of the <a target="_blank" rel="noopener" href="https://github.com/tensorflow/tensor2tensor">Tensor2Tensor</a> package. Harvard’s NLP group created a <a target="_blank" rel="noopener" href="http://nlp.seas.harvard.edu/2018/04/03/attention.html">guide annotating the paper with PyTorch implementation</a>. In this post, we will attempt to oversimplify things a bit and introduce the concepts one by one to hopefully make it easier to understand to people without in-depth knowledge of the subject matter.</p>
+<h2 id="A-High-Level-Look"><a href="#A-High-Level-Look" class="headerlink" title="A High-Level Look"></a>A High-Level Look</h2><p>Let’s begin by looking at the model as a single black box. In a machine translation application, it would take a sentence in one language, and output its translation in another.</p>
+<div class="img-div-any-width" markdown="0">
+  <img src="/images/t/the_transformer_3.png" />
 </div>
           <!--noindex-->
           <div class="post-button text-center">
@@ -569,7 +569,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/07/Nginx-config-practice/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -638,7 +638,7 @@
           
           Nginx 是开源的网站布署工具。传统的网站平台时LAMP，即linux + apache + mysql + php，新兴的网站也使用LNMP，其中的N即Nginx。
 相对于apache，Nginx的优势在于轻量化，并发数高，配置简单，容易实现负载平衡和反向代理，与node.js和python配合方便，非常适合静态网站。但是由于软件较新，稳定性方面有待进一步验证，与php的配合需要其他工具辅助。所以现在一般前端用nginx作为反向代理抗住压力，apache作为后端处理动态请求。
-nginx
+nginx的常
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -701,7 +701,7 @@ nginx
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/07/pytorch-tensor-operation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -769,11 +769,10 @@ nginx
         
           
           在pytorch中，需要对tensor进行各种型式的维度、复制等操作，比如squeeze, view, gather,expand,contiguous,copy等,下面对这些操作进行介绍。
-1) squeeze &amp; unsqueeze
-torch.squeeze(input, dim=None, out=None)是将输入张量形状中的1 去除并返回。
+1) squeeze &amp; unsqueezetorch.squeeze(input, dim=None, out=None)是将输入张量形状中的1 去除并返回。
 
 输入是形如(A×1×B×1×C×1×D)，那么输出形状就为： (A×B×C×D)。
-当给定dim时，那么挤压操作只在给定维度
+当给定dim时，那么挤压操作只在给定维度上。例如，输
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -836,7 +835,7 @@ torch.squeeze(input, dim=None, out=None)是将输入张量形状中的1 去除�
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/07/Matplotlib-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -964,7 +963,7 @@ torch.squeeze(input, dim=None, out=None)是将输入张量形状中的1 去除�
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/06/introduction-to-NLP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1034,11 +1033,11 @@ torch.squeeze(input, dim=None, out=None)是将输入张量形状中的1 去除�
           
 在网上搜了一些资料，放在这里当作备份。
 
-自然语言处理研究内容
-自然语言处理（简称NLP），是研究计算机处理人类语言的一门技术，包括：
+自然语言处理研究内容自然语言处理（简称NLP），是研究计算机处理人类语言的一门技术，包括：
 
 句法语义分析：对于给定的句子，进行分词、词性标记、命名实体识别和链接、句法分析、语义角色识别和多义词消歧。
 信息抽取：从给定文本中抽取重要的信息，比如，时间、地点、人物、事件、原因、结果、数字、日期、货币、专有名词等等。通俗说来，就是要了解谁在什么时候、什么原因、对谁、做了什么事、有什么结果。涉及到实体识别、时间抽取、因果关系抽取等关键技术。
+文本挖掘（或者文
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1101,7 +1100,7 @@ torch.squeeze(input, dim=None, out=None)是将输入张量形状中的1 去除�
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/05/tensorflow-installation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1172,10 +1171,9 @@ torch.squeeze(input, dim=None, out=None)是将输入张量形状中的1 去除�
 参考https://www.jianshu.com/p/df677e3fd630
 
 
-卸载的方法： 显示已经装的包，-l | grep nvidia```1关闭Xorg的显示：
+卸载的方法：显示已经装的包，dpkg -l | grep nvidia关闭Xorg的显示：123sudo service lightdm stopsudo init 3sudo killall xorg
 
-sudo service lightdm stop sudo init 3 sudo killall xorg 12
-sudo apt-get –purge remove cuda sudo apt-get purge nvidia- sudo apt-get purge cuda sudo apt-g
+12345sudo apt-get --purge remove cuda*sudo apt-get purge nvidia-*sudo apt-get purge cudasudo apt-get pu
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1238,7 +1236,7 @@ sudo apt-get –purge remove cuda sudo apt-get purge nvidia- sudo apt-get purge 
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/05/pytorch-hook-function/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1310,9 +1308,9 @@ sudo apt-get –purge remove cuda sudo apt-get purge nvidia- sudo apt-get purge 
 
 pytorch中hook有三种函数，分别是register_hook, register_backward_hook, register_forward_hook，第一个是针对Variable，后面两个是针对modules的
 
-register_hook函数 针对中间层的Variable的梯度进行处理，比如修改和打印
+register_hook函数针对中间层的Variable的梯度进行处理，比如修改和打印
 
-123456789101112131415161718# 打印中间层Va
+123456789101112131415161718# 打印中间层Variable的梯
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1375,7 +1373,7 @@ register_hook函数 针对中间层的Variable的梯度进行处理，比如修�
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/05/if-i-relearn-finance-in-the-university/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1462,9 +1460,8 @@ register_hook函数 针对中间层的Variable的梯度进行处理，比如修�
           
           扪心自问，如果可以重来，我会怎么在校园里度过自己的青春时光（make my golden years gold)?
 1. 空麻袋立不住，人生必须有真本事(Business-supported life)
-
 与理工科等立竿见影的硬科学相比，财经大学（商科）的要害之处是更容易流于虚浮。电气毕业生要玩转电机和变压器才能活下来，计算机工程师要让代码跑起来才能有饭吃。但商科毕业生却往往没有真才实学也能混段日子，但空麻袋立不住，对客户、社会和自身的后果也是更加致命的。
-什么是真本事，就是能够真正帮到
+什么是真本事，就是能够真正帮到别人，而这
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1527,7 +1524,7 @@ register_hook函数 针对中间层的Variable的梯度进行处理，比如修�
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/05/file-read-write-in-python/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1595,9 +1592,10 @@ register_hook函数 针对中间层的Variable的梯度进行处理，比如修�
         
           
           python中文件读写是常见的操作，常用的文件打开方式是下面这种：
-123with open(file_path,&apos;r+&apos;) as f:    for line in f:        # your code here
+1234with open(file_path,&#x27;r+&#x27;) as f:    for line in f:        # your code here
+
 如果要同时打开2个或多个文件，以同时对里面的内容操作，可以采用：
-1234567with open(file1_path,&apos;r+&apos;) as f1:    with open(file2_path,&apos;r+&apos;) as
+1234567with open(file1_path,&#x27;r+&#x27;) as f1:    with open(file2_path,&#x27;r+&#x27;) as 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1657,10 +1655,10 @@ register_hook函数 针对中间层的Variable的梯度进行处理，比如修�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets /">
+    <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets%20/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1676,7 +1674,7 @@ register_hook函数 针对中间层的Variable的梯度进行处理，比如修�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets /" itemprop="url">Practical advice for analysis of large, complex data sets</a></h2>
+                <a class="post-title-link" href="/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets%20/" itemprop="url">Practical advice for analysis of large, complex data sets</a></h2>
         
 
         <div class="post-meta">
@@ -1730,11 +1728,11 @@ register_hook函数 针对中间层的Variable的梯度进行处理，比如修�
           
 By PATRICK RILEY
 
-For a number of years, I led the data science team for Google Search logs. We were often asked to make sense of confusing results, measure new phenomena from logged behavior, validate analyses done by others, and interpret metri
+For a number of years, I led the data science team for Google Search logs. We were often asked to make sense of confusing results, measure new phenomena from logged behavior, validate analyses done by others, and interpret metrics 
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets /#more" rel="contents">
+            <a class="btn" href="/2018/05/Practical-advice-for-analysis-of-large-complex-data-sets%20/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1793,7 +1791,7 @@ For a number of years, I led the data science team for Google Search logs. We we
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/parameter-initialization-in-nmt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1860,8 +1858,7 @@ For a number of years, I led the data science team for Google Search logs. We we
       
         
           
-          motivation
-The widely used neural machine translation model is seq2seq model with encoder and decoder. The Transformer model (2017) has reached new state of the art in nmt. It has many parameters to decide and train: hyper-parameters and model param
+          motivationThe widely used neural machine translation model is seq2seq model with encoder and decoder. The Transformer model (2017) has reached new state of the art in nmt. It has many parameters to decide and train: hyper-parameters and model paramet
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1924,7 +1921,7 @@ The widely used neural machine translation model is seq2seq model with encoder a
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/motto-words/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -1997,7 +1994,7 @@ value proposition, what services being sold and to whom
 value creation, how will the service be created and provided.
 value capture, how will the value be monetised.
 
-@@在我的认识里，中国有三块地方很值得行走。一个是山西的运城和临汾一带，二是陕西的韩
+@@在我的认识里，中国有三块地方很值得行走。一个是山西的运城和临汾一带，二是陕西的韩城合阳朝邑一
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2060,7 +2057,7 @@ value capture, how will the value be monetised.
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/save_and_load_models_in_pytorch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -2132,7 +2129,7 @@ source from https://stackoverflow.com/questions/42703500/best-way-to-save-a-trai
 
 The question is what is the best way to save a trained model in PyTorch. The best answer is as follows:
 It depends what you want to do.
-Case #
+Case # 1: S
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2195,7 +2192,7 @@ Case #
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2018/04/paper-related-to-NLP-applications/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -2266,13 +2263,12 @@ Case #
 source from https://github.com/lipiji/App-DL
 
 Startups
-
 机器学习、深度学习、计算机视觉、大数据创业公司 - Startups in AI
 
 Deep Reinforcement Learning
-
 David Silver. “Tutorial: Deep Reinforcement Learning.” ICML 2016.
-David Silver’s course. “Reinforcement Learning
+David Silver’s course. “Reinforcement Learning“. 2015.
+Bah
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2321,7 +2317,7 @@ David Silver’s course. “Reinforcement Learning
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/">&lt;i class&#x3D;&quot;fa fa-angle-left&quot; aria-label&#x3D;&quot;Previous page&quot;&gt;&lt;&#x2F;i&gt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot; aria-label&#x3D;&quot;Next page&quot;&gt;&lt;&#x2F;i&gt;</a>
   </nav>
 
 
@@ -2355,10 +2351,10 @@ David Silver’s course. “Reinforcement Learning
             
               <img class="site-author-image" itemprop="image"
                 src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
-                alt="筑辰" />
+                alt="" />
             
-              <p class="site-author-name" itemprop="name">筑辰</p>
-              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           
@@ -2366,7 +2362,7 @@ David Silver’s course. “Reinforcement Learning
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
                     <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">posts</span>
@@ -2483,7 +2479,7 @@ David Silver’s course. “Reinforcement Learning
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -2499,7 +2495,7 @@ David Silver’s course. “Reinforcement Learning
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v5.4.0</div>
 
 
 
@@ -2715,24 +2711,7 @@ David Silver’s course. “Reinforcement Learning
         }
     });
 </script>
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="custom_mathjax_source">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
     
   
