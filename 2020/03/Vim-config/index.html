@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
 <head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
@@ -78,7 +78,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Pisces',
     version: '6.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
@@ -103,18 +103,18 @@
 
 
 
-  <meta name="description" content="参考来源：https://vimjc.com/, https://missing.csail.mit.edu/2020/editors/  1. 配置参考文件：  vim for server: https://github.com/wklken/vim-for-server The ultimate Vim configuration: https://github.com/ami">
-<meta name="keywords" content="NLP, learning">
+  <meta name="description" content="参考来源：https:&#x2F;&#x2F;vimjc.com&#x2F;, https:&#x2F;&#x2F;missing.csail.mit.edu&#x2F;2020&#x2F;editors&#x2F;  1. 配置参考文件： vim for server: https:&#x2F;&#x2F;github.com&#x2F;wklken&#x2F;vim-for-server The ultimate Vim configuration: https:&#x2F;&#x2F;github.com&#x2F;amix&#x2F;vimrc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vim配置参考">
 <meta property="og:url" content="http://cdnlp.top/2020/03/Vim-config/index.html">
 <meta property="og:site_name" content="知智读行">
-<meta property="og:description" content="参考来源：https://vimjc.com/, https://missing.csail.mit.edu/2020/editors/  1. 配置参考文件：  vim for server: https://github.com/wklken/vim-for-server The ultimate Vim configuration: https://github.com/ami">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-21T13:34:52.288Z">
+<meta property="og:description" content="参考来源：https:&#x2F;&#x2F;vimjc.com&#x2F;, https:&#x2F;&#x2F;missing.csail.mit.edu&#x2F;2020&#x2F;editors&#x2F;  1. 配置参考文件： vim for server: https:&#x2F;&#x2F;github.com&#x2F;wklken&#x2F;vim-for-server The ultimate Vim configuration: https:&#x2F;&#x2F;github.com&#x2F;amix&#x2F;vimrc">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-03-19T06:37:08.000Z">
+<meta property="article:modified_time" content="2020-03-21T13:34:52.288Z">
+<meta property="article:author" content="筑辰">
+<meta property="article:tag" content="NLP, learning">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vim配置参考">
-<meta name="twitter:description" content="参考来源：https://vimjc.com/, https://missing.csail.mit.edu/2020/editors/  1. 配置参考文件：  vim for server: https://github.com/wklken/vim-for-server The ultimate Vim configuration: https://github.com/ami">
 
 
 
@@ -167,9 +167,11 @@
       .logo-line-after i { right: initial; }
     }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/custom_css_source.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -178,7 +180,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -229,7 +231,7 @@
         
           
   
-  <li class="menu-item menu-item-about">
+  <li class="menu-item menu-item-about menu-item-active">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
 </li>
@@ -239,7 +241,7 @@
         
           
   
-  <li class="menu-item menu-item-categories menu-item-active">
+  <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
 </li>
@@ -305,7 +307,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/03/Vim-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -377,68 +379,64 @@
 
       
         <blockquote>
-<p>参考来源：<a href="https://vimjc.com/" class="uri" target="_blank" rel="noopener">https://vimjc.com/</a>, <a href="https://missing.csail.mit.edu/2020/editors/" class="uri" target="_blank" rel="noopener">https://missing.csail.mit.edu/2020/editors/</a></p>
+<p>参考来源：<a target="_blank" rel="noopener" href="https://vimjc.com/">https://vimjc.com/</a>, <a target="_blank" rel="noopener" href="https://missing.csail.mit.edu/2020/editors/">https://missing.csail.mit.edu/2020/editors/</a></p>
 </blockquote>
-<h2 id="配置参考文件">1. 配置参考文件：</h2>
-<ul>
-<li>vim for server: <a href="https://github.com/wklken/vim-for-server" class="uri" target="_blank" rel="noopener">https://github.com/wklken/vim-for-server</a></li>
-<li>The ultimate Vim configuration: <a href="https://github.com/amix/vimrc" class="uri" target="_blank" rel="noopener">https://github.com/amix/vimrc</a></li>
+<h2 id="1-配置参考文件："><a href="#1-配置参考文件：" class="headerlink" title="1. 配置参考文件："></a>1. 配置参考文件：</h2><ul>
+<li>vim for server: <a target="_blank" rel="noopener" href="https://github.com/wklken/vim-for-server">https://github.com/wklken/vim-for-server</a></li>
+<li>The ultimate Vim configuration: <a target="_blank" rel="noopener" href="https://github.com/amix/vimrc">https://github.com/amix/vimrc</a></li>
 </ul>
-<h2 id="配置文件的几个说明">2. 配置文件的几个说明：</h2>
-<ul>
+<h2 id="2-配置文件的几个说明："><a href="#2-配置文件的几个说明：" class="headerlink" title="2. 配置文件的几个说明："></a>2. 配置文件的几个说明：</h2><ul>
 <li>set autoread, 文件修改之后自动更新内容</li>
 <li>set magic， 使用regex表达式</li>
 <li>set nobackup, 不备份文件</li>
-<li>set ruler，显示当前的行和列</li>
+<li>set ruler，显示当前的行和列 </li>
 <li>set number， 显示所有行号</li>
 <li>set hlsearch， 高亮所有搜索结果</li>
 <li>set incsearch，边输入边搜索</li>
 <li>set expandtab，把插入的tab自动转换为空格</li>
 <li>set cursorcolumn， set cursorline， 高亮当前的行和列</li>
-<li>设置快捷键：
-<ul>
-<li>map &lt;leader&gt;sa ggVG 用\sa实现全选</li>
-<li>nnoremap ; : 把:用;来实现，方便输入命令</li>
+<li>设置快捷键：<ul>
+<li>map &lt;leader&gt;sa ggVG   用\sa实现全选</li>
+<li>nnoremap ; :  把:用;来实现，方便输入命令</li>
 <li>map &lt;space&gt; / ，用空格表示/ 搜索</li>
 <li>map &lt;C-space&gt; ?，用ctrl+空格，表示反向搜索。</li>
 <li>map &lt;leader&gt;pp :setlocal paste!&lt;cr&gt;， 控制粘贴模式的开启</li>
 <li>map 0 ^ ,用0表示行首非空白的字符，</li>
-</ul></li>
 </ul>
-<h2 id="定位">3. 定位</h2>
-<ul>
+</li>
+</ul>
+<h2 id="3-定位"><a href="#3-定位" class="headerlink" title="3. 定位"></a>3. 定位</h2><ul>
 <li>gg表示跳到文件第一行，G表示跳到文件最后一行。跳转到第32行，是32gg或者32G，输入 30%是跳转到文档的30%处，</li>
 <li>正向移动到下一单词的开头：w，反向移动到当前单词/上一单词的开头：b， 正向移动下一个词的词尾：e，</li>
 <li>行内快速移动f/F，移动到下一个字符处，f向前，F往回。如 fm，移动到下一个m字母处。</li>
 <li>重绘屏幕并把当前行显示在窗口：正中zz，顶部zt，底部zb，</li>
-<li>回到上次跳转的位置：’‘，回到上次编辑的位置：’.</li>
+<li>回到上次跳转的位置：’’，回到上次编辑的位置：’.</li>
 <li>实际行移动：j向下，k向上，h向左，l向右，0行首，$行尾, ^行首第一个非空白</li>
 <li>屏幕行移动：gj, gk, g0, g$, g^</li>
 <li>翻页，ctrl + b, ctrl + f</li>
 </ul>
-<h2 id="其他操作">4. 其他操作</h2>
-<ul>
-<li>选中多行，
-<ul>
+<h2 id="4-其他操作"><a href="#4-其他操作" class="headerlink" title="4. 其他操作"></a>4. 其他操作</h2><ul>
+<li>选中多行， <ul>
 <li>V 进入行可视化模式，用jh或者箭头移动多行选中即可。10j表示向下移动10行。</li>
 <li>选中一行，V</li>
-</ul></li>
-<li>多行注释与反注释，用查找替换的方法，例如注释3~8行： :3,8s/<sup>/#/g添加注释，用:3,8s/</sup>#//g 取消注释，</li>
-<li>在当前行后插入一行，自动定位到新行的开头，进入插入模式， o</li>
-<li>复制：
-<ul>
+</ul>
+</li>
+<li>多行注释与反注释，用查找替换的方法，例如注释3~8行： :3,8s/^/#/g添加注释，用:3,8s/^#//g 取消注释，</li>
+<li>在当前行后插入一行，自动定位到新行的开头，进入插入模式， o </li>
+<li>复制：<ul>
 <li>复制多行，选中多行后，y。</li>
 <li>复制该行， yy， 复制5行， y5y, 5yy</li>
 <li>复制当前词及后面的5个词，yw, y5w</li>
-</ul></li>
+</ul>
+</li>
 <li>粘贴： p 粘贴在光标后， P粘贴在光标前，</li>
 <li>删除/剪切所有：dG（光标位于文首） 或 :%d</li>
 <li>撤销，Normal模式下 u，表示撤销，ctrl + r表示反撤销，</li>
-<li>查找替换，用/来搜索，搜索后经常使用 :nohl 来清除Vim高亮
-<ul>
+<li>查找替换，用/来搜索，搜索后经常使用 :nohl 来清除Vim高亮<ul>
 <li>:s/foo/bar/g 在当前行替换， :%s/foo/bar/g 在全文替换，:.,+2s/foo/bar/g在当前行和接下来两行替换</li>
-<li>搜索后一段时间自动取消高亮，脚本： <a href="https://harttle.land/2016/08/08/vim-search-in-file.html" class="uri" target="_blank" rel="noopener">https://harttle.land/2016/08/08/vim-search-in-file.html</a></li>
-</ul></li>
+<li>搜索后一段时间自动取消高亮，脚本： <a target="_blank" rel="noopener" href="https://harttle.land/2016/08/08/vim-search-in-file.html">https://harttle.land/2016/08/08/vim-search-in-file.html</a></li>
+</ul>
+</li>
 </ul>
 
       
@@ -544,10 +542,10 @@
             
               <img class="site-author-image" itemprop="image"
                 src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
-                alt="筑辰" />
+                alt="" />
             
-              <p class="site-author-name" itemprop="name">筑辰</p>
-              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           
@@ -555,7 +553,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
                     <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">posts</span>
@@ -661,7 +659,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置参考文件"><span class="nav-number">1.</span> <span class="nav-text">1. 配置参考文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件的几个说明"><span class="nav-number">2.</span> <span class="nav-text">2. 配置文件的几个说明：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定位"><span class="nav-number">3.</span> <span class="nav-text">3. 定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他操作"><span class="nav-number">4.</span> <span class="nav-text">4. 其他操作</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">1. 配置参考文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E4%B8%AA%E8%AF%B4%E6%98%8E%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">2. 配置文件的几个说明：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.</span> <span class="nav-text">3. 定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">4. 其他操作</span></a></li></ol></div>
             
 
           </div>
@@ -688,7 +686,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -704,7 +702,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v5.4.0</div>
 
 
 
@@ -821,24 +819,7 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="custom_mathjax_source">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
 
 
 

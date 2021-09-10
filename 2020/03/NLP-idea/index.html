@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
 <head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
@@ -78,7 +78,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Pisces',
     version: '6.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
@@ -103,18 +103,18 @@
 
 
 
-  <meta name="description" content="转自 微软亚研院微博  今天的讲座主要回答两个问题，第一是自然语言处理到底有哪些新的进展；第二是这些新的进展给我们的搜索引擎带来了什么新的变化，或者未来可能会带来什么新的变化。 自然语言技术的重要组成 自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。 NLP基础包括词的表示，比如现在热门的word Embedding。词的表示包括上下文无">
-<meta name="keywords" content="review">
+  <meta name="description" content="转自 微软亚研院微博  今天的讲座主要回答两个问题，第一是自然语言处理到底有哪些新的进展；第二是这些新的进展给我们的搜索引擎带来了什么新的变化，或者未来可能会带来什么新的变化。 自然语言技术的重要组成自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。 NLP基础包括词的表示，比如现在热门的word Embedding。词的表示包括上下文无关的表示和上下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微软亚研院周明-NLP的研究方向及展望">
 <meta property="og:url" content="http://cdnlp.top/2020/03/NLP-idea/index.html">
 <meta property="og:site_name" content="知智读行">
-<meta property="og:description" content="转自 微软亚研院微博  今天的讲座主要回答两个问题，第一是自然语言处理到底有哪些新的进展；第二是这些新的进展给我们的搜索引擎带来了什么新的变化，或者未来可能会带来什么新的变化。 自然语言技术的重要组成 自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。 NLP基础包括词的表示，比如现在热门的word Embedding。词的表示包括上下文无">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-29T01:39:56.349Z">
+<meta property="og:description" content="转自 微软亚研院微博  今天的讲座主要回答两个问题，第一是自然语言处理到底有哪些新的进展；第二是这些新的进展给我们的搜索引擎带来了什么新的变化，或者未来可能会带来什么新的变化。 自然语言技术的重要组成自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。 NLP基础包括词的表示，比如现在热门的word Embedding。词的表示包括上下文无关的表示和上下">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-03-29T01:27:30.000Z">
+<meta property="article:modified_time" content="2020-03-29T01:39:56.349Z">
+<meta property="article:author" content="筑辰">
+<meta property="article:tag" content="review">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="微软亚研院周明-NLP的研究方向及展望">
-<meta name="twitter:description" content="转自 微软亚研院微博  今天的讲座主要回答两个问题，第一是自然语言处理到底有哪些新的进展；第二是这些新的进展给我们的搜索引擎带来了什么新的变化，或者未来可能会带来什么新的变化。 自然语言技术的重要组成 自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。 NLP基础包括词的表示，比如现在热门的word Embedding。词的表示包括上下文无">
 
 
 
@@ -167,9 +167,11 @@
       .logo-line-after i { right: initial; }
     }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/custom_css_source.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -178,7 +180,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -229,7 +231,7 @@
         
           
   
-  <li class="menu-item menu-item-about">
+  <li class="menu-item menu-item-about menu-item-active">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
 </li>
@@ -239,7 +241,7 @@
         
           
   
-  <li class="menu-item menu-item-categories menu-item-active">
+  <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
 </li>
@@ -305,7 +307,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/03/NLP-idea/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -377,45 +379,41 @@
 
       
         <blockquote>
-<p>转自 <a href="https://weibo.com/ttarticle/p/show?id=2309404359216390387504" target="_blank" rel="noopener">微软亚研院微博</a></p>
+<p>转自 <a target="_blank" rel="noopener" href="https://weibo.com/ttarticle/p/show?id=2309404359216390387504">微软亚研院微博</a></p>
 </blockquote>
 <p>今天的讲座主要回答两个问题，第一是自然语言处理到底有哪些新的进展；第二是这些新的进展给我们的搜索引擎带来了什么新的变化，或者未来可能会带来什么新的变化。</p>
-<h2 id="自然语言技术的重要组成">自然语言技术的重要组成</h2>
-<p>自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。</p>
+<h2 id="自然语言技术的重要组成"><a href="#自然语言技术的重要组成" class="headerlink" title="自然语言技术的重要组成"></a>自然语言技术的重要组成</h2><p>自然语言技术覆盖的领域可以总结为三方面，包括 NLP 基础、NLP 核心技术和 NLP 应用。</p>
 <p>NLP基础包括词的表示，比如现在热门的word Embedding。词的表示包括上下文无关的表示和上下文有关的表示，前者就是静态的Word Embedding，后者现在一般使用各种预训练模型，根据当前的句子来体现一个词在特定上下文的的语境里面该词的语义表示。同样一个词，在不同的语境下，其语义表示也不一样。基于词的表示，我们就可以做很多应用，比如语言模型、分词、语言模型、句法语义分析、篇章分析、等等，这些都是NLP的基础。</p>
 <p>基于 NLP 基础，我们又有很多 NLP 的核心技术，包括机器翻译、问答、信息检索、信息抽取、对话、知识工程，还有自然语言生成、推荐系统，等等。</p>
 <p>基于 NLP 核心技术，我们就可以把 NLP 用在一些具体的应用中，比如搜索引擎、客服、商业智能和语音助手。</p>
 <p>为了完成这些任务还需要很多底层支撑技术，包括用户画像建模、用于实现个性化的推荐技术、大数据能力、计算能力、机器学习和深度学习的能力、知识库、常识及推理的能力。</p>
-<h2 id="深度学习对自然语言技术的影响">深度学习对自然语言技术的影响</h2>
-<p>深度学习先后对图像、语音、自然语言这些领域都产生了重要的影响。其中，深度学习对自然语言的影响主要体现在以下 6 个方面：</p>
-<ol type="1">
+<h2 id="深度学习对自然语言技术的影响"><a href="#深度学习对自然语言技术的影响" class="headerlink" title="深度学习对自然语言技术的影响"></a>深度学习对自然语言技术的影响</h2><p>深度学习先后对图像、语音、自然语言这些领域都产生了重要的影响。其中，深度学习对自然语言的影响主要体现在以下 6 个方面：</p>
+<ol>
 <li>端到端训练（End-end training）</li>
 </ol>
 <p>​过去做统计自然语言处理的时候，都是由专家去定义各种Feature，需要很多领域知识。有的时候不容易找到很好的Feature。而有了端对端的训练，只要有输入和输出的对照（输入-输出），把输入对应的输出标注好，形成训练数据集合。然后用神经网络通过自动训练就可以得到学习系统，不需要人为设定和优选Feature。这改变了很多自然语言技术的发展，大大降低了自然语言处理的技术门槛。这意味着，你只要有算力和标注数据，基本上可以“傻瓜式”地实现一个自然语言模型的学习，从而推动了自然语言处理技术的普及。</p>
-<ol start="2" type="1">
+<ol start="2">
 <li>语义表示（Embedding）和预训练模型（Pretrained Model）</li>
 </ol>
 <p>​一是上下文无关的Embedding（表示），就是不管上下文是什么，一个词的表示是固定的（用多维向量来表示）。第二个，根据上下文有关，在不同的句子里，同一个词的意思可能不一样，那么它的embedding也是不一样的。现在利用Bert和GPT-2这样的模型，可以根据一个词的上下文训练这个词的动态Embedding。在做其他任务时候，预训练模型可以用来强化输入信息。有了Embedding这个东西就可以计算词与词之间的距离；基于词的Embedding，又可以得到句子的Embedding，也就可以计算句子与句子之间的距离。这就使得搜索引擎中Query对Document匹配程度的计算得以改进。</p>
-<ol start="3" type="1">
+<ol start="3">
 <li>Attention（注意力模型）</li>
 </ol>
 <p>​Attention指的是不同的输入信号源之间可以做相应的修正，来动态地体现当前层对网络的下一层或者对网络输出层的最佳输入信号。有了Attention，就可以对受多输入路信号，然后动态计算信号之间产生的互相影响。</p>
-<ol start="4" type="1">
+<ol start="4">
 <li>句子的编码方法（RNN/LSTM/GRU/Transformer）</li>
 </ol>
 <p>对于一个不定长的句子，可以通过 RNN、LSTM/GRU 或者 Transformer 技术表示其编码，表现为若干个隐含状态的序列。一个隐含状态对应句子的一个词汇。虽然以上对句子的几种编码方式都可行，但是发展到目前，更多是用 Transformer 来对句子编码。对句子编码之后，就可以做翻译、问答、检索等各种应用。</p>
-<ol start="5" type="1">
+<ol start="5">
 <li>编码 - 解码模型（Encoder-Decoder）</li>
 </ol>
 <p>​NLP中，很多任务都可以定义成一个输入和一个输出的对应。所以编码-解码模型有普遍的适用意义。比如，机器翻译任务，源语言句子是输入，目标语言句子是输出。这样就存在输入和输出的对应。如果是单轮任务，就是输入和输出直接对应，不需要中间推理，可以用编码和解码的技术来进行建模。除了机器翻译，词性标注、分词、句法分析、语义分析、问答、摘要、阅读理解等许多任务都可以通过编码-解码模型进行建模。</p>
-<ol start="6" type="1">
+<ol start="6">
 <li>强化学习</li>
 </ol>
 <p>​系统根据用户的反馈或者环境的反馈信号，会迭代地修正参数，整个系统得以不断改进。比如对话系统很多用到了强化学习。不过在很多其他NLP任务中，如何体现强化学习是一个还在不停探索的问题。</p>
-<h2 id="自然语言技术的进展和趋势">自然语言技术的进展和趋势</h2>
-<p>​接下来逐一介绍自然语言技术在不同方向上的进展，并讨论每一项进展对于搜索的影响。</p>
-<h3 id="问答技术qa">问答技术（QA）</h3>
-<p>​当用户提出问题或者 Query 的时候，搜索引擎或问答系统需要到它所能够掌握的资源里去找到相应的答案。一般有如下几项资源以及相对应的 QA 技术：</p>
+<h2 id="自然语言技术的进展和趋势"><a href="#自然语言技术的进展和趋势" class="headerlink" title="自然语言技术的进展和趋势"></a>自然语言技术的进展和趋势</h2><p>​接下来逐一介绍自然语言技术在不同方向上的进展，并讨论每一项进展对于搜索的影响。</p>
+<h3 id="问答技术（QA）"><a href="#问答技术（QA）" class="headerlink" title="问答技术（QA）"></a>问答技术（QA）</h3><p>​当用户提出问题或者 Query 的时候，搜索引擎或问答系统需要到它所能够掌握的资源里去找到相应的答案。一般有如下几项资源以及相对应的 QA 技术：</p>
 <ul>
 <li>Community-QA，就是常见的 FAQ 表。对于一个问题，可寻找历史上类似的问题，然后把其对应的答案输出。</li>
 <li>KBQA，就是到知识图谱里把相应的答案找出来或者推理出来。</li>
@@ -426,33 +424,29 @@
 <p>​目前利用多源数据流或者知识库进行 QA 的技术已经越来越普及，而且相应的语义分析技术和排序技术也比以前大大提高了。</p>
 <p>​过去的 QA 都是用的传统的，像手工编辑的基于规则的语义分析，比如说 CCG，但由于它存在各种问题，最近三年以来人们更多使用 Encoder-Decoder 技术来做语义分析，在分层语义分析、上下文感知的语义分析上都取得了新的突破。</p>
 <p>​有了很好的 QA 之后，搜索引擎的智能水平和自然程度都提高了。但是在具体做搜索引擎的时候，比如在某些垂直领域，或者使用某些设备时，怎么用 QA 的结果，可能是仁者见仁智者见智。可信度极高的时候可以使用 QA 的结果，可信度不高的时候还是要回归到原来的 Ten Blue Links 上面，这需要拿捏一定的尺度并跟 UI 很好地结合。</p>
-<h3 id="多语言处理能力multi-lingual-capability">多语言处理能力（Multi-lingual capability）</h3>
-<p>​多语言的处理能力对于搜索引擎非常重要。假设我们有很好的机器翻译技术，就可以做多语言的搜索，将用户想要搜索的信息、哪怕是来自其他语言的也可以找出来，在搜索结果中呈现，并通过机器翻译技术把页面翻译成用户的母语。​机器翻译其实一直都进展缓慢，近几年由于深度学习技术的发展，神经网络机器翻译相比统计机器翻译已经有了大幅度的进展。机器翻译技术可以分成两类，一种是 Rich Resource NMT，也就是双语语料丰富的语言对（比如中文 - 英文）；另一种叫 Low Resource NMT，即缺少足够的双语语料（比如中文 - 希伯来语）。</p>
+<h3 id="多语言处理能力（Multi-lingual-capability）"><a href="#多语言处理能力（Multi-lingual-capability）" class="headerlink" title="多语言处理能力（Multi-lingual capability）"></a>多语言处理能力（Multi-lingual capability）</h3><p>​多语言的处理能力对于搜索引擎非常重要。假设我们有很好的机器翻译技术，就可以做多语言的搜索，将用户想要搜索的信息、哪怕是来自其他语言的也可以找出来，在搜索结果中呈现，并通过机器翻译技术把页面翻译成用户的母语。​机器翻译其实一直都进展缓慢，近几年由于深度学习技术的发展，神经网络机器翻译相比统计机器翻译已经有了大幅度的进展。机器翻译技术可以分成两类，一种是 Rich Resource NMT，也就是双语语料丰富的语言对（比如中文 - 英文）；另一种叫 Low Resource NMT，即缺少足够的双语语料（比如中文 - 希伯来语）。</p>
 <p>​目前的机器翻译在Rich Resource 上已经做得非常好了，甚至在某些训练集下已经可以达到或超过人工翻译水平。但是Low Resource现在才刚刚开始，有很多有趣的研究，整体水平还处于比较低级的阶段。​机器翻译在搜索上已经有很多的应用，现在每一个搜索引擎都会有机器翻译应用，用户可以动态地把网页翻译成所需要的某种语言。</p>
-<p>​神经网络机器翻译最开始是用RNN来做，后来引入了注意力模型，过去两年又出现了Transformer技术，大大提升了并行能力。现在大部分神经网络机器翻译都是用Transformer来做的，最近业界也有了很多新的进展，包括微软亚洲研究院的最新技术等，使得机神经器翻译有了长足的进步。 ​ 上图所示是微软 2018 年在神经机器翻译的进展。传统 Transformer 的 Baseline 只有 24.2，加上单方向的 Back Translation 之后可以达到 25.57，再加上联合学习、对偶学习、多次解码和双向一致性解码等技术让系统的表现不断提高。当前将所有成果结合起来已经在 WMT 新闻语料上得到了一个最佳翻译结果，而且这个结果达到了人工翻译在这个数据集合的水平。</p>
-<p>​当没有那么足够多语料的时候，就要考虑 Low Resource 的机器翻译技术。Low Resource 的机器翻译现在主要有三个思路。</p>
+<p>​神经网络机器翻译最开始是用RNN来做，后来引入了注意力模型，过去两年又出现了Transformer技术，大大提升了并行能力。现在大部分神经网络机器翻译都是用Transformer来做的，最近业界也有了很多新的进展，包括微软亚洲研究院的最新技术等，使得机神经器翻译有了长足的进步。<br>​<br>上图所示是微软 2018 年在神经机器翻译的进展。传统 Transformer 的 Baseline 只有 24.2，加上单方向的 Back Translation 之后可以达到 25.57，再加上联合学习、对偶学习、多次解码和双向一致性解码等技术让系统的表现不断提高。当前将所有成果结合起来已经在 WMT 新闻语料上得到了一个最佳翻译结果，而且这个结果达到了人工翻译在这个数据集合的水平。</p>
+<p>​当没有那么足够多语料的时候，就要考虑 Low Resource 的机器翻译技术。Low Resource 的机器翻译现在主要有三个思路。 </p>
 <ul>
 <li>枢轴式翻译（Pivot-based NMT）：比如说要翻中日，可以通过先中翻英、再英翻日这样一个两步走的过程来实现，因为中文 - 英文、英文 - 日文的双语语料比较多。</li>
 <li>Tri-Language NMT：这是一个三角形的机器翻译架构。假设有一个 Rich Resource 的语料对，比如中英，但是要翻译一个 Low Resource 的语言，比如希伯来语。中文和希伯来语、英文和希伯来语的预料对相对都比较少，那么可以利用中英已经很强大的机器翻译和对应的语料，来把希伯来语和中文，与希伯来语和英文的翻译来强化，通过一个 EM 迭代的过程来体现这样的带动作用。</li>
 <li>Unsupervised NMT：有时候可能什么双语料也没有，只有一些简单的小辞典，体现源语言词与目标语言词的对应关系。那么可以利用这个小辞典做一些工作。首先做一个所谓的跨语言 Word Embedding，把不同语言的词，如果它们表达相近或者相同的意思，试图通过一种方式把它们聚在一起。抽取高可信度的词汇对应形成一个双语对照辞典。基于这个翻译辞典，再加上目标语言的语言模型，就可以做一个词汇级的统计机器翻译。基于这个统计机器翻译，就可以把源语言翻译得到目标语言，或反之，虽然翻译质量不高。再利用这样的双语料，就可以分别去训练神经网络机器翻译，然后再通过类似我们在做WMT的一些技术，比如实现源到目的、目的到源的翻译系统的互相迭代，进一步强化翻译结果。</li>
 </ul>
-<h3 id="多模态搜索">多模态搜索</h3>
-<p>​多模态搜索指的就是将语言、语音、文字、图像等各种模态集成来进行搜索。​近几年 ImageNet 数据集将图像识别的水平大幅度提高，而 image captioning 和 video captioning 技术可以用自然语言来描述图像和视频的内容。这些技术的进展激发了研究人员对多模态搜索的更多尝试来提高搜索的用户体验。</p>
+<h3 id="多模态搜索"><a href="#多模态搜索" class="headerlink" title="多模态搜索"></a>多模态搜索</h3><p>​多模态搜索指的就是将语言、语音、文字、图像等各种模态集成来进行搜索。​近几年 ImageNet 数据集将图像识别的水平大幅度提高，而 image captioning 和 video captioning 技术可以用自然语言来描述图像和视频的内容。这些技术的进展激发了研究人员对多模态搜索的更多尝试来提高搜索的用户体验。</p>
 <p>​VQA 指的是基于图片对用户提出的问题进行解答。有了 VQA 数据集之后，研究人员就可以实验性地去做一些基于图像的问答系统，背后涉及到如何对图像跟自然语言进行编码，如何通过注意力模型把常识引入进去，以提高整体水平。目前仍处于初期阶段，其中还有许多有意思的挑战，比如怎么使用推理和常识。最近斯坦福做了一个叫做 GQA 的数据集，用来体现 VQA 的推理过程，比如对一个问题经过哪几个步骤进行了推理得到答案。研究人员可以用它来训练 VQA 系统的推理能力。</p>
 <p>​基于多模态技术，可以做出很多新的搜索体验。比如用户输入一个 Query，可以直接输出图像结果，甚至图像中每一个人在知识图谱中对应的 ID 可以找回来，提示给用户，可以链接知识图谱的描述。其中也用到了人脸识别技术。</p>
 <p>​另外，也可以直接输入图像进行 Query，比如手机照相，经过图形识别，得到相关图像和文档。​图像搜索的结果也可以强化普通的文本搜索结果。比如在输入引擎中输入一个 Query：大象吃什么？可得到文本搜索的结果以及图像的搜索结果。这两个结果可以互相增强，来提高用户的搜索体验。</p>
-<h3 id="机器阅读理解">机器阅读理解</h3>
-<p>​机器阅读理解（Machine Reading Comprehension），简称 MRC。简单地说，就是针对一篇文章，如果问机器一个问题，看机器能不能把这个问题回答出来，有时候是直接从文章中找出一个答案，有时候可能要根据上下文进行推理。</p>
+<h3 id="机器阅读理解"><a href="#机器阅读理解" class="headerlink" title="机器阅读理解"></a>机器阅读理解</h3><p>​机器阅读理解（Machine Reading Comprehension），简称 MRC。简单地说，就是针对一篇文章，如果问机器一个问题，看机器能不能把这个问题回答出来，有时候是直接从文章中找出一个答案，有时候可能要根据上下文进行推理。</p>
 <p>​过去这几年，SQuAD 1.1、SQuAD 2.0、CoQA这些经典的机器阅读理解数据集驱动着MRC快速发展。而大量涌现出的很多优秀的Pre-trained Model，像ELMo、Bert等也大幅提高了MRC的水平，主要体现在能够将一些开放领域的人类知识（隐含）进行编码，强化输入信号（问题和文章），并参与到一个整体的端对端训练过程中。学术界和产业界有很多团队在不断刷新着MRC的记录，甚至超越了人工水准。如下图所示。</p>
 <p>有了更高的机器阅读理解水平，我们可将其应用在搜索上做一些新的尝试，MRC 对搜索的帮助主要体现在以下几方面：</p>
-<ol type="1">
+<ol>
 <li>首先可以对搜索结果的摘要进行改进，抽取出更好的摘要。对于摘要中最匹配答案的部分，可以更好地 highlight 出来。</li>
 <li>优化手册阅读理解。一般使用手册都很长，没有人愿意看，只需要将手册的 PDF 文件数字化，就可以做机器阅读理解。而用户只要发出一个问题，可直接找出它的答案。</li>
 <li>加速网站全站搜索。在某一个网站中，比如客服网站或某一个产品的介绍网站，如果用户有问题，只要把问题输入进去，机器可以对整个网站进行解析，并把答案直接抽取出来。同时用户还可以通过 Conversational QA 连续对网站进行连续提问。通过 MRC 找到精准的答案，以实现一个交互式的搜索过程。</li>
 </ol>
 <p>​未来 MRC 如果要进一步提升，一方面在 Pre-trained Model 上还有很多可以改进的地方，另外还要加强上下文推理的能力，以及更好地融合常识和知识库，增强推理过程。</p>
-<h3 id="个性化推荐">个性化推荐</h3>
-<p>​对于搜索引擎来说，推荐系统变得越来越重要。所谓推荐系统指的就是用户不用（显式）输入 Query，系统会根据用户过去的行为，直接把他可能喜欢的内容推荐过去。现在这种方式在手机端越来越流行。​这背后涉及很多技术：</p>
+<h3 id="个性化推荐"><a href="#个性化推荐" class="headerlink" title="个性化推荐"></a>个性化推荐</h3><p>​对于搜索引擎来说，推荐系统变得越来越重要。所谓推荐系统指的就是用户不用（显式）输入 Query，系统会根据用户过去的行为，直接把他可能喜欢的内容推荐过去。现在这种方式在手机端越来越流行。​这背后涉及很多技术：</p>
 <ul>
 <li>第一个技术是用户画像（User Modeling）。即根据用户的各种行为，比如搜索行为、使用地图的行为、电子商务网站的各种行为，这些行为构成的异构数据，对某个用户形成了一个全面的了解。通过对多种异构数据的融合建模，来体现用户画像。</li>
 <li>第二是怎么将用户画像的结果表达出来。一种是显示的表达，比如男女、性格、年龄等用关键词或数字表示出来。如果涉及隐私问题，可考虑隐式的表达，通过 User Embedding，用多维向量（一串数字）来代表一个用户的整体特征。 虽然不能显式体现用户的特征（从而保护用户隐私），但是却能够体现出很好的推荐效果。</li>
@@ -464,8 +458,7 @@
 <li>做聪明的推荐，既能找到用户以前喜欢的内容，又能预测用户未来可能喜欢的内容，及时推荐给用户。</li>
 <li>推荐系统的可解释性，做推荐不能盲目推荐，还需要给用户一个解释，为什么要把这样的内容推荐给他呢？可能因为他的朋友某某喜欢，或者因为通过用户早前的搜索行为预测用户可能喜欢这个被推荐内容。这种解释要以自然语言形式附着在被推荐内容上面，来帮助用户理解。</li>
 </ul>
-<h2 id="未来研究方向">未来研究方向</h2>
-<p>​ 自然语言处理未来比较重要的研究课题包括：</p>
+<h2 id="未来研究方向"><a href="#未来研究方向" class="headerlink" title="未来研究方向"></a>未来研究方向</h2><p>​<br>自然语言处理未来比较重要的研究课题包括：</p>
 <ul>
 <li>知识获取和知识表示，尤其是前面提到的 Pre-trained Model，一是怎么用，二是怎么改进。还有像常识知识如何获取，如何加入到数据训练过程中，以及如何融入领域知识和 Open Domain 的知识等。</li>
 <li>新的学习方法，比如多任务学习、强化学习、半监督和无监督的学习，还有 Low Resource 资源的学习。此外，推理是未来关注焦点。如何把推理很好地建立起来。用在机器阅读理解、多轮对话、法律、医疗诊断等方面。</li>
@@ -474,8 +467,7 @@
 <li>搜索结果的生成和摘要。这方面做的相对比较少，比如将不同方面的内容收集出来，体现出鲜明的观点，甚至做一些对比，生成深度好文等。</li>
 <li>信息流。信息流现在无论是工业界还是学术界都越来越热。如何进行用户画像建模，如何获得丰富的内容（抓取、授权、翻译、生成等），如何做各种推荐，如何提供推荐的解释等都是未来很重要的研究方向。</li>
 </ul>
-<h2 id="雷鸣对话周明">雷鸣对话周明</h2>
-<p>​雷鸣：多轮对话一直是研究上的一个热点，也是一个难点，到现在应该说解决的也不是特别好，这块的话，你感觉它的最大的挑战在哪？未来的几年会有什么样的进展？可能在什么技术上能支撑它做得更好？</p>
+<h2 id="雷鸣对话周明"><a href="#雷鸣对话周明" class="headerlink" title="雷鸣对话周明"></a>雷鸣对话周明</h2><p>​雷鸣：多轮对话一直是研究上的一个热点，也是一个难点，到现在应该说解决的也不是特别好，这块的话，你感觉它的最大的挑战在哪？未来的几年会有什么样的进展？可能在什么技术上能支撑它做得更好？</p>
 <p>​周明： 多轮对话问题确实很难，现在来讲最难的就是，上下文信息记录下来之后，什么信息可以用在当前的这个句子里，什么信息应该遗忘，这在目前是不够清楚的，没有那么强的信号。所以有时候语义分析结果会出现一些错误，通用的多轮对话还是很难。因此具体应用的时候，多轮对话一定要考虑场景，如果把场景定义清楚了，你就可以很容易地定义状态，而在每个状态下可以提问的形式也是有限的，就可以做相应的推理。这样一来，多轮对话可能相应会容易一些。现在对话系统都是面向具体任务或者具体场景来设计的。</p>
 <p>​如果一个对话系统对应多个场景，就需要判断场景之间是否出现切换。只要判断进了某个场景，就调用那个领域的对话引擎（知识图谱、对话状态图谱），根据当前的状态来判断那个下一个回复应该怎么进行，等等。</p>
 <p>​当然有一些聊天机器人，比如微软小冰，不是完成某一个任务的对话驱动，它的技术跟面向任务的多轮对话有很多不同。这里就不多介绍了。</p>
@@ -616,10 +608,10 @@
             
               <img class="site-author-image" itemprop="image"
                 src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
-                alt="筑辰" />
+                alt="" />
             
-              <p class="site-author-name" itemprop="name">筑辰</p>
-              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           
@@ -627,7 +619,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
                     <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">posts</span>
@@ -733,7 +725,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#自然语言技术的重要组成"><span class="nav-number">1.</span> <span class="nav-text">自然语言技术的重要组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深度学习对自然语言技术的影响"><span class="nav-number">2.</span> <span class="nav-text">深度学习对自然语言技术的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自然语言技术的进展和趋势"><span class="nav-number">3.</span> <span class="nav-text">自然语言技术的进展和趋势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问答技术qa"><span class="nav-number">3.1.</span> <span class="nav-text">问答技术（QA）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多语言处理能力multi-lingual-capability"><span class="nav-number">3.2.</span> <span class="nav-text">多语言处理能力（Multi-lingual capability）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多模态搜索"><span class="nav-number">3.3.</span> <span class="nav-text">多模态搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器阅读理解"><span class="nav-number">3.4.</span> <span class="nav-text">机器阅读理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#个性化推荐"><span class="nav-number">3.5.</span> <span class="nav-text">个性化推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未来研究方向"><span class="nav-number">4.</span> <span class="nav-text">未来研究方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#雷鸣对话周明"><span class="nav-number">5.</span> <span class="nav-text">雷鸣对话周明</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E6%8A%80%E6%9C%AF%E7%9A%84%E9%87%8D%E8%A6%81%E7%BB%84%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">自然语言技术的重要组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AF%B9%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E6%8A%80%E6%9C%AF%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">2.</span> <span class="nav-text">深度学习对自然语言技术的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E6%8A%80%E6%9C%AF%E7%9A%84%E8%BF%9B%E5%B1%95%E5%92%8C%E8%B6%8B%E5%8A%BF"><span class="nav-number">3.</span> <span class="nav-text">自然语言技术的进展和趋势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E7%AD%94%E6%8A%80%E6%9C%AF%EF%BC%88QA%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">问答技术（QA）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B%EF%BC%88Multi-lingual-capability%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">多语言处理能力（Multi-lingual capability）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81%E6%90%9C%E7%B4%A2"><span class="nav-number">3.3.</span> <span class="nav-text">多模态搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E9%98%85%E8%AF%BB%E7%90%86%E8%A7%A3"><span class="nav-number">3.4.</span> <span class="nav-text">机器阅读理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AA%E6%80%A7%E5%8C%96%E6%8E%A8%E8%8D%90"><span class="nav-number">3.5.</span> <span class="nav-text">个性化推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AA%E6%9D%A5%E7%A0%94%E7%A9%B6%E6%96%B9%E5%90%91"><span class="nav-number">4.</span> <span class="nav-text">未来研究方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%B7%E9%B8%A3%E5%AF%B9%E8%AF%9D%E5%91%A8%E6%98%8E"><span class="nav-number">5.</span> <span class="nav-text">雷鸣对话周明</span></a></li></ol></div>
             
 
           </div>
@@ -760,7 +752,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -776,7 +768,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v5.4.0</div>
 
 
 
@@ -893,24 +885,7 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="custom_mathjax_source">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
 
 
 

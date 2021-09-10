@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
 <head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
@@ -78,7 +78,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Pisces',
     version: '6.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
@@ -103,18 +103,18 @@
 
 
 
-  <meta name="description" content="参考：https://zodiac911.github.io/blog/pdb.html  使用pdb++(https://github.com/pdbpp/pdbpp)调试python程序，常用的命令如下：  和pdb一样，使用n执行一步，c执行到下一个断点，s进入函数内部执行，r返回函数 启用sticky mode， 启用interactive功能 pdb.disable()">
-<meta name="keywords" content="python">
+  <meta name="description" content="参考：https:&#x2F;&#x2F;zodiac911.github.io&#x2F;blog&#x2F;pdb.html  使用pdb++(https:&#x2F;&#x2F;github.com&#x2F;pdbpp&#x2F;pdbpp)调试python程序，常用的命令如下：  和pdb一样，使用n执行一步，c执行到下一个断点，s进入函数内部执行，r返回函数 启用sticky mode， 启用interactive功能 pdb.disable() 可以忽略当前设">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用pdb调试python">
 <meta property="og:url" content="http://cdnlp.top/2020/04/python-debug/index.html">
 <meta property="og:site_name" content="知智读行">
-<meta property="og:description" content="参考：https://zodiac911.github.io/blog/pdb.html  使用pdb++(https://github.com/pdbpp/pdbpp)调试python程序，常用的命令如下：  和pdb一样，使用n执行一步，c执行到下一个断点，s进入函数内部执行，r返回函数 启用sticky mode， 启用interactive功能 pdb.disable()">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-29T01:56:38.124Z">
+<meta property="og:description" content="参考：https:&#x2F;&#x2F;zodiac911.github.io&#x2F;blog&#x2F;pdb.html  使用pdb++(https:&#x2F;&#x2F;github.com&#x2F;pdbpp&#x2F;pdbpp)调试python程序，常用的命令如下：  和pdb一样，使用n执行一步，c执行到下一个断点，s进入函数内部执行，r返回函数 启用sticky mode， 启用interactive功能 pdb.disable() 可以忽略当前设">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-04-29T01:41:23.000Z">
+<meta property="article:modified_time" content="2020-04-29T01:56:38.124Z">
+<meta property="article:author" content="筑辰">
+<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用pdb调试python">
-<meta name="twitter:description" content="参考：https://zodiac911.github.io/blog/pdb.html  使用pdb++(https://github.com/pdbpp/pdbpp)调试python程序，常用的命令如下：  和pdb一样，使用n执行一步，c执行到下一个断点，s进入函数内部执行，r返回函数 启用sticky mode， 启用interactive功能 pdb.disable()">
 
 
 
@@ -167,9 +167,11 @@
       .logo-line-after i { right: initial; }
     }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/custom_css_source.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -178,7 +180,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -229,7 +231,7 @@
         
           
   
-  <li class="menu-item menu-item-about">
+  <li class="menu-item menu-item-about menu-item-active">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
 </li>
@@ -239,7 +241,7 @@
         
           
   
-  <li class="menu-item menu-item-categories menu-item-active">
+  <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
 </li>
@@ -305,7 +307,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2020/04/python-debug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -377,9 +379,9 @@
 
       
         <blockquote>
-<p>参考：<a href="https://zodiac911.github.io/blog/pdb.html" class="uri" target="_blank" rel="noopener">https://zodiac911.github.io/blog/pdb.html</a></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://zodiac911.github.io/blog/pdb.html">https://zodiac911.github.io/blog/pdb.html</a></p>
 </blockquote>
-<p>使用pdb++(<a href="https://github.com/pdbpp/pdbpp" class="uri" target="_blank" rel="noopener">https://github.com/pdbpp/pdbpp</a>)调试python程序，常用的命令如下：</p>
+<p>使用pdb++(<a target="_blank" rel="noopener" href="https://github.com/pdbpp/pdbpp">https://github.com/pdbpp/pdbpp</a>)调试python程序，常用的命令如下：</p>
 <ul>
 <li>和pdb一样，使用n执行一步，c执行到下一个断点，s进入函数内部执行，r返回函数</li>
 <li>启用sticky mode，</li>
@@ -488,10 +490,10 @@
             
               <img class="site-author-image" itemprop="image"
                 src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
-                alt="筑辰" />
+                alt="" />
             
-              <p class="site-author-name" itemprop="name">筑辰</p>
-              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           
@@ -499,7 +501,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
                     <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">posts</span>
@@ -616,7 +618,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -632,7 +634,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v5.4.0</div>
 
 
 
@@ -749,24 +751,7 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="custom_mathjax_source">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
 
 
 

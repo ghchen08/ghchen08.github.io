@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans,en,default">
 <head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
@@ -78,7 +78,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Pisces',
     version: '6.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
@@ -103,18 +103,18 @@
 
 
 
-  <meta name="description" content="source from christopher5106 blog  In machine learning many different losses exist. A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective fun">
-<meta name="keywords" content="theory">
+  <meta name="description" content="source from christopher5106 blog  In machine learning many different losses exist. A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective functio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="About loss functions, regularization and joint losses">
 <meta property="og:url" content="http://cdnlp.top/2019/04/about-loss-func/index.html">
 <meta property="og:site_name" content="知智读行">
-<meta property="og:description" content="source from christopher5106 blog  In machine learning many different losses exist. A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective fun">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-07T07:36:51.242Z">
+<meta property="og:description" content="source from christopher5106 blog  In machine learning many different losses exist. A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective functio">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-04-06T07:00:51.000Z">
+<meta property="article:modified_time" content="2021-09-10T02:21:46.315Z">
+<meta property="article:author" content="筑辰">
+<meta property="article:tag" content="theory">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="About loss functions, regularization and joint losses">
-<meta name="twitter:description" content="source from christopher5106 blog  In machine learning many different losses exist. A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the objective fun">
 
 
 
@@ -167,9 +167,11 @@
       .logo-line-after i { right: initial; }
     }
   </style>
-</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="/custom_css_source.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -178,7 +180,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -229,7 +231,7 @@
         
           
   
-  <li class="menu-item menu-item-about">
+  <li class="menu-item menu-item-about menu-item-active">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
 </li>
@@ -239,7 +241,7 @@
         
           
   
-  <li class="menu-item menu-item-categories menu-item-active">
+  <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
 </li>
@@ -305,7 +307,7 @@
     <link itemprop="mainEntityOfPage" href="http://cdnlp.top/2019/04/about-loss-func/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="筑辰">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80">
     </span>
@@ -377,169 +379,148 @@
 
       
         <blockquote>
-<p>source from <a href="http://christopher5106.github.io/deep/learning/2016/09/16/about-loss-functions-multinomial-logistic-logarithm-cross-entropy-square-errors-euclidian-absolute-frobenius-hinge.html" target="_blank" rel="noopener">christopher5106 blog</a></p>
+<p>source from <a target="_blank" rel="noopener" href="http://christopher5106.github.io/deep/learning/2016/09/16/about-loss-functions-multinomial-logistic-logarithm-cross-entropy-square-errors-euclidian-absolute-frobenius-hinge.html">christopher5106 blog</a></p>
 </blockquote>
 <p>In machine learning many different losses exist.</p>
-<p>A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the <strong>objective function</strong> to optimize. For an introduction to machine learning and loss functions, you might read <a href="//christopher5106.github.io/deep/learning/2018/10/20/course-zero-deep-learning.html">Course 0: deep learning!</a> first.</p>
+<p>A loss is a “penalty” score to reduce when training an algorithm on data. It is usually called the <strong>objective function</strong> to optimize. For an introduction to machine learning and loss functions, you might read <a target="_blank" rel="noopener" href="//christopher5106.github.io/deep/learning/2018/10/20/course-zero-deep-learning.html">Course 0: deep learning!</a> first.</p>
 <p>Here we’ll list more losses for the different cases. Knowing each of them will help the datascientists choose the right one for his problem.</p>
-<h1 id="the-likelihood-and-the-log-loss">The likelihood and the log loss</h1>
-<p>Classifying means assigning a label to an observation :</p>
-<p><span class="math display">\[ x \rightarrow y \]</span></p>
+<h1 id="The-likelihood-and-the-log-loss"><a href="#The-likelihood-and-the-log-loss" class="headerlink" title="The likelihood and the log loss"></a>The likelihood and the log loss</h1><p>Classifying means assigning a label to an observation :</p>
+<p>$$ x \rightarrow y $$</p>
 <p>Such a function is named a <strong>classifier</strong>. To create such classifier, we usually create models with parameters to define :</p>
-<p><span class="math display">\[ f_w : x \rightarrow y \]</span></p>
+<p>$$ f_w : x \rightarrow y $$</p>
 <p>The process of defining the optimal parameters w given past observations X and their known labels Y is named <strong>training</strong>. The objective of the training is obviously to maximise the <strong>likelihood</strong></p>
-<p><span class="math display">\[ \text{likelihood}( w ) = P_w( y | x ) \]</span></p>
+<p>$$ \text{likelihood}( w ) = P_w( y | x ) $$</p>
 <p>Since the logarithm is monotonous, it is equivalent to <strong>minimize the negative log-likelihood</strong> :</p>
-<p><span class="math display">\[ \mathscr{L}( w ) = - \ln P_w( y | x ) \]</span></p>
+<p>$$ \mathscr{L}( w ) = - \ln P_w( y | x ) $$</p>
 <p>The reason for taking the negative of the logarithm of the likelihood are</p>
 <ul>
-<li><p>it is more convenient to work with the log, because the log-likelihood of statistically independant observation will simply be the sum of the log-likelihood of each observation.</p></li>
-<li><p>we usually prefer to write the <strong>objective function</strong> as a <strong>cost function</strong> to minimize.</p></li>
+<li><p>it is more convenient to work with the log, because the log-likelihood of statistically independant observation will simply be the sum of the log-likelihood of each observation.</p>
+</li>
+<li><p>we usually prefer to write the <strong>objective function</strong> as a <strong>cost function</strong> to minimize.</p>
+</li>
 </ul>
-<h1 id="binomial-probabilities---log-loss-logistic-loss-cross-entropy-loss">Binomial probabilities - log loss / logistic loss / cross-entropy loss</h1>
-<p>Binomial means 2 classes, which are usually 0 or 1.</p>
+<h1 id="Binomial-probabilities-log-loss-logistic-loss-cross-entropy-loss"><a href="#Binomial-probabilities-log-loss-logistic-loss-cross-entropy-loss" class="headerlink" title="Binomial probabilities - log loss / logistic loss / cross-entropy loss"></a>Binomial probabilities - log loss / logistic loss / cross-entropy loss</h1><p>Binomial means 2 classes, which are usually 0 or 1.</p>
 <p>Each class has a probability $ p $ and $ 1 - p $ (sums to 1).</p>
 <p>When using a network, we try to get 0 and 1 as values, that’s why we add a <strong>sigmoid function or logistic function</strong> that saturates as a last layer :</p>
-<p><span class="math display">\[ f:  x \rightarrow \frac{1}{ 1 + e^{-x}} \]</span></p>
-<p>Then, once the estimated probability to get 1 is $  $ (sometimes written $ ŷ $ also), then it is easy to see that the negative log likelihood can be written</p>
-<p><span class="math display">\[ \mathscr{L} = - y \log \hat{p}  - (1 - y) \log ( 1 - \hat{p} ) \]</span></p>
+<p>$$ f:  x \rightarrow \frac{1}{ 1 + e^{-x}} $$</p>
+<p>Then, once the estimated probability to get 1 is $ \hat{p}  $ (sometimes written $ ŷ $ also), then it is easy to see that the negative log likelihood can be written</p>
+<p>$$ \mathscr{L} = - y \log \hat{p}  - (1 - y) \log ( 1 - \hat{p} ) $$</p>
 <p>which is also the <strong>cross-entropy</strong></p>
-<p><span class="math display">\[ \text{crossentropy} (p , q ) = E_p [ -\log q ] = - \sum_x p(x ) \log q(x) = - \frac{1}{N} \sum_{n=1}^N \log q(x_n) \]</span></p>
-<p>In information theory, if you try to identify all classes with a code of a length depending of his probability, that is <span class="math display">\[ - \log q \]</span>, where q is your estimated probability, then the expected length in reality (p being the real probability) is given by the cross-entropy.</p>
+<p>$$ \text{crossentropy} (p , q ) = E_p [ -\log q ] = - \sum_x p(x ) \log q(x) = - \frac{1}{N} \sum_{n=1}^N \log q(x_n) $$</p>
+<p>In information theory, if you try to identify all classes with a code of a length depending of his probability, that is $$ - \log q $$, where q is your estimated probability, then the expected length in reality (p being the real probability) is given by the cross-entropy.</p>
 <p>Note that in natural language processing, we may also speek of <strong>perplexity</strong> defined by</p>
-<p><span class="math display">\[ 2^{ \text{crossentropy}(p,q)} = 2^{ - \frac{1}{N} \sum_{n=1}^N \log_2 q(x_n) } \]</span></p>
+<p>$$ 2^{ \text{crossentropy}(p,q)} = 2^{ - \frac{1}{N} \sum_{n=1}^N \log_2 q(x_n) } $$</p>
 <p>seen as an indicator of the number of possibilities for the variable to predict, since the perplexity of a uniform k-class random variable would be k.</p>
-<p>Last, let’s remind that the combined sigmoid and cross-entropy has a very simple and stable derivative $  - y $</p>
-<p>NB: if you choose that your labels $ y { 1 } $, you can write the binary logistic loss</p>
-<p><span class="math display">\[ \mathscr{L} = \log \left(1 + e^{-y \cdot \hat{p} } \right) \]</span></p>
-<h1 id="multinomial-probabilities-multi-class-classification-multinomial-logistic-loss-cross-entropy-loss-log-loss">Multinomial probabilities / multi-class classification : multinomial logistic loss / cross entropy loss / log loss</h1>
-<p>It is a problem where we have <em>k</em> classes or categories, and only one valid for each example.</p>
+<p>Last, let’s remind that the combined sigmoid and cross-entropy has a very simple and stable derivative $ \hat{p} - y $</p>
+<p>NB: if you choose that your labels $ y \in { \pm 1 } $, you can write the binary logistic loss</p>
+<p>$$ \mathscr{L} = \log \left(1 + e^{-y \cdot \hat{p} } \right) $$</p>
+<h1 id="Multinomial-probabilities-multi-class-classification-multinomial-logistic-loss-cross-entropy-loss-log-loss"><a href="#Multinomial-probabilities-multi-class-classification-multinomial-logistic-loss-cross-entropy-loss-log-loss" class="headerlink" title="Multinomial probabilities / multi-class classification : multinomial logistic loss / cross entropy loss / log loss"></a>Multinomial probabilities / multi-class classification : multinomial logistic loss / cross entropy loss / log loss</h1><p>It is a problem where we have <em>k</em> classes or categories, and only one valid for each example.</p>
 <p>The target values are still binary but represented as a vector y that will be defined by the following if the example x is of class c :</p>
-<p><span class="math display">\[  y_i =   \begin{cases}
-      0, &amp; \text{if}\ i \neq c \\
-      1, &amp; \text{otherwise}
-    \end{cases}
-\]</span></p>
+<p>$$  y_i =   \begin{cases}<br>      0, &amp; \text{if}\ i \neq c \<br>      1, &amp; \text{otherwise}<br>    \end{cases}<br>$$</p>
 <p>If $ { p_i } $ is the probability of each class, then it is a multinomial distribution and</p>
-<p><span class="math display">\[ \sum_i p_i = 1 \]</span></p>
+<p>$$ \sum_i p_i = 1 $$</p>
 <p>The equivalent to the sigmoid function in multi-dimensional space is the <strong>softmax function or logistic function or normalized exponential function</strong> to produce such a distribution from any input vector z :</p>
-<p><span class="math display">\[ z \rightarrow \left\{ \frac{\exp z_i }{ \sum_k \exp^{z_k} } \right\}_i  \]</span></p>
+<p>$$ z \rightarrow \left{ \frac{\exp z_i }{ \sum_k \exp^{z_k} } \right}_i  $$</p>
 <p>The error is also best described by cross-entropy :</p>
-<p><span class="math display">\[ \mathscr{L} = - \sum_{i=0}^k y_i \ln \hat{p}_i \]</span></p>
+<p>$$ \mathscr{L} = - \sum_{i=0}^k y_i \ln \hat{p}_i $$</p>
 <p>Cross-entropy is designed to deal with errors on probabilities. For example, $ ln(0.01) $ will be a lot stronger error signal than $ ln(0.1) $ and encourage to resolve errors. In some cases, the logarithm is bounded to avoid extreme punishments.</p>
 <p>In information theory, optimizing the log loss means minimizing the description length of y. The information content of a random variable to be in the class being $ - ln p_i $.</p>
 <p>Last, let’s remind that the combined softmax and cross-entropy has a very simple and stable derivative.</p>
-<h1 id="multi-label-classification">Multi-label classification</h1>
-<p>There is a variant for multi-label classification, in this case multiple $ y_i $ can have a value set to 1.</p>
+<h1 id="Multi-label-classification"><a href="#Multi-label-classification" class="headerlink" title="Multi-label classification"></a>Multi-label classification</h1><p>There is a variant for multi-label classification, in this case multiple $ y_i $ can have a value set to 1.</p>
 <p>For example, “car”, “automotible”, “motor vehicule” are three labels that can be applied to a same image of a car. On the image of a truck, you’ll only have “motor vehicule” active for example.</p>
 <p>In this case, the softmax function will not apply, we usually add a sigmoïd layer before the cross-entropy layer to ensure stable gradient estimation :</p>
-<p><span class="math display">\[ t \rightarrow \frac{1}{1+e^{-t}} \]</span></p>
+<p>$$ t \rightarrow \frac{1}{1+e^{-t}} $$</p>
 <p>The cross-entropy will look like :</p>
-<p><span class="math display">\[ \mathscr{L} = - \sum_{i=0}^k y_i \ln \hat{p}_i + (1 - y_i) \ln ( 1 - \hat{p}_i ) \]</span></p>
-<h1 id="infogain-loss-relative-entropy">Infogain loss / relative entropy</h1>
-<p>Many synonym exists : Kullback–Leibler divergence, discrimination information, information divergence, information gain, relative entropy, KLIC, KL divergence.</p>
+<p>$$ \mathscr{L} = - \sum_{i=0}^k y_i \ln \hat{p}_i + (1 - y_i) \ln ( 1 - \hat{p}_i ) $$</p>
+<h1 id="Infogain-loss-relative-entropy"><a href="#Infogain-loss-relative-entropy" class="headerlink" title="Infogain loss / relative entropy"></a>Infogain loss / relative entropy</h1><p>Many synonym exists : Kullback–Leibler divergence, discrimination information, information divergence, information gain, relative entropy, KLIC, KL divergence.</p>
 <p>It measures the difference between two probabilities.</p>
-<p><span class="math display">\[ KL(p,q) = H(p,q) - H(p) = - \sum p(x) \log q(x) + \sum p(x) \log p(x) = \sum p(x ) \ln \frac{ p(x)}{q(x)} \]</span></p>
+<p>$$ KL(p,q) = H(p,q) - H(p) = - \sum p(x) \log q(x) + \sum p(x) \log p(x) = \sum p(x ) \ln \frac{ p(x)}{q(x)} $$</p>
 <p>hence in our nomenclature :</p>
-<p><span class="math display">\[ \mathscr{L} = \sum_i y_i \ln \frac{ y_i }{ \hat{p}_i } \]</span></p>
+<p>$$ \mathscr{L} = \sum_i y_i \ln \frac{ y_i }{ \hat{p}_i } $$</p>
 <p>The infogain is the difference between the entropy before and the entropy after.</p>
-<h1 id="square-error-sum-of-squares-euclidian-loss">Square error / Sum of squares / Euclidian loss</h1>
-<p>This time, contrary to previous estimations that were probabilities, when predictions are scalars or metrics, we usually use the <strong>square error or euclidian loss</strong> which is the L2-norm of the error :</p>
-<p><span class="math display">\[ \mathscr{L} = \sum_i ( ŷ_i - y_i )^2 = \| ŷ - y \|_2^2 \]</span></p>
+<h1 id="Square-error-Sum-of-squares-Euclidian-loss"><a href="#Square-error-Sum-of-squares-Euclidian-loss" class="headerlink" title="Square error / Sum of squares / Euclidian loss"></a>Square error / Sum of squares / Euclidian loss</h1><p>This time, contrary to previous estimations that were probabilities, when predictions are scalars or metrics, we usually use the <strong>square error or euclidian loss</strong> which is the L2-norm of the error :</p>
+<p>$$ \mathscr{L} = \sum_i ( ŷ_i - y_i )^2 = | ŷ - y |_2^2 $$</p>
 <p>Minimising the squared error is equivalent to predicting the (conditional) mean of y.</p>
 <p>Due to the gradient being flat at the extremes for a sigmoid function, we do not use a sigmoid activation with a squared error loss because convergence will be slow if some neurons saturate on the wrong side.</p>
 <p>A squared error is often used with a rectified linear unit.</p>
 <p>The L2 norm penalizes large errors more strongly and therefore is very sensitive to outliers. To avoid this, we usually use the squared root version :</p>
-<p><span class="math display">\[ \mathscr{L} = \| ŷ - y \|_2 \]</span></p>
-<h1 id="absolute-value-loss-l1-loss">Absolute value loss / L1 loss</h1>
-<p>The absolute value loss is the L1-norm of the error :</p>
-<p><span class="math display">\[ \mathscr{L} = \sum_i |  ŷ_i - y_i | = \| ŷ - y \|_1 \]</span></p>
+<p>$$ \mathscr{L} = | ŷ - y |_2 $$</p>
+<h1 id="Absolute-value-loss-L1-loss"><a href="#Absolute-value-loss-L1-loss" class="headerlink" title="Absolute value loss / L1 loss"></a>Absolute value loss / L1 loss</h1><p>The absolute value loss is the L1-norm of the error :</p>
+<p>$$ \mathscr{L} = \sum_i |  ŷ_i - y_i | = | ŷ - y |_1 $$</p>
 <p>Minimizing the absolute value loss means predicting the (conditional) median of y. Variants can handle other quantiles. 0/1 loss for classification is a special case.</p>
 <p>Note that the L1 norm is not differentiable in 0, and it is possible to use a smooth L1 :</p>
-<p><span class="math display">\[ | d |_{\text{smooth}} = =   \begin{cases}
-      0.5 d^2, &amp; \text{if}\ | d  | \leq 1 \\
-      | d | - 0.5, &amp; \text{otherwise}
-    \end{cases}
-    \]</span></p>
+<p>$$ | d |_{\text{smooth}} = =   \begin{cases}<br>      0.5 d^2, &amp; \text{if}\ | d  | \leq 1 \<br>      | d | - 0.5, &amp; \text{otherwise}<br>    \end{cases}<br>    $$</p>
 <p>Although the L2 norm is more precise and better in minizing prediction errors, the L1 norm produces sparser solutions, ignore more easily fine details and is less sensitive to outliers. Sparser solutions are good for feature selection in high dimensional spaces, as well for prediction speed.</p>
-<h1 id="hinge-loss-maximum-margin">Hinge loss / Maximum margin</h1>
-<p>Hinge loss is trying to separate the positive and negative examples $ (x,y) $, x being the input, y the target $ {-1, 1 } $, the loss for a linear model is defined by</p>
-<p><span class="math display">\[ \mathscr{L}(w) = \max (0, 1 - y w \cdot x ) \]</span></p>
+<h1 id="Hinge-loss-Maximum-margin"><a href="#Hinge-loss-Maximum-margin" class="headerlink" title="Hinge loss / Maximum margin"></a>Hinge loss / Maximum margin</h1><p>Hinge loss is trying to separate the positive and negative examples $ (x,y) $, x being the input, y the target $ \in {-1, 1 } $, the loss for a linear model is defined by</p>
+<p>$$ \mathscr{L}(w) = \max (0, 1 - y w \cdot x ) $$</p>
 <p>The minimization of the loss will only consider examples that infringe the margin, otherwise the gradient will be zero since the max saturates.</p>
 <p>In order to minimize the loss,</p>
 <ul>
-<li><p>positive example will have to output a result superior to 1 : $ w x &gt; 1$</p></li>
-<li><p>negative example will have to output a result inferior to -1 : $ w x &lt; - 1$</p></li>
+<li><p>positive example will have to output a result superior to 1 :  $ w \cdot x &gt; 1$</p>
+</li>
+<li><p>negative example will have to output a result inferior to -1 : $ w \cdot x &lt; - 1$</p>
+</li>
 </ul>
-<p>The hinge loss is a convex function, easy to minimize. Although it is not differentiable, it’s easy to compute its gradient locally. There exists also <a href="https://en.wikipedia.org/wiki/Hinge_loss" target="_blank" rel="noopener">a smooth version of the gradient</a>.</p>
-<h1 id="squared-hinge-loss">Squared hinge loss</h1>
-<p>It is simply the square of the hinge loss :</p>
-<p><span class="math display">\[ \mathscr{L}(w) = \max (0, 1 - y w \cdot x )^2 \]</span></p>
-<h1 id="one-versus-all-hinge-loss">One-versus-All Hinge loss</h1>
-<p>The multi-class version of the hinge loss</p>
-<p><span class="math display">\[ \mathscr{L}(w) = \sum_c \max (0, 1 -  \mathbb{1}_{y,c} w \cdot x ) \]</span></p>
+<p>The hinge loss is a convex function, easy to minimize. Although it is not differentiable, it’s easy to compute its gradient locally. There exists also <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Hinge_loss">a smooth version of the gradient</a>.</p>
+<h1 id="Squared-hinge-loss"><a href="#Squared-hinge-loss" class="headerlink" title="Squared hinge loss"></a>Squared hinge loss</h1><p>It is simply the square of the hinge loss :</p>
+<p>$$ \mathscr{L}(w) = \max (0, 1 - y w \cdot x )^2 $$</p>
+<h1 id="One-versus-All-Hinge-loss"><a href="#One-versus-All-Hinge-loss" class="headerlink" title="One-versus-All Hinge loss"></a>One-versus-All Hinge loss</h1><p>The multi-class version of the hinge loss</p>
+<p>$$ \mathscr{L}(w) = \sum_c \max (0, 1 -  \mathbb{1}_{y,c} w \cdot x ) $$</p>
 <p>where</p>
-<p><span class="math display">\[   \mathbb{1}_{y,c} =   \begin{cases}
-      -1, &amp; \text{if}\ y \neq c \\
-      1, &amp; \text{otherwise}
-    \end{cases}
-\]</span></p>
-<h1 id="crammer-and-singer-loss">Crammer and Singer loss</h1>
-<p>Crammer and Singer defined a multi-class version of the hinge loss :</p>
-<p><span class="math display">\[ \mathscr{L}(w) = \max (0, 1 + \max_{ c \neq y }  w_c \cdot x - w_y \cdot x ) \]</span></p>
+<p>$$   \mathbb{1}_{y,c} =   \begin{cases}<br>      -1, &amp; \text{if}\ y \neq c \<br>      1, &amp; \text{otherwise}<br>    \end{cases}<br>$$</p>
+<h1 id="Crammer-and-Singer-loss"><a href="#Crammer-and-Singer-loss" class="headerlink" title="Crammer and Singer loss"></a>Crammer and Singer loss</h1><p>Crammer and Singer defined a multi-class version of the hinge loss :</p>
+<p>$$ \mathscr{L}(w) = \max (0, 1 + \max_{ c \neq y }  w_c \cdot x - w_y \cdot x ) $$</p>
 <p>so that minimizing the loss means to do both :</p>
 <ul>
-<li><p>maximize the prediction $ w_y x $ of the correct class</p></li>
-<li><p>minimize the predicted value $ w_c x $ for all other classes c that have the maximal value</p></li>
+<li><p>maximize the prediction $ w_y \cdot x $ of the correct class</p>
+</li>
+<li><p>minimize the predicted value $ w_c \cdot x $ for all other classes c that have the maximal value</p>
+</li>
 </ul>
-<p>until for all these other classes, their predicted values $ w_c x $ are all below $ w_y x -1 $, the value for the correct class with a margin of 1.</p>
-<p>Note that is possible to replace the 1 with a smooth $ ( y, c) $ value that measures the dissimilarity :</p>
-<p><span class="math display">\[ \mathscr{L}(w) = \max (0, \max_{ c \neq y } \Delta ( y, c) + w_c \cdot x - w_y \cdot x ) \]</span></p>
-<h1 id="l1-l2-frobenius-l21-norms">L1 / L2, Frobenius / L2,1 norms</h1>
-<p>It is frequent to add some regularization terms to the cost function</p>
-<p><span class="math display">\[ \text{min}_w \mathscr{L}(w) + \gamma R(w) \]</span></p>
+<p>until for all these other classes, their predicted values $ w_c \cdot x $ are all below $ w_y \cdot x -1 $, the value for the correct class with a margin of 1.</p>
+<p>Note that is possible to replace the 1 with a smooth $ \Delta ( y, c) $ value that measures the dissimilarity :</p>
+<p>$$ \mathscr{L}(w) = \max (0, \max_{ c \neq y } \Delta ( y, c) + w_c \cdot x - w_y \cdot x ) $$</p>
+<h1 id="L1-L2-Frobenius-L2-1-norms"><a href="#L1-L2-Frobenius-L2-1-norms" class="headerlink" title="L1 / L2, Frobenius / L2,1 norms"></a>L1 / L2, Frobenius / L2,1 norms</h1><p>It is frequent to add some regularization terms to the cost function</p>
+<p>$$ \text{min}_w \mathscr{L}(w) + \gamma R(w) $$</p>
 <p>such as</p>
 <ul>
 <li>the L1-norm, for the LASSO regularization</li>
 </ul>
-<p><span class="math display">\[ \| w \|_1 = \sum_{i,j} | w_{i,j} | = \sum_i \| w_i \|_1 \]</span></p>
+<p>$$ | w |<em>1 = \sum</em>{i,j} | w_{i,j} | = \sum_i | w_i |_1 $$</p>
 <ul>
 <li>the L2-norm or Frobenius norm, for the ridge regularization</li>
 </ul>
-<p><span class="math display">\[ \| w \|_2 = \sqrt{ \sum_{i,j} w_{i,j}^2 } = \sqrt{ \sum_i  \| w_i \|_2^2 } \]</span></p>
+<p>$$ | w |<em>2 = \sqrt{ \sum</em>{i,j} w_{i,j}^2 } = \sqrt{ \sum_i  | w_i |_2^2 } $$</p>
 <ul>
-<li>the L2,1 norm, used for <a href="https://www.aaai.org/ocs/index.php/IJCAI/IJCAI11/paper/viewFile/3136/3481" target="_blank" rel="noopener">discriminative feature selection</a></li>
+<li>the L2,1 norm, used for <a target="_blank" rel="noopener" href="https://www.aaai.org/ocs/index.php/IJCAI/IJCAI11/paper/viewFile/3136/3481">discriminative feature selection</a></li>
 </ul>
-<p><span class="math display">\[ \| w \|_{2,1} = \sum_i \sqrt{ \sum_j w_{i,j}^2 } \]</span></p>
-<h1 id="joint-embedding">Joint embedding</h1>
-<p>A <strong>joint loss</strong> is a sum of two losses :</p>
-<p><span class="math display">\[ \text{min}_{w_1,w_2} \mathscr{L}_1(w_1) + \mathscr{L}_2(w_2) \]</span></p>
+<p>$$ | w |<em>{2,1} = \sum_i \sqrt{ \sum_j w</em>{i,j}^2 } $$</p>
+<h1 id="Joint-embedding"><a href="#Joint-embedding" class="headerlink" title="Joint embedding"></a>Joint embedding</h1><p>A <strong>joint loss</strong> is a sum of two losses :</p>
+<p>$$ \text{min}_{w_1,w_2} \mathscr{L}_1(w_1) + \mathscr{L}_2(w_2) $$</p>
 <p>and in the case of multi-modal classification, where data is composed of multiple parts, such as for example images (x1) and texts (x2), we usually use the joint loss with multiple <strong>embeddings</strong>, which are high dimensional feature spaces :</p>
-<p><span class="math display">\[ f_{w_1} : x_1 \rightarrow z_1 \]</span></p>
-<p><span class="math display">\[ g_{w_2} : x_2 \rightarrow z_2 \]</span></p>
+<p>$$ f_{w_1} : x_1 \rightarrow z_1 $$</p>
+<p>$$ g_{w_2} : x_2 \rightarrow z_2 $$</p>
 <p>and a similarity function, such as for example,</p>
-<p><span class="math display">\[ s_{w_3} : z_1, z_2 \rightarrow z_1^T w_3 z_2 \]</span></p>
-<p>In these examples of zero-shot learning where a simple classical multi-class hinge loss was able to train classifiers <a href="https://arxiv.org/pdf/1409.8403.pdf" target="_blank" rel="noopener">using precomputed output embedding for each class</a>, a <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Reed_Learning_Deep_Representations_CVPR_2016_paper.pdf" target="_blank" rel="noopener">joint embedding loss</a> can train the two embeddings simultanously.</p>
-<p>The joint embedding optimization can also be seen as <strong>maximizing the log-likelihood for a binomial problem</strong> where the output variable is the degree of similarity $ s_{1,2} = [ y_1 == y_2 ] $ and the input variable $ X = (x_1,x_2) $ the combined modalities :</p>
-<p><span class="math display">\[ \log p_{w_1,w_2,w_3}( s_{1,2} | x_1, x_2 ) \]</span></p>
+<p>$$ s_{w_3} : z_1, z_2 \rightarrow z_1^T w_3 z_2 $$</p>
+<p>In these examples of zero-shot learning where a simple classical multi-class hinge loss was able to train classifiers <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1409.8403.pdf">using precomputed output embedding for each class</a>, a <a target="_blank" rel="noopener" href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Reed_Learning_Deep_Representations_CVPR_2016_paper.pdf">joint embedding loss</a> can train the two embeddings simultanously.</p>
+<p>The joint embedding optimization can also be seen as <strong>maximizing the log-likelihood for a binomial problem</strong> where the output variable is the degree of similarity $ s_{1,2} = [ y_1 == y_2 ] $  and the input variable $ X = (x_1,x_2) $ the combined modalities :</p>
+<p>$$ \log p_{w_1,w_2,w_3}( s_{1,2} | x_1, x_2 ) $$</p>
 <p>where</p>
-<p><span class="math display">\[ p( s_{1,2} | x_1, x_2 ) = \int p( z_1 | x_1) p( z_2 | x_2) p( s_{1,2} | z_1, z_2) dz_1 dz_2\\
-\geq \max_{z_1,z_2} p(z_1|x_1) p(z_2|x_2) p(s_{1,2} | z_1, z_2 )  \]</span></p>
+<p>$$ p( s_{1,2} | x_1, x_2 ) = \int p( z_1 | x_1) p( z_2 | x_2) p( s_{1,2} | z_1, z_2) dz_1 dz_2\<br>\geq \max_{z_1,z_2} p(z_1|x_1) p(z_2|x_2) p(s_{1,2} | z_1, z_2 )  $$</p>
 <p>Hence, maximizing</p>
-<p><span class="math display">\[ \mathscr{L}(w) = \max_{z_1,z_2} \log p_{w_1}(z_1|x_1) + \log p_{w_2}(z_2|x_2) + \log p_{w_3}( s_{1,2} | z_1, z_2 ) \]</span></p>
-<p>In <a href="https://arxiv.org/pdf/1511.04512v3.pdf" target="_blank" rel="noopener">Zero shot learning via joint latent similarity Embedding</a>, Zhang <em>et al.</em> propose an algorithm that iteratively assigns to each example in the dataset an embedding value $ (z_1, z_2) $ that maximizes the objective function over all data, then optimizes $ w = ( w_1,w_2,w_3 ) $ for this assignment at a very good computational cost.</p>
-<h1 id="connectionist-temporal-classification-loss">Connectionist temporal classification loss</h1>
-<p>This loss function is designed for temporal classification, to have the underlying network concentrate its discriminative capacity and sharpen its classification around <strong>spikes</strong>.</p>
-<p>This loss has been used in <a href="ftp://ftp.idsia.ch/pub/juergen/icml2006.pdf" target="_blank" rel="noopener">audio classification</a>.</p>
-<p>We consider sequences <strong>x</strong> of length T, depending of the sampling interval. The idea is to design a network that is able to predict the correct class as well as <em>blanks</em> during no class is predicted. The underlying network output is enhanced with a <em>blank</em> class, and the output dictionary becomes $ L { blank } $. At each time step or <em>audio frame</em>, the network will predict the class probability <span class="math display">\[ y_k^t \]</span> and the probability of a <em>path</em> is given by</p>
-<p><span class="math display">\[ p(\pi | x ) = \prod_{t=1}^T  y_k^t \]</span></p>
+<p>$$ \mathscr{L}(w) = \max_{z_1,z_2} \log p_{w_1}(z_1|x_1) + \log p_{w_2}(z_2|x_2) + \log p_{w_3}( s_{1,2} | z_1, z_2 ) $$</p>
+<p>In <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1511.04512v3.pdf">Zero shot learning via joint latent similarity Embedding</a>, Zhang <em>et al.</em> propose an algorithm that iteratively assigns to each example in the dataset an embedding value $ (z_1, z_2) $ that maximizes the objective function over all data, then optimizes $ w = ( w_1,w_2,w_3 ) $ for this assignment at a very good computational cost.</p>
+<h1 id="Connectionist-temporal-classification-loss"><a href="#Connectionist-temporal-classification-loss" class="headerlink" title="Connectionist temporal classification loss"></a>Connectionist temporal classification loss</h1><p>This loss function is designed for temporal classification, to have the underlying network concentrate its discriminative capacity and sharpen its classification around <strong>spikes</strong>.</p>
+<p>This loss has been used in <a href="ftp://ftp.idsia.ch/pub/juergen/icml2006.pdf">audio classification</a>.</p>
+<p>We consider sequences <strong>x</strong> of length T, depending of the sampling interval. The idea is to design a network that is able to predict the correct class as well as <em>blanks</em> during no class is predicted. The underlying network output is enhanced with a <em>blank</em> class, and the output dictionary becomes $ L \cup { blank } $. At each time step or <em>audio frame</em>, the network will predict the class probability $$ y_k^t $$ and the probability of a <em>path</em> is given by</p>
+<p>$$ p(\pi | x ) = \prod_{t=1}^T  y_k^t $$</p>
 <p>Nevertheless not every path can be a label : in audio classification, if successive frames are too close, they will correspond to the same phoneme, that’s why the first rule is to reduce successive identical predictions into 1 phoneme if there is no blank between them. Also blanks can be removed.</p>
-<p><span class="math display">\[ \mathcal{B}(a--ab-) = \mathcal{B}(-aa-abb) = aab \]</span></p>
+<p>$$ \mathcal{B}(a–ab-) = \mathcal{B}(-aa-abb) = aab $$</p>
 <p>and the probability of a label in the CTC loss is defined as the sum of the probabilities of all paths reducing to it :</p>
-<p><span class="math display">\[ p(l | x ) = \sum_{\pi \in \mathcal{B}^{-1}(l)}  p(\pi | x ) \]</span></p>
+<p>$$ p(l | x ) = \sum_{\pi \in \mathcal{B}^{-1}(l)}  p(\pi | x ) $$</p>
 <p>The CTC loss is simply the negative log likelihood of this probability for correct classification</p>
-<p><span class="math display">\[ - \sum_{(x,l)\in \mathcal{S}} \ln p(l | x) \]</span></p>
-<p><a href="ftp://ftp.idsia.ch/pub/juergen/icml2006.pdf" target="_blank" rel="noopener">The original paper</a> gives the formulation to compute the derivative of the CTC loss.</p>
+<p>$$ - \sum_{(x,l)\in \mathcal{S}} \ln p(l | x) $$</p>
+<p><a href="ftp://ftp.idsia.ch/pub/juergen/icml2006.pdf">The original paper</a> gives the formulation to compute the derivative of the CTC loss.</p>
 <p><strong>You’re all set for choosing the right loss functions.</strong></p>
 
       
@@ -651,10 +632,10 @@
             
               <img class="site-author-image" itemprop="image"
                 src="https://s.gravatar.com/avatar/cd83bb5436469f5d8c50e0ab52265818?s=80"
-                alt="筑辰" />
+                alt="" />
             
-              <p class="site-author-name" itemprop="name">筑辰</p>
-              <p class="site-description motion-element" itemprop="description">notes and thoughts about Natural Language Processing</p>
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           
@@ -662,7 +643,7 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
                     <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">posts</span>
@@ -768,7 +749,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#the-likelihood-and-the-log-loss"><span class="nav-number">1.</span> <span class="nav-text">The likelihood and the log loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#binomial-probabilities---log-loss-logistic-loss-cross-entropy-loss"><span class="nav-number">2.</span> <span class="nav-text">Binomial probabilities - log loss / logistic loss / cross-entropy loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#multinomial-probabilities-multi-class-classification-multinomial-logistic-loss-cross-entropy-loss-log-loss"><span class="nav-number">3.</span> <span class="nav-text">Multinomial probabilities / multi-class classification : multinomial logistic loss / cross entropy loss / log loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#multi-label-classification"><span class="nav-number">4.</span> <span class="nav-text">Multi-label classification</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#infogain-loss-relative-entropy"><span class="nav-number">5.</span> <span class="nav-text">Infogain loss / relative entropy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#square-error-sum-of-squares-euclidian-loss"><span class="nav-number">6.</span> <span class="nav-text">Square error / Sum of squares / Euclidian loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#absolute-value-loss-l1-loss"><span class="nav-number">7.</span> <span class="nav-text">Absolute value loss / L1 loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hinge-loss-maximum-margin"><span class="nav-number">8.</span> <span class="nav-text">Hinge loss / Maximum margin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#squared-hinge-loss"><span class="nav-number">9.</span> <span class="nav-text">Squared hinge loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#one-versus-all-hinge-loss"><span class="nav-number">10.</span> <span class="nav-text">One-versus-All Hinge loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#crammer-and-singer-loss"><span class="nav-number">11.</span> <span class="nav-text">Crammer and Singer loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#l1-l2-frobenius-l21-norms"><span class="nav-number">12.</span> <span class="nav-text">L1 / L2, Frobenius / L2,1 norms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#joint-embedding"><span class="nav-number">13.</span> <span class="nav-text">Joint embedding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#connectionist-temporal-classification-loss"><span class="nav-number">14.</span> <span class="nav-text">Connectionist temporal classification loss</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-likelihood-and-the-log-loss"><span class="nav-number">1.</span> <span class="nav-text">The likelihood and the log loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binomial-probabilities-log-loss-logistic-loss-cross-entropy-loss"><span class="nav-number">2.</span> <span class="nav-text">Binomial probabilities - log loss &#x2F; logistic loss &#x2F; cross-entropy loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Multinomial-probabilities-multi-class-classification-multinomial-logistic-loss-cross-entropy-loss-log-loss"><span class="nav-number">3.</span> <span class="nav-text">Multinomial probabilities &#x2F; multi-class classification : multinomial logistic loss &#x2F; cross entropy loss &#x2F; log loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Multi-label-classification"><span class="nav-number">4.</span> <span class="nav-text">Multi-label classification</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Infogain-loss-relative-entropy"><span class="nav-number">5.</span> <span class="nav-text">Infogain loss &#x2F; relative entropy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Square-error-Sum-of-squares-Euclidian-loss"><span class="nav-number">6.</span> <span class="nav-text">Square error &#x2F; Sum of squares &#x2F; Euclidian loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Absolute-value-loss-L1-loss"><span class="nav-number">7.</span> <span class="nav-text">Absolute value loss &#x2F; L1 loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hinge-loss-Maximum-margin"><span class="nav-number">8.</span> <span class="nav-text">Hinge loss &#x2F; Maximum margin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Squared-hinge-loss"><span class="nav-number">9.</span> <span class="nav-text">Squared hinge loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#One-versus-All-Hinge-loss"><span class="nav-number">10.</span> <span class="nav-text">One-versus-All Hinge loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crammer-and-Singer-loss"><span class="nav-number">11.</span> <span class="nav-text">Crammer and Singer loss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#L1-L2-Frobenius-L2-1-norms"><span class="nav-number">12.</span> <span class="nav-text">L1 &#x2F; L2, Frobenius &#x2F; L2,1 norms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Joint-embedding"><span class="nav-number">13.</span> <span class="nav-text">Joint embedding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Connectionist-temporal-classification-loss"><span class="nav-number">14.</span> <span class="nav-text">Connectionist temporal classification loss</span></a></li></ol></div>
             
 
           </div>
@@ -795,7 +776,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -811,7 +792,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.6.0</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v5.4.0</div>
 
 
 
@@ -997,24 +978,7 @@
         }
     });
 </script>
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="custom_mathjax_source">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
     
   
